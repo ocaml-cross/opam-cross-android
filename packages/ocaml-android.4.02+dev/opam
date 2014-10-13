@@ -1,0 +1,18 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+substs: ["android.conf" "config/Makefile"]
+patches: ["patches/memory.patch" "patches/cross-compile.patch"]
+build: [
+  # Can't use make substitutions in #ml in Makefile.config
+  ["sed" "-e" "s/ANDROID_LEVEL/19/g" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "-i" "config/Makefile"]
+  ["make" "world" "install"]
+  ["mkdir" "-p" "%{lib}%/findlib.conf.d"]
+  ["cp" "android.conf" "%{lib}%/findlib.conf.d"]
+]
+remove: [
+  ["./remove.sh" "%{prefix}%"]
+]
+depends: [
+  "android-ndk32-linux" {>= "10b"}
+  "ocamlfind"# {= "1.5.3+dev"}
+]
