@@ -12,8 +12,7 @@ build: [
   # Can't use make substitutions in #ml in Makefile.config
   ["sed" "-e" "s/ANDROID_LEVEL/19/g" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "-i" "config/Makefile"]
   [make "world" "world.opt" "install"]
-  ["mkdir" "-p" "%{lib}%/findlib.conf.d"]
-  ["cp" "android.conf" "%{lib}%/findlib.conf.d"]
+  ["./install.sh" "%{prefix}%"]
 ]
 remove: [
   ["./remove.sh" "%{prefix}%"]
