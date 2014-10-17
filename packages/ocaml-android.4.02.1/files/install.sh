@@ -2,7 +2,7 @@
 
 PREFIX="$1"
 
-for pkg in bigarray bytes compiler-libs dynlink findlib graphics labltk num num-top ocamlbuild stdlib str threads unix; do
+for pkg in bigarray bytes compiler-libs dynlink findlib graphics num num-top ocamlbuild stdlib str threads unix; do
   cp -r "${PREFIX}/lib/${pkg}" "${PREFIX}/arm-linux-androideabi/lib/"
 done
 
