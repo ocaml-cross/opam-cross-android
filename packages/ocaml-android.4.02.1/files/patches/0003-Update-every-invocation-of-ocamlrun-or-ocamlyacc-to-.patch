@@ -1,5 +1,22 @@
+From 48bbc584ffd4d73078d3250c9cf72c0a82011203 Mon Sep 17 00:00:00 2001
+From: Peter Zotov <whitequark@whitequark.org>
+Date: Fri, 17 Oct 2014 08:07:47 +0400
+Subject: [PATCH 3/4] Update every invocation of ocamlrun or ocamlyacc to
+ respect Makefile.config.
+
+---
+ Makefile                   | 12 +++++-------
+ lex/Makefile               | 11 ++++++-----
+ otherlibs/Makefile         |  4 ++--
+ otherlibs/Makefile.shared  |  1 -
+ otherlibs/dynlink/Makefile |  5 ++---
+ otherlibs/unix/Makefile    |  4 ++--
+ stdlib/Makefile.shared     |  4 ++--
+ tools/Makefile.shared      |  1 -
+ 8 files changed, 19 insertions(+), 23 deletions(-)
+
 diff --git a/Makefile b/Makefile
-index 6c0e7e6..ac3fb58 100644
+index 2198a75..8a16ac5 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -15,18 +15,16 @@
@@ -25,25 +42,7 @@ index 6c0e7e6..ac3fb58 100644
  SHELL=/bin/sh
  MKDIR=mkdir -p
  
-@@ -263,7 +261,7 @@ opt:
- 
- # Native-code versions of the tools
- opt.opt:
--	$(MAKE) checkstack
-+	#$(MAKE) checkstack
- 	$(MAKE) runtime
- 	$(MAKE) core
- 	$(MAKE) ocaml
-@@ -277,7 +275,7 @@ opt.opt:
- 	        $(OCAMLBUILDNATIVE)
- 
- base.opt:
--	$(MAKE) checkstack
-+	#$(MAKE) checkstack
- 	$(MAKE) runtime
- 	$(MAKE) core
- 	$(MAKE) ocaml
-@@ -629,7 +627,7 @@ beforedepend:: asmcomp/emit.ml
+@@ -630,7 +628,7 @@ beforedepend:: asmcomp/emit.ml
  
  tools/cvt_emit: tools/cvt_emit.mll
  	cd tools; \
@@ -163,3 +162,6 @@ index 2517434..1c73071 100644
  CAMLC=$(CAMLRUN) ../boot/ocamlc -nostdlib -I ../boot
  CAMLOPT=$(CAMLRUN) ../ocamlopt -nostdlib -I ../stdlib
  CAMLLEX=$(CAMLRUN) ../boot/ocamllex
+-- 
+2.1.1
+

@@ -1,11 +1,17 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 substs: ["android.conf" "config/Makefile"]
-patches: ["patches/memory.patch" "patches/cross-compile.patch"]
+patches: [
+  "patches/0001-Work-around-name-clash-with-memory.h-in-Android-NDK.patch"
+  "patches/0003-Update-every-invocation-of-ocamlrun-or-ocamlyacc-to-.patch"
+  "patches/0002-Detect-host-ocamlyacc-alongside-host-ocamlrun-in-con.patch"
+  "patches/0004-Add-a-CROSS_COMPILING-Makefile.config-flag.patch"
+]
+
 build: [
   # Can't use make substitutions in #ml in Makefile.config
   ["sed" "-e" "s/ANDROID_LEVEL/19/g" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "-i" "config/Makefile"]
-  ["make" "world" "install"]
+  [make "world" "world.opt" "install"]
   ["mkdir" "-p" "%{lib}%/findlib.conf.d"]
   ["cp" "android.conf" "%{lib}%/findlib.conf.d"]
 ]
@@ -14,5 +20,6 @@ remove: [
 ]
 depends: [
   "android-ndk32-linux" {>= "10b"}
-  "ocamlfind"# {= "1.5.3+dev"}
+  "ocamlfind" {>= "1.5.4"}
 ]
+available: [ (ocaml-version = "4.02.1" & arch = "x86") | compiler = "4.02.1+32bit" ]
