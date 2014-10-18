@@ -8,6 +8,8 @@ Prerequisites
 
 On 64-bit Linux build systems, install `gcc-multilib` (on Debian derivatives) or equivalent. Android SDK or NDK are not required.
 
+The compiled toolchain requires about 5G of disk space.
+
 Installation
 ------------
 
