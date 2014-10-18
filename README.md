@@ -27,13 +27,13 @@ Otherwise, use a regular compiler; its version must match the version of the cro
 
 Install the compiler:
 
-    opam ocaml-android
+    opam install ocaml-android
 
 Build some code:
 
     echo 'let () = print_endline "Hello, world!"' >helloworld.ml
-    ocamlfind -toolchain android ocamlc -custom helloworld.ml -o helloworld.native
-    ocamlfind -toolchain android ocamlopt helloworld.ml -o helloworld.byte
+    ocamlfind -toolchain android ocamlc -custom helloworld.ml -o helloworld.byte
+    ocamlfind -toolchain android ocamlopt helloworld.ml -o helloworld.native
 
 Install some packages:
 
