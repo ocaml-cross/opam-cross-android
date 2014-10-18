@@ -94,3 +94,8 @@ License
 -------
 
 All files contained in this repository are licensed under the [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) license.
+
+Acknowledgements
+----------------
+
+Some of the tricks in this repository were inspired by Jerome Vouillon's [opam-android-repository](https://github.com/vouillon/opam-android-repository). However, no code was reused.
