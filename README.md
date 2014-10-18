@@ -1,7 +1,7 @@
 opam-android
 ============
 
-This repository contains an up-to-date Android toolchain featuring OCaml 4.02.1. Currently only x86_32/x86_64 Linux build systems and 32-bit targets are supported.
+This repository contains an up-to-date Android toolchain featuring OCaml 4.02.1, as well as some commonly used packages. Currently only x86_32/x86_64 Linux build systems and 32-bit targets are supported.
 
 Prerequisites
 -------------
@@ -35,10 +35,35 @@ Build some code:
     ocamlfind -toolchain android ocamlc -custom helloworld.ml -o helloworld.native
     ocamlfind -toolchain android ocamlopt helloworld.ml -o helloworld.byte
 
+Install some packages:
+
+    opam install re-android
+
+Use them:
+
+    let () =
+      let regexp = Re_pcre.regexp {|\b([a-z]+)\b|} in
+      let result = Re.exec regexp "Hello, world!" in
+      Format.printf "match: %s\n" (Re.get result 1)
+
+    ocamlfind -toolchain android ocamlopt -package re.pcre -linkpkg test_pcre.ml -o test_pcre
+
+
 Porting packages
 ----------------
 
-Findlib 1.5.4 adds a feature that makes porting packages much simpler; namely, an `OCAMLFIND_TOOLCHAIN` environment variable that is equivalent to the `-toolchain` command-line flag. Now it is not necessary to patch the build systems of the packages to select the Android toolchain; it is often enough to add `env: [[OCAMLFIND_TOOLCHAIN = "android"]]` to the `opam` file.
+Findlib 1.5.4 adds a feature that makes porting packages much simpler; namely, an `OCAMLFIND_TOOLCHAIN` environment variable that is equivalent to the `-toolchain` command-line flag. Now it is not necessary to patch the build systems of the packages to select the Android toolchain; it is often enough to add `["env" "OCAMLFIND_TOOLCHAIN=android" make ...]` to the build command in the `opam` file.
+
+For projects using OASIS, the following steps will work:
+
+    build: [
+      ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+      ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
+      ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+    ]
+    remove: [["ocamlfind" "-toolchain" "android" "remove" "pkg"]]
+
+The output of the `configure` script will be entirely wrong, referring to the host configuration rather than target configuration. Thankfully, it is not actually used in the build process itself, so it doesn't matter.
 
 Internals
 ---------
