@@ -1,0 +1,165 @@
+From cc209cb17e7100a72edad8d9e442b13a04f41279 Mon Sep 17 00:00:00 2001
+From: Peter Zotov <whitequark@whitequark.org>
+Date: Sat, 18 Oct 2014 12:44:38 +0400
+Subject: [PATCH] Get rid of dependency on complex.h.
+
+---
+ src/configure/make_primitive_details_stubs.c |  5 ++---
+ src/ctypes/complex_stubs.c                   | 18 ++++++++----------
+ src/ctypes/complex_stubs.h                   |  9 ++++-----
+ src/ctypes/type_info_stubs.c                 | 17 ++++++++---------
+ 4 files changed, 22 insertions(+), 27 deletions(-)
+
+diff --git a/src/configure/make_primitive_details_stubs.c b/src/configure/make_primitive_details_stubs.c
+index 5d6787e..09d9181 100644
+--- a/src/configure/make_primitive_details_stubs.c
++++ b/src/configure/make_primitive_details_stubs.c
+@@ -10,7 +10,6 @@
+ #include <stddef.h>
+ #include <errno.h>
+ #include <stdint.h>
+-#include <complex.h>
+ 
+ #include <caml/mlvalues.h>
+ 
+@@ -47,8 +46,8 @@ static struct details {
+   ENTRY(Nativeint, intnat),
+   ENTRY(Float, float),
+   ENTRY(Double, double),
+-  ENTRY(Complex32, float complex),
+-  ENTRY(Complex64, double complex),
++  ENTRY(Complex32, float _Complex),
++  ENTRY(Complex64, double _Complex),
+ };
+ 
+ void generate_function(char *name, char *type,
+diff --git a/src/ctypes/complex_stubs.c b/src/ctypes/complex_stubs.c
+index 8035607..458fa5f 100644
+--- a/src/ctypes/complex_stubs.c
++++ b/src/ctypes/complex_stubs.c
+@@ -5,8 +5,6 @@
+  * See the file LICENSE for details.
+  */
+ 
+-#include <complex.h>
+-
+ #include <caml/memory.h>
+ #include <caml/alloc.h>
+ 
+@@ -19,25 +17,25 @@ static value allocate_complex_value(double r, double i)
+ }
+ 
+ /* ctypes_copy_float_complex : float complex -> Complex.t */
+-value ctypes_copy_float_complex(float complex c)
++value ctypes_copy_float_complex(float _Complex c)
+ {
+-  return allocate_complex_value(crealf(c), cimagf(c));
++  return allocate_complex_value(__real__ c, __imag__ c);
+ }
+ 
+ /* ctypes_copy_double_complex : double complex -> Complex.t */
+-value ctypes_copy_double_complex(double complex c)
++value ctypes_copy_double_complex(double _Complex c)
+ {
+-  return allocate_complex_value(creal(c), cimag(c));
++  return allocate_complex_value(__real__ c, __imag__ c);
+ }
+ 
+ /* ctypes_float_complex_val : Complex.t -> float complex */
+-float complex ctypes_float_complex_val(value v)
++float _Complex ctypes_float_complex_val(value v)
+ {
+-  return Double_field(v, 0) + Double_field(v, 1) * I;
++  return Double_field(v, 0) + Double_field(v, 1) * (__extension__ 1.0iF);
+ }
+ 
+ /* ctypes_double_complex_val : Complex.t -> double complex */
+-double complex ctypes_double_complex_val(value v)
++double _Complex ctypes_double_complex_val(value v)
+ {
+-  return Double_field(v, 0) + Double_field(v, 1) * I;
++  return Double_field(v, 0) + Double_field(v, 1) * (__extension__ 1.0iF);
+ }
+diff --git a/src/ctypes/complex_stubs.h b/src/ctypes/complex_stubs.h
+index 4ef0dfb..4e53499 100644
+--- a/src/ctypes/complex_stubs.h
++++ b/src/ctypes/complex_stubs.h
+@@ -8,19 +8,18 @@
+ #ifndef COMPLEX_STUBS_H
+ #define COMPLEX_STUBS_H
+ 
+-#include <complex.h>
+ #include <caml/mlvalues.h>
+ 
+ /* ctypes_copy_float_complex : float complex -> Complex.t */
+-value ctypes_copy_float_complex(float complex);
++value ctypes_copy_float_complex(float _Complex);
+ 
+ /* ctypes_copy_double_complex : double complex -> Complex.t */
+-value ctypes_copy_double_complex(double complex);
++value ctypes_copy_double_complex(double _Complex);
+ 
+ /* ctypes_float_complex_val : Complex.t -> float complex */
+-float complex ctypes_float_complex_val(value);
++float _Complex ctypes_float_complex_val(value);
+ 
+ /* ctypes_double_complex_val : Complex.t -> double complex */
+-double complex ctypes_double_complex_val(value);
++double _Complex ctypes_double_complex_val(value);
+ 
+ #endif /* COMPLEX_STUBS_H */
+diff --git a/src/ctypes/type_info_stubs.c b/src/ctypes/type_info_stubs.c
+index 602c425..43ea9ca 100644
+--- a/src/ctypes/type_info_stubs.c
++++ b/src/ctypes/type_info_stubs.c
+@@ -8,7 +8,6 @@
+ #include <inttypes.h>
+ #include <stdio.h>
+ #include <assert.h>
+-#include <complex.h>
+ #include <string.h>
+ 
+ #include <caml/memory.h>
+@@ -53,8 +52,8 @@ value ctypes_read(value prim_, value buffer_)
+    case Nativeint: b = caml_copy_nativeint(*(intnat *)buf); break;
+    case Float: b = caml_copy_double(*(float *)buf); break;
+    case Double: b = caml_copy_double(*(double *)buf); break;
+-   case Complex32: b = ctypes_copy_float_complex(*(float complex *)buf); break;
+-   case Complex64: b = ctypes_copy_double_complex(*(double complex *)buf); break;
++   case Complex32: b = ctypes_copy_float_complex(*(float _Complex *)buf); break;
++   case Complex64: b = ctypes_copy_double_complex(*(double _Complex *)buf); break;
+    default:
+     assert(0);
+   }
+@@ -93,8 +92,8 @@ value ctypes_write(value prim_, value v, value buffer_)
+    case Nativeint: *(intnat *)buf = Nativeint_val(v); break;
+    case Float: *(float *)buf = Double_val(v); break;
+    case Double: *(double *)buf = Double_val(v); break;
+-   case Complex32: *(float complex *)buf = ctypes_float_complex_val(v); break;
+-   case Complex64: *(double complex *)buf = ctypes_double_complex_val(v); break;
++   case Complex32: *(float _Complex *)buf = ctypes_float_complex_val(v); break;
++   case Complex64: *(double _Complex *)buf = ctypes_double_complex_val(v); break;
+    default:
+     assert(0);
+   }
+@@ -138,13 +137,13 @@ value ctypes_string_of_prim(value prim_, value v)
+   case Float: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
+   case Double: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
+   case Complex32: {
+-    float complex c = ctypes_float_complex_val(v);
+-    len = snprintf(buf, sizeof buf, "%.12g+%.12gi", crealf(c), cimagf(c));
++    float _Complex c = ctypes_float_complex_val(v);
++    len = snprintf(buf, sizeof buf, "%.12g+%.12gi", __real__ c, __imag__ c);
+     break;
+   }
+   case Complex64: {
+-    double complex c = ctypes_double_complex_val(v);
+-    len = snprintf(buf, sizeof buf, "%.12g+%.12gi", creal(c), cimag(c));
++    double _Complex c = ctypes_double_complex_val(v);
++    len = snprintf(buf, sizeof buf, "%.12g+%.12gi", __real__ c, __imag__ c);
+     break;
+   }
+   default:
+-- 
+2.1.1
+
