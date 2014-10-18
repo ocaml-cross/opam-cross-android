@@ -1,7 +1,7 @@
 opam-android
 ============
 
-This repository contains an up-to-date Android toolchain featuring OCaml 4.02.1, as well as some commonly used packages. Currently only x86_32/x86_64 Linux build systems and 32-bit targets are supported.
+This repository contains an up-to-date Android toolchain featuring OCaml 4.02.1, as well as some commonly used packages. Currently only x86_32/x86_64 Linux build systems and 32-bit targets are supported. If you need support for other build/target combinations, please [open an issue](https://github.com/whitequark/opam-android/issues).
 
 Prerequisites
 -------------
