@@ -6,7 +6,7 @@ This repository contains an up-to-date Android toolchain featuring OCaml 4.02.1,
 Prerequisites
 -------------
 
-On 64-bit Linux build systems, install `gcc-multilib` (on Debian derivatives) or equivalent.
+On 64-bit Linux build systems, install `gcc-multilib` (on Debian derivatives) or equivalent. Android SDK or NDK are not required.
 
 Installation
 ------------
