@@ -6,7 +6,7 @@ This repository contains an up-to-date Android toolchain featuring OCaml 4.02.1,
 Prerequisites
 -------------
 
-On 64-bit Linux build systems, install `gcc-multilib` or equivalent.
+On 64-bit Linux build systems, install `gcc-multilib` (on Debian derivatives) or equivalent.
 
 Installation
 ------------
@@ -39,15 +39,18 @@ Install some packages:
 
     opam install re-android
 
-Use them:
+Write some code using them:
 
     let () =
       let regexp = Re_pcre.regexp {|\b([a-z]+)\b|} in
       let result = Re.exec regexp "Hello, world!" in
       Format.printf "match: %s\n" (Re.get result 1)
 
+Build it:
+
     ocamlfind -toolchain android ocamlopt -package re.pcre -linkpkg test_pcre.ml -o test_pcre
 
+With opam-android, cross-compilation is easy!
 
 Porting packages
 ----------------
