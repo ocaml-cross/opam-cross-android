@@ -1,0 +1,9 @@
+opam-version: "1"
+maintainer: "jerome.vouillon@pps.univ-paris-diderot.fr"
+build: [
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "re"]]
+depends: ["ocamlfind"]
