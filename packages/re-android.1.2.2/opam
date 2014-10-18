@@ -6,4 +6,4 @@ build: [
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
 ]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "re"]]
-depends: ["ocamlfind"]
+depends: ["ocaml-android" "ocamlfind"]
