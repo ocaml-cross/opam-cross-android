@@ -6,7 +6,6 @@ MANDIR=$(PREFIX)/man
 MANEXT=1
 CAMLRUN=%{bin}%/ocamlrun
 CAMLYACC=%{bin}%/ocamlyacc
-CROSS_COMPILING=true
 RANLIB=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-ranlib
 RANLIBCMD=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-ranlib
 ARCMD=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-ar

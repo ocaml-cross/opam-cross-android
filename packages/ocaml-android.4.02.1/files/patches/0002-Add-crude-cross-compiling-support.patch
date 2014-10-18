@@ -1,22 +1,21 @@
-From 48bbc584ffd4d73078d3250c9cf72c0a82011203 Mon Sep 17 00:00:00 2001
+From 7091f6b22053ff83faaf200e0884c089e342b084 Mon Sep 17 00:00:00 2001
 From: Peter Zotov <whitequark@whitequark.org>
 Date: Fri, 17 Oct 2014 08:07:47 +0400
-Subject: [PATCH 3/4] Update every invocation of ocamlrun or ocamlyacc to
- respect Makefile.config.
+Subject: [PATCH 2/2] Add crude cross-compiling support.
 
 ---
- Makefile                   | 12 +++++-------
- lex/Makefile               | 11 ++++++-----
+ Makefile                   | 16 +++++++---------
+ lex/Makefile               | 12 +++++++-----
  otherlibs/Makefile         |  4 ++--
  otherlibs/Makefile.shared  |  1 -
- otherlibs/dynlink/Makefile |  5 ++---
+ otherlibs/dynlink/Makefile |  8 ++++----
  otherlibs/unix/Makefile    |  4 ++--
  stdlib/Makefile.shared     |  4 ++--
- tools/Makefile.shared      |  1 -
- 8 files changed, 19 insertions(+), 23 deletions(-)
+ tools/Makefile.shared      |  6 +++---
+ 8 files changed, 27 insertions(+), 28 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 2198a75..8a16ac5 100644
+index 2198a75..0fcde10 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -15,18 +15,16 @@
@@ -29,7 +28,8 @@ index 2198a75..8a16ac5 100644
 +CAMLOPT=$(CAMLRUN) ./ocamlopt -nostdlib -I stdlib -I otherlibs/dynlink
  COMPFLAGS=-strict-sequence -w +33..39+48 -warn-error A -bin-annot \
            -safe-string $(INCLUDES)
- LINKFLAGS=
+-LINKFLAGS=
++LINKFLAGS=-use-runtime $(CAMLRUN)
  
 -CAMLYACC=boot/ocamlyacc
  YACCFLAGS=-v
@@ -42,6 +42,15 @@ index 2198a75..8a16ac5 100644
  SHELL=/bin/sh
  MKDIR=mkdir -p
  
+@@ -317,7 +315,7 @@ install:
+ 	cp ocaml $(INSTALL_BINDIR)/ocaml$(EXE)
+ 	cd stdlib; $(MAKE) install
+ 	cp lex/ocamllex $(INSTALL_BINDIR)/ocamllex$(EXE)
+-	cp yacc/ocamlyacc$(EXE) $(INSTALL_BINDIR)/ocamlyacc$(EXE)
++	#cp yacc/ocamlyacc$(EXE) $(INSTALL_BINDIR)/ocamlyacc$(EXE)
+ 	cp utils/*.cmi parsing/*.cmi typing/*.cmi bytecomp/*.cmi driver/*.cmi \
+ 	   toplevel/*.cmi $(INSTALL_COMPLIBDIR)
+ 	cp compilerlibs/ocamlcommon.cma compilerlibs/ocamlbytecomp.cma \
 @@ -630,7 +628,7 @@ beforedepend:: asmcomp/emit.ml
  
  tools/cvt_emit: tools/cvt_emit.mll
@@ -52,10 +61,10 @@ index 2198a75..8a16ac5 100644
  # The "expunge" utility
  
 diff --git a/lex/Makefile b/lex/Makefile
-index cb5df8b..85b36a8 100644
+index cb5df8b..931fbc4 100644
 --- a/lex/Makefile
 +++ b/lex/Makefile
-@@ -11,13 +11,14 @@
+@@ -11,13 +11,15 @@
  #########################################################################
  
  # The lexer generator
@@ -67,6 +76,7 @@ index cb5df8b..85b36a8 100644
 +CAMLOPT=$(CAMLRUN) ../ocamlopt -nostdlib -I ../stdlib
  COMPFLAGS=-w +33..39 -warn-error A -bin-annot -safe-string
 -CAMLYACC=../boot/ocamlyacc
++LINKFLAGS=-use-runtime $(CAMLRUN)
  YACCFLAGS=-v
 -CAMLLEX=../boot/ocamlrun ../boot/ocamllex
 -CAMLDEP=../boot/ocamlrun ../tools/ocamldep
@@ -103,10 +113,10 @@ index 9bed5f7..a76a092 100644
  MKLIB=$(CAMLRUN) $(ROOTDIR)/tools/ocamlmklib
  
 diff --git a/otherlibs/dynlink/Makefile b/otherlibs/dynlink/Makefile
-index 6284a52..4a8c55a 100644
+index 6284a52..34a939f 100644
 --- a/otherlibs/dynlink/Makefile
 +++ b/otherlibs/dynlink/Makefile
-@@ -16,9 +16,8 @@
+@@ -16,13 +16,13 @@
  include ../../config/Makefile
  
  ROOTDIR   = ../..
@@ -118,6 +128,20 @@ index 6284a52..4a8c55a 100644
  
  INCLUDES=-I ../../utils -I ../../typing -I ../../bytecomp -I ../../asmcomp
  COMPFLAGS=-w +33..39 -warn-error A -bin-annot -safe-string \
+           -I ../../stdlib $(INCLUDES)
++LINKFLAGS=-use-runtime $(CAMLRUN)
+ 
+ OBJS=dynlinkaux.cmo dynlink.cmo
+ 
+@@ -69,7 +69,7 @@ dynlink.cmx: dynlink.cmi natdynlink.ml
+ 	rm -f dynlink.mlopt
+ 
+ extract_crc: dynlink.cma extract_crc.cmo
+-	$(OCAMLC) $(COMPFLAGS) -o extract_crc dynlink.cma extract_crc.cmo
++	$(OCAMLC) $(LINKFLAGS) -o extract_crc dynlink.cma extract_crc.cmo
+ 
+ INSTALL_LIBDIR=$(DESTDIR)$(LIBDIR)
+ 
 diff --git a/otherlibs/unix/Makefile b/otherlibs/unix/Makefile
 index 5f4d72b..faebd3f 100644
 --- a/otherlibs/unix/Makefile
@@ -151,10 +175,10 @@ index 54de337..1e9416d 100755
  
  OBJS=camlinternalFormatBasics.cmo pervasives.cmo $(OTHERS)
 diff --git a/tools/Makefile.shared b/tools/Makefile.shared
-index 2517434..1c73071 100644
+index 2517434..a2a4ab1 100644
 --- a/tools/Makefile.shared
 +++ b/tools/Makefile.shared
-@@ -12,7 +12,6 @@
+@@ -12,14 +12,14 @@
  
  include ../config/Makefile
  
@@ -162,6 +186,24 @@ index 2517434..1c73071 100644
  CAMLC=$(CAMLRUN) ../boot/ocamlc -nostdlib -I ../boot
  CAMLOPT=$(CAMLRUN) ../ocamlopt -nostdlib -I ../stdlib
  CAMLLEX=$(CAMLRUN) ../boot/ocamllex
+ INCLUDES=-I ../utils -I ../parsing -I ../typing -I ../bytecomp -I ../asmcomp \
+ 	 -I ../driver -I ../toplevel
+ COMPFLAGS= -strict-sequence -w +27+32..39 -warn-error A -safe-string $(INCLUDES)
+-LINKFLAGS=$(INCLUDES)
++LINKFLAGS=$(INCLUDES) -use-runtime $(CAMLRUN)
++
+ 
+ all: ocamldep ocamlprof ocamlcp ocamloptp ocamlmktop ocamlmklib dumpobj \
+      objinfo read_cmt
+@@ -286,7 +286,7 @@ OBJINFO=../compilerlibs/ocamlcommon.cma \
+         objinfo.cmo
+ 
+ objinfo: objinfo_helper$(EXE) $(OBJINFO)
+-	$(CAMLC) -o objinfo $(OBJINFO)
++	$(CAMLC) $(LINKFLAGS) -o objinfo $(OBJINFO)
+ 
+ install::
+ 	cp objinfo $(INSTALL_BINDIR)/ocamlobjinfo$(EXE)
 -- 
 2.1.1
 
