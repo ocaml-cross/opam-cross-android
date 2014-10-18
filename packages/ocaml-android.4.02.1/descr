@@ -1,1 +1,1 @@
-OCaml cross-compiler for Android
+A meta-package depending on any OCaml cross-compiler

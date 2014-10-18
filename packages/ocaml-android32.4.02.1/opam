@@ -1,0 +1,21 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+substs: ["android.conf" "config/Makefile"]
+patches: [
+  "patches/0001-Work-around-name-clash-with-memory.h-in-Android-NDK.patch"
+  "patches/0002-Add-crude-cross-compiling-support.patch"
+]
+build: [
+  # Can't use make substitutions in #ml in Makefile.config
+  ["sed" "-e" "s/ANDROID_LEVEL/19/g" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "-i" "config/Makefile"]
+  [make "world" "opt" "install"]
+  ["./install.sh" "%{prefix}%"]
+]
+remove: [
+  ["./remove.sh" "%{prefix}%"]
+]
+depends: [
+  "android-ndk32-linux" {>= "10b"}
+  "ocamlfind" {>= "1.5.4"}
+]
+available: [ (ocaml-version = "4.02.1" & arch = "x86") | compiler = "4.02.1+32bit" ]
