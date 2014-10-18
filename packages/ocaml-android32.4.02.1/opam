@@ -15,7 +15,7 @@ remove: [
   ["./remove.sh" "%{prefix}%"]
 ]
 depends: [
-  "android-ndk32-linux" {>= "10b"}
+  "android-ndk-linux" {>= "10c"}
   "ocamlfind" {>= "1.5.4"}
 ]
 available: [ (ocaml-version = "4.02.1" & arch = "x86") | compiler = "4.02.1+32bit" ]
