@@ -27,9 +27,11 @@ Otherwise, use a regular compiler; its version must match the version of the cro
     opam switch 4.02.1
     eval `opam config env`
 
-Install the compiler:
+Install the compiler (`ANDROID_LEVEL` specifies the API level and defaults to latest available API):
 
-    opam install ocaml-android
+    ANDROID_LEVEL=21 opam install ocaml-android
+
+Note that you will need to specify `ANDROID_LEVEL` again if you have to upgrade the compiler via `opam upgrade`; it is a good idea to add it to your environment.
 
 Build some code:
 

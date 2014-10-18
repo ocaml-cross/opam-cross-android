@@ -1,3 +1,4 @@
+ANDROID_LEVEL?=21
 PREFIX=%{prefix}%/arm-linux-androideabi
 BINDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib/ocaml
@@ -21,7 +22,7 @@ X11_LINK=not found
 TK_DEFS=
 TK_LINK=
 LIBBFD_LINK=
-BYTECC=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-gcc --sysroot %{lib}%/android-ndk/platforms/android-ANDROID_LEVEL/arch-arm -I $(PREFIX)/include -L $(PREFIX)/lib -O2
+BYTECC=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-gcc --sysroot %{lib}%/android-ndk/platforms/android-$(ANDROID_LEVEL)/arch-arm -I $(PREFIX)/include -L $(PREFIX)/lib -O2
 BYTECCCOMPOPTS=-fno-defer-pop -Wall -D_FILE_OFFSET_BITS=64
 BYTECCLINKOPTS= -Wl,-E
 BYTECCLIBS= -lm  -ldl
