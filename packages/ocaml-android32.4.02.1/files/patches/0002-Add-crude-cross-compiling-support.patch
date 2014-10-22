@@ -1,18 +1,19 @@
-From 7091f6b22053ff83faaf200e0884c089e342b084 Mon Sep 17 00:00:00 2001
+From 35ee28c61335fefb88f38fabca47fe264e7858bd Mon Sep 17 00:00:00 2001
 From: Peter Zotov <whitequark@whitequark.org>
 Date: Fri, 17 Oct 2014 08:07:47 +0400
-Subject: [PATCH 2/2] Add crude cross-compiling support.
+Subject: [PATCH 2/4] Add crude cross-compiling support.
 
 ---
- Makefile                   | 16 +++++++---------
- lex/Makefile               | 12 +++++++-----
- otherlibs/Makefile         |  4 ++--
- otherlibs/Makefile.shared  |  1 -
- otherlibs/dynlink/Makefile |  8 ++++----
- otherlibs/unix/Makefile    |  4 ++--
- stdlib/Makefile.shared     |  4 ++--
- tools/Makefile.shared      |  6 +++---
- 8 files changed, 27 insertions(+), 28 deletions(-)
+ Makefile                      | 16 +++++++---------
+ lex/Makefile                  | 12 +++++++-----
+ otherlibs/Makefile            |  4 ++--
+ otherlibs/Makefile.shared     |  1 -
+ otherlibs/dynlink/Makefile    |  8 ++++----
+ otherlibs/systhreads/Makefile |  8 ++++----
+ otherlibs/unix/Makefile       |  4 ++--
+ stdlib/Makefile.shared        |  4 ++--
+ tools/Makefile.shared         |  6 +++---
+ 9 files changed, 31 insertions(+), 32 deletions(-)
 
 diff --git a/Makefile b/Makefile
 index 2198a75..0fcde10 100644
@@ -142,6 +143,33 @@ index 6284a52..34a939f 100644
  
  INSTALL_LIBDIR=$(DESTDIR)$(LIBDIR)
  
+diff --git a/otherlibs/systhreads/Makefile b/otherlibs/systhreads/Makefile
+index f24af23..64cac45 100644
+--- a/otherlibs/systhreads/Makefile
++++ b/otherlibs/systhreads/Makefile
+@@ -14,11 +14,11 @@
+ include ../../config/Makefile
+ 
+ ROOTDIR=../..
+-CAMLC=$(ROOTDIR)/boot/ocamlrun $(ROOTDIR)/ocamlc -nostdlib \
++CAMLC=$(CAMLRUN) $(ROOTDIR)/ocamlc -nostdlib \
+       -I $(ROOTDIR)/stdlib -I $(ROOTDIR)/otherlibs/unix
+-CAMLOPT=$(ROOTDIR)/boot/ocamlrun $(ROOTDIR)/ocamlopt -nostdlib \
++CAMLOPT=$(CAMLRUN) $(ROOTDIR)/ocamlopt -nostdlib \
+         -I $(ROOTDIR)/stdlib -I $(ROOTDIR)/otherlibs/unix
+-MKLIB=../../boot/ocamlrun ../../tools/ocamlmklib
++MKLIB=$(CAMLRUN) ../../tools/ocamlmklib
+ COMPFLAGS=-w +33..39 -warn-error A -g -bin-annot -safe-string
+ 
+ BYTECODE_C_OBJS=st_stubs_b.o
+@@ -107,6 +107,6 @@ installopt:
+ 
+ depend: $(GENFILES)
+ 	-gcc -MM -I../../byterun *.c > .depend
+-	../../boot/ocamlrun ../../tools/ocamldep *.mli *.ml >> .depend
++	$(CAMLRUN) ../../tools/ocamldep *.mli *.ml >> .depend
+ 
+ include .depend
 diff --git a/otherlibs/unix/Makefile b/otherlibs/unix/Makefile
 index 5f4d72b..faebd3f 100644
 --- a/otherlibs/unix/Makefile

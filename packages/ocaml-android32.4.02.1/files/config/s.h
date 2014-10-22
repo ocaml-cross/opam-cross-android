@@ -44,3 +44,7 @@
 #define HAS_MMAP
 #define HAS_PWRITE
 #define HAS_GETHOSTBYNAME_R 6
+#define HAS_GETHOSTBYADDR_R 8
+#define HAS_MKSTEMP
+#define HAS_NICE
+#define HAS_SIGWAIT

@@ -17,13 +17,14 @@ GRAPHLIB=graph
 BNG_ARCH=generic
 BNG_ASM_LEVEL=0
 PTHREAD_LINK=
+PTHREAD_CAML_LINK=
 X11_INCLUDES=not found
 X11_LINK=not found
 TK_DEFS=
 TK_LINK=
 LIBBFD_LINK=
 BYTECC=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-gcc --sysroot %{lib}%/android-ndk/platforms/android-$(ANDROID_LEVEL)/arch-arm -I $(PREFIX)/include -L $(PREFIX)/lib -O2
-BYTECCCOMPOPTS=-fno-defer-pop -Wall -D_FILE_OFFSET_BITS=64
+BYTECCCOMPOPTS=-fno-defer-pop -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
 BYTECCLINKOPTS= -Wl,-E
 BYTECCLIBS= -lm  -ldl
 BYTECCRPATH=-Wl,-rpath,
@@ -42,8 +43,8 @@ ARCH=arm
 MODEL=armv5te
 SYSTEM=linux_eabi
 NATIVECC=$(BYTECC)
-NATIVECCCOMPOPTS=-Wall -D_FILE_OFFSET_BITS=64
-NATIVECCPROFOPTS=-Wall -D_FILE_OFFSET_BITS=64
+NATIVECCCOMPOPTS=-Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+NATIVECCPROFOPTS=-Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
 NATIVECCLINKOPTS=
 NATIVECCRPATH=-Wl,-rpath,
 NATIVECCLIBS= -lm  -ldl
@@ -52,10 +53,10 @@ ASPP=$(BYTECC) -c
 ASPPPROFFLAGS=-DPROFILING
 PROFILING=prof
 DYNLINKOPTS= -ldl
-OTHERLIBRARIES=unix str num dynlink bigarray
+OTHERLIBRARIES=unix str num dynlink bigarray systhreads
 DEBUGGER=ocamldebugger
 CC_PROFILE=-pg
-SYSTHREAD_SUPPORT=false
+SYSTHREAD_SUPPORT=true
 PARTIALLD=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-ld -r
 PACKLD=$(PARTIALLD) $(NATIVECCLINKOPTS) -o
 DLLCCCOMPOPTS=
