@@ -1,0 +1,17 @@
+opam-version: "1.2"
+maintainer: "Daniel Bünzli <daniel.buenzl i@erratique.ch>"
+homepage: "http://erratique.ch/software/react"
+authors: ["Daniel Bünzli <daniel.buenzl i@erratique.ch>"]
+doc: "http://erratique.ch/software/react/doc/React"
+dev-repo: "http://erratique.ch/repos/react.git"
+bug-reports: "https://github.com/dbuenzli/react/issues"
+tags: [ "reactive" "declarative" "signal" "event" "frp" "org:erratique" ]
+license: "BSD3"
+depends: ["ocaml-android"]
+build: [
+  ["ocaml" "pkg/git.ml"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "pkg/build.ml" "native=%{ocaml-native}%" "native-dynlink=%{ocaml-native-dynlink}%"]
+]
+install: [
+  ["ocamlfind" "-toolchain" "android" "install" "react" "pkg/META" "_build/src/react.a" "_build/src/react.cma" "_build/src/react.cmi" "_build/src/react.cmti" "_build/src/react.cmx" "_build/src/react.cmxa" "_build/src/react.cmxs" "_build/src/react.mli" "_build/src/react_top.a" "_build/src/react_top.cma" "_build/src/react_top.cmxa" "_build/src/react_top.cmxs"]
+]
