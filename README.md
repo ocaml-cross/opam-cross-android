@@ -83,6 +83,12 @@ For projects using OASIS, the following steps will work:
     remove: [["ocamlfind" "-toolchain" "android" "remove" "pkg"]]
     depends: ["ocaml-android" ...]
 
+For projects installing the files via OPAM's `.install` files (e.g. [topkg](https://github.com/dbuenzli/topkg)), the following steps will work:
+
+    install: [["sh" "-c" "opam-installer --prefix=$(ocamlfind -toolchain android printconf destdir)/.. pkg.install"]]
+    remove: [["ocamlfind" "-toolchain" "android" "remove" "pkg"]]
+    depends: ["ocaml-android" ...]
+
 The output of the `configure` script will be entirely wrong, referring to the host configuration rather than target configuration. Thankfully, it is not actually used in the build process itself, so it doesn't matter.
 
 Internals
