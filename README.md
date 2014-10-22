@@ -85,7 +85,7 @@ For projects using OASIS, the following steps will work:
 
 For projects installing the files via OPAM's `.install` files (e.g. [topkg](https://github.com/dbuenzli/topkg)), the following steps will work:
 
-    install: [["sh" "-c" "opam-installer --prefix=$(ocamlfind -toolchain android printconf destdir)/.. pkg.install"]]
+    install: [["opam-installer" "--prefix=%{prefix}%/linux-androideabi" "pkg.install"]]
     remove: [["ocamlfind" "-toolchain" "android" "remove" "pkg"]]
     depends: ["ocaml-android" ...]
 
