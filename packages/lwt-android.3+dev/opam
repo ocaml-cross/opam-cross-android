@@ -1,0 +1,25 @@
+opam-version: "1"
+maintainer: "jeremie@dimino.org"
+build: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-configure"
+    "--prefix" prefix
+    "--disable-libev"
+    "--%{react-android:enable}%-react"
+    "--%{ssl-android:enable}%-ssl"
+    "--enable-unix"
+    "--enable-preemptive"
+    "--enable-android-target"]
+  ["ocamlbuild" "-use-ocamlfind" "-just-plugin"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]
+]
+remove: [
+  [ "ocamlfind" "-toolchain" "android" "remove" "lwt" ]
+]
+depends: [
+  "ocaml-android"
+]
+depopts: [
+  "react-android"
+  "ssl-android"
+]
