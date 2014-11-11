@@ -13,7 +13,7 @@
 #define HAS_DIRENT
 #define HAS_REWINDDIR
 #define HAS_LOCKF
-#define HAS_MKFIFO
+// #define HAS_MKFIFO
 #define HAS_GETCWD
 #define HAS_GETWD
 #define HAS_GETPRIORITY
@@ -43,7 +43,7 @@
 #define SUPPORT_DYNAMIC_LINKING
 #define HAS_MMAP
 #define HAS_PWRITE
-// #define HAS_GETHOSTBYNAME_R 6
+#define HAS_GETHOSTBYNAME_R 6
 // #define HAS_GETHOSTBYADDR_R 8
 #define HAS_MKSTEMP
 #define HAS_NICE
