@@ -1,0 +1,10 @@
+opam-version: "1"
+maintainer: "Peter Zotov <whitequark@whitequark.org>"
+build: [
+  "ocaml" "pkg/build.ml" "native=true"         # TODO fixme
+                         "native-dynlink=true" # TODO fixme
+]
+install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "ppx_import.install"]]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "ppx_import"]]
+depends: ["ppx_tools-android" {>= "0.99.1"}]
+ocaml-version: [>= "4.02.0"]
