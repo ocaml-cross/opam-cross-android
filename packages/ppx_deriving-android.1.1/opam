@@ -15,6 +15,6 @@ install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "ppx_deriv
 remove: [["ocamlfind" "-toolchain" "android" "remove" "ppx_deriving"]]
 depends: [
   "ocaml-android"
-  "ppx_tools-android" {>= "0.99.2"}
+  "ppx_tools" {>= "0.99.2"}
 ]
 available: [ocaml-version >= "4.02.1"]
