@@ -9,7 +9,7 @@ patches: [
 ]
 build: [
   # Can't use make substitutions in #ml in Makefile.config
-  ["sed" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "-i" "config/Makefile"]
+  ["sed" "-i" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "config/Makefile"]
   [make "world" "opt" "install"]
   ["./install.sh" "%{prefix}%"]
 ]
