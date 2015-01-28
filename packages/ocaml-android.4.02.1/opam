@@ -1,7 +1,7 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 build: [
-  ["ln" "-sfT" "arm-linux-androideabi" "%{prefix}%/linux-androideabi"]
+  ["ln" "-sf" "arm-linux-androideabi" "%{prefix}%/linux-androideabi"]
 ]
 depends: [
   "ocaml-android32"
