@@ -1,0 +1,12 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+build: [
+  ["chmod" "+x" "android-ndk-r%{version}%-%{os}%-x86_64.bin"]
+  ["./android-ndk-r%{version}%-%{os}%-x86_64.bin" "-o%{lib}%"]
+  ["ln" "-sf" "android-ndk-r%{version}%" "%{lib}%/android-ndk"]
+]
+remove: [
+  ["rm" "-rf" "%{lib}%/android-ndk-r%{version}%" "%{lib}%/android-ndk"]
+]
+flags: [light-uninstall]
+os: ["darwin"]
