@@ -12,7 +12,7 @@ build: [
   ["ocamlbuild" "-use-ocamlfind" "-just-plugin"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" make "build"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]
-  ["touch" "%{lib}%/ppx.cma"]
+  ["touch" "%{prefix}%/arm-linux-androideabi/lib/lwt/ppx.cma"]
 ]
 remove: [
   [ "ocamlfind" "-toolchain" "android" "remove" "lwt" ]
