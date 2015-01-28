@@ -5,7 +5,7 @@ PREFIX="$1"
 for bin in ocaml ocamlbuild ocamlbuild.byte ocamlc ocamlcp ocamldebug ocamldep ocamldoc ocamllex ocamlmklib ocamlmktop ocamlobjinfo ocamlopt ocamloptp ocamlprof ocamlrun ocamlyacc; do
   path="${PREFIX}/arm-linux-androideabi/bin/${bin}"
   if [ -e "${path}" ] && [ "$(head -c 1 ${path})" = "/" ]; then
-    echo -n '#!' | cat - "${path}" >"${path}.n"
+    /bin/echo -n '#!' | cat - "${path}" >"${path}.n"
     mv "${path}.n" "${path}"
     chmod +x "${path}"
   fi
