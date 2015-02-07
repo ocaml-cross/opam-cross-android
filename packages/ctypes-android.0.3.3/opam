@@ -1,5 +1,5 @@
 opam-version: "1"
-maintainer: "yallop@gmail.com"
+maintainer: "whitequark@whitequark.org"
 homepage: "https://github.com/ocamllabs/ocaml-ctypes"
 license: "MIT"
 patches: [

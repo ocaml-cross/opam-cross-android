@@ -1,5 +1,5 @@
 opam-version: "1"
-maintainer: "markus.mottl@gmail.com"
+maintainer: "whitequark@whitequark.org"
 authors: [ "Markus Mottl <markus.mottl@gmail.com>"
            "Christian Szegedy <csdontspam@metamatix.com>" ]
 license: "LGPL-2.1+ with OCaml linking exception"

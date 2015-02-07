@@ -1,5 +1,5 @@
 opam-version: "1"
-maintainer: "jerome.vouillon@pps.univ-paris-diderot.fr"
+maintainer: "whitequark@whitequark.org"
 build: [
   ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]

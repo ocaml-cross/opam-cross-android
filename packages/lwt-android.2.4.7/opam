@@ -1,5 +1,5 @@
 opam-version: "1"
-maintainer: "jeremie@dimino.org"
+maintainer: "whitequark@whitequark.org"
 build: [
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-configure"
     "--prefix" prefix

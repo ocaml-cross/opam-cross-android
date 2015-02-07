@@ -1,5 +1,5 @@
 opam-version: "1.2"
-maintainer: "Daniel Bünzli <daniel.buenzl i@erratique.ch>"
+maintainer: "whitequark@whitequark.org"
 homepage: "http://erratique.ch/software/react"
 authors: ["Daniel Bünzli <daniel.buenzl i@erratique.ch>"]
 doc: "http://erratique.ch/software/react/doc/React"
