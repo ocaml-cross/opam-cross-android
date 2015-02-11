@@ -1,0 +1,12 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+authors: ["Alain Frish"]
+license: "MIT"
+patches: ["patches/remove-samples.patch"]
+build: [
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "getopt"]]
+depends: ["ocaml-android" "ocamlfind"]
