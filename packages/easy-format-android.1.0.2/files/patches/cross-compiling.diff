@@ -1,0 +1,63 @@
+--- a/Makefile	2014-01-19 12:17:52.000000000 +0400
++++ b/Makefile	2015-02-12 07:10:43.857769856 +0300
+@@ -1,7 +1,7 @@
+ VERSION = 1.0.2
+ export VERSION
+ 
+-NATDYNLINK := $(shell if [ -f `ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
++NATDYNLINK := $(shell if [ -f `ocamlfind ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
+ 
+ ifeq "${NATDYNLINK}" "YES"
+ CMXS=easy_format.cmxs
+@@ -10,41 +10,41 @@
+ .PHONY: default all opt test doc soft-clean clean
+ default: all opt
+ all:
+-	ocamlc -c easy_format.mli
+-	ocamlc -c -dtypes easy_format.ml
++	ocamlfind ocamlc -c easy_format.mli
++	ocamlfind ocamlc -c -dtypes easy_format.ml
+ 	touch bytecode
+ 
+ opt: easy_format.cmx $(CMXS)
+ 	touch nativecode
+ 
+ easy_format.cmx:
+-	ocamlc -c easy_format.mli
+-	ocamlopt -c -dtypes easy_format.ml
++	ocamlfind ocamlc -c easy_format.mli
++	ocamlfind ocamlopt -c -dtypes easy_format.ml
+ 
+ easy_format.cmxs: easy_format.cmx
+-	ocamlopt -I . -shared -linkall -o easy_format.cmxs easy_format.cmx
++	ocamlfind ocamlopt -I . -shared -linkall -o easy_format.cmxs easy_format.cmx
+ 
+ test: all simple_example.out
+-	ocamlc -o test_easy_format -dtypes easy_format.cmo test_easy_format.ml
++	ocamlfind ocamlc -o test_easy_format -dtypes easy_format.cmo test_easy_format.ml
+ 	./test_easy_format > test_easy_format.out
+-	ocamlc -o lambda_example -dtypes easy_format.cmo lambda_example.ml
++	ocamlfind ocamlc -o lambda_example -dtypes easy_format.cmo lambda_example.ml
+ 	./lambda_example > lambda_example.out
+ 
+ simple_example: all simple_example.ml
+-	ocamlc -o simple_example -dtypes easy_format.cmo simple_example.ml
++	ocamlfind ocamlc -o simple_example -dtypes easy_format.cmo simple_example.ml
+ simple_example.out: simple_example
+ 	./simple_example > simple_example.out
+ 
+ doc: ocamldoc/index.html easy_format_example.html
+ ocamldoc/index.html: easy_format.mli
+ 	mkdir -p ocamldoc
+-	ocamldoc -d ocamldoc -html $<
++	ocamlfind ocamldoc -d ocamldoc -html $<
+ easy_format_example.html: simple_example.out simple_example.ml
+ 	cat simple_example.ml > easy_format_example.ml
+ 	echo '(* Output: ' >> easy_format_example.ml
+ 	cat simple_example.out >> easy_format_example.ml
+ 	echo '*)' >> easy_format_example.ml
+-	ocamlc -c -dtypes easy_format_example.ml
++	ocamlfind ocamlc -c -dtypes easy_format_example.ml
+ 	caml2html easy_format_example.ml -t -o easy_format_example.html
+ 
+ soft-clean:
