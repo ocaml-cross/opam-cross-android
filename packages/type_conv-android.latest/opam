@@ -1,0 +1,9 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+install: [
+  ["ln" "-sf" "%{lib}%/type_conv" "%{prefix}%/linux-androideabi/lib/type_conv"]
+]
+remove: [
+  ["rm" "-f" "%{prefix}%/linux-androideabi/lib/type_conv"]
+]
+depends: ["ocaml-android" "camlp4-android" "type_conv"]
