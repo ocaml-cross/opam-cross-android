@@ -1,0 +1,11 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+install: [
+  ["ln" "-sf" "%{lib}%/camlp4" "%{prefix}%/linux-androideabi/lib/camlp4"]
+  ["ln" "-sf" "%{lib}%/ocaml/camlp4" "%{prefix}%/linux-androideabi/lib/ocaml/"]
+]
+remove: [
+  ["rm" "-f" "%{prefix}%/linux-androideabi/lib/camlp4" "%{prefix}%/linux-androideabi/lib/ocaml/camlp4"]
+]
+depends: ["ocaml-android" "camlp4"]
+
