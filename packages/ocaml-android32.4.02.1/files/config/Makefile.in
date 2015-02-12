@@ -1,6 +1,6 @@
 ANDROID_LEVEL?=21
 ANDROID_SUBARCH?=armv7
-ANDROID_ABI?=linux_eabihf
+ANDROID_ABI?=linux_eabi
 PREFIX=%{prefix}%/arm-linux-androideabi
 BINDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib/ocaml
