@@ -1,0 +1,27 @@
+--- a/Makefile	2014-01-19 12:18:17.000000000 +0400
++++ b/Makefile	2015-02-12 07:07:40.537202156 +0300
+@@ -3,13 +3,13 @@
+ FLAGS = -dtypes -g
+ PACKS = easy-format
+ 
+-ifeq "$(shell ocamlc -config |grep os_type)" "os_type: Win32"
++ifeq "$(shell ocamlfind ocamlc -config |grep os_type)" "os_type: Win32"
+ EXE=.exe
+ else
+ EXE=
+ endif
+ 
+-NATDYNLINK := $(shell if [ -f `ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
++NATDYNLINK := $(shell if [ -f `ocamlfind ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
+ 
+ ifeq "${NATDYNLINK}" "YES"
+ CMXS=biniou.cmxs
+@@ -58,7 +58,7 @@
+ 		-o biniou.cmxa -package "$(PACKS)" $(SOURCES)
+ 
+ biniou.cmxs: biniou.cmxa
+-	ocamlopt -shared -linkall -I . -o biniou.cmxs biniou.cmxa
++	ocamlfind ocamlopt -shared -linkall -I . -o biniou.cmxs biniou.cmxa
+ 
+ bdump$(EXE): $(SOURCES) bdump.ml
+ 	ocamlfind ocamlopt -o bdump$(EXE) $(FLAGS) \

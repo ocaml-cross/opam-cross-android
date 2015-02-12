@@ -1,0 +1,15 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+homepage: "http://mjambon.com/biniou.html"
+license: "BSD-3-Clause"
+patches: ["patches/cross-compiling.diff"]
+build: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "biniou"]]
+depends: [
+  "ocaml-android"
+  "ocamlfind"
+  "easy-format-android"
+]
