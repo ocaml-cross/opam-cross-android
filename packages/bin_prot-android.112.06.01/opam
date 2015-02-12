@@ -1,0 +1,24 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+homepage: "https://github.com/janestreet/bin_prot"
+license: "Apache-2.0"
+build: [
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+  ["ocamlbuild" "-use-ocamlfind" "-just-plugin"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+  ["find" bin_prot:lib "-name" "pa_bin_prot.*" "-exec" "ln" "-sf" "{}" "%{prefix}%/linux-androideabi/lib/bin_prot/" ";"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "bin_prot"]]
+depends: [
+  "ocamlfind"
+  "ocaml-android"
+  "camlp4-android"
+  "type_conv-android"
+  "bin_prot" {= "112.06.01"}
+]
+conflicts: [
+  "type_conv" {< "112.01.00"}
+  "type_conv" {>= "112.02.00"}
+]
+ocaml-version: [>= "4.00.0"]
