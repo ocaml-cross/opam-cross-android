@@ -1,0 +1,21 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+build: [
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi" "--disable-syntax"]
+  ["ocamlbuild" "-use-ocamlfind" "-just-plugin"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+  ["find" sexplib:lib "-name" "pa_sexp_conv.*" "-exec" "ln" "-sf" "{}" "%{prefix}%/linux-androideabi/lib/sexplib/" ";"] { type_conv-android:installed }
+]
+remove: [
+  ["ocamlfind" "-toolchain" "android" "remove" "sexplib"]
+  ["ocamlfind" "-toolchain" "android" "remove" "sexplib_num"]
+  ["ocamlfind" "-toolchain" "android" "remove" "sexplib_unix"]
+]
+depends: ["ocamlfind" "ocaml-android" "sexplib" {= "112.06.00"}]
+depopts: ["type_conv-android"]
+conflicts: [
+  "type_conv" {< "112.01.00"}
+  "type_conv" {>= "112.02.00"}
+]
+ocaml-version: [>= "4.02.0"]
