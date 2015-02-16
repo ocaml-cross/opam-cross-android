@@ -34,10 +34,9 @@ Install the compiler:
 The options have the following meaning:
 
   * `ANDROID_LEVEL` specifies the API level and defaults to latest available API;
-  * `ANDROID_SUBARCH` specifies the ARM architecture version, e.g. `armv5te` or `armv7`, and defaults to `armv7`;
-  * `ANDROID_ABI` specifies the calling convention, one of `linux_eabi` or `linux_eabihf`, and defaults to `linux_eabi`.
+  * `ANDROID_SUBARCH` specifies the ARM architecture version, e.g. `armv5te` or `armv7`, and defaults to `armv7`.
 
-Note that you will need to specify `ANDROID_LEVEL`, `ANDROID_ABI` and `ANDROID_ARCH` again if you have to upgrade the compiler via `opam upgrade`; it is a good idea to add it to your environment.
+Note that you will need to specify `ANDROID_LEVEL` and `ANDROID_ARCH` again if you have to upgrade the compiler via `opam upgrade`; it is a good idea to add it to your environment.
 
 Build some code:
 

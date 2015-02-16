@@ -1,6 +1,5 @@
 ANDROID_LEVEL?=21
 ANDROID_SUBARCH?=armv7
-ANDROID_ABI?=linux_eabi
 PREFIX=%{prefix}%/arm-linux-androideabi
 BINDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib/ocaml
@@ -43,7 +42,7 @@ MKLIB=%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/a
 #ml let mklib out files opts = Printf.sprintf "%{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-ar rc %s %s %s; %{lib}%/android-ndk/toolchains/ANDROID_TOOLCHAIN/prebuilt/%{os}%-x86/bin/arm-linux-androideabi-ranlib %s" out opts files out;;
 ARCH=arm
 MODEL=$(ANDROID_SUBARCH)
-SYSTEM=$(ANDROID_ABI)
+SYSTEM=linux_eabi
 NATIVECC=$(BYTECC)
 NATIVECCCOMPOPTS=-Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
 NATIVECCPROFOPTS=-Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
