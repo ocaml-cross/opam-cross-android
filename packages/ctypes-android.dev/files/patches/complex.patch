@@ -1,40 +1,28 @@
-From cc209cb17e7100a72edad8d9e442b13a04f41279 Mon Sep 17 00:00:00 2001
-From: Peter Zotov <whitequark@whitequark.org>
-Date: Sat, 18 Oct 2014 12:44:38 +0400
-Subject: [PATCH] Get rid of dependency on complex.h.
-
----
- src/configure/make_primitive_details_stubs.c |  5 ++---
- src/ctypes/complex_stubs.c                   | 18 ++++++++----------
- src/ctypes/complex_stubs.h                   |  9 ++++-----
- src/ctypes/type_info_stubs.c                 | 17 ++++++++---------
- 4 files changed, 22 insertions(+), 27 deletions(-)
-
 diff --git a/src/configure/make_primitive_details_stubs.c b/src/configure/make_primitive_details_stubs.c
-index 5d6787e..09d9181 100644
+index d64755f..e3243b2 100644
 --- a/src/configure/make_primitive_details_stubs.c
 +++ b/src/configure/make_primitive_details_stubs.c
-@@ -10,7 +10,6 @@
- #include <stddef.h>
+@@ -11,7 +11,6 @@
+ #include <inttypes.h>
  #include <errno.h>
  #include <stdint.h>
 -#include <complex.h>
+ #include <stdbool.h>
  
  #include <caml/mlvalues.h>
- 
-@@ -47,8 +46,8 @@ static struct details {
-   ENTRY(Nativeint, intnat),
-   ENTRY(Float, float),
-   ENTRY(Double, double),
--  ENTRY(Complex32, float complex),
--  ENTRY(Complex64, double complex),
-+  ENTRY(Complex32, float _Complex),
-+  ENTRY(Complex64, double _Complex),
+@@ -61,8 +60,8 @@ static struct details {
+   ENTRY(Nativeint, intnat, "%" REAL_ARCH_INTNAT_PRINTF_FORMAT "d"),
+   ENTRY(Float, float, "%.12g"),
+   ENTRY(Double, double, "%.12g"),
+-  ENTRY(Complex32, float complex, NULL),
+-  ENTRY(Complex64, double complex, NULL),
++  ENTRY(Complex32, float _Complex, NULL),
++  ENTRY(Complex64, double _Complex, NULL),
  };
  
  void generate_function(char *name, char *type,
 diff --git a/src/ctypes/complex_stubs.c b/src/ctypes/complex_stubs.c
-index 8035607..458fa5f 100644
+index 699d88e..dd0a23d 100644
 --- a/src/ctypes/complex_stubs.c
 +++ b/src/ctypes/complex_stubs.c
 @@ -5,8 +5,6 @@
@@ -46,7 +34,7 @@ index 8035607..458fa5f 100644
  #include <caml/memory.h>
  #include <caml/alloc.h>
  
-@@ -19,25 +17,25 @@ static value allocate_complex_value(double r, double i)
+@@ -21,25 +19,25 @@ static value allocate_complex_value(double r, double i)
  }
  
  /* ctypes_copy_float_complex : float complex -> Complex.t */
@@ -80,13 +68,13 @@ index 8035607..458fa5f 100644
 -  return Double_field(v, 0) + Double_field(v, 1) * I;
 +  return Double_field(v, 0) + Double_field(v, 1) * (__extension__ 1.0iF);
  }
-diff --git a/src/ctypes/complex_stubs.h b/src/ctypes/complex_stubs.h
-index 4ef0dfb..4e53499 100644
---- a/src/ctypes/complex_stubs.h
-+++ b/src/ctypes/complex_stubs.h
+diff --git a/src/ctypes/ctypes_complex_stubs.h b/src/ctypes/ctypes_complex_stubs.h
+index 96d0e5e..766713f 100644
+--- a/src/ctypes/ctypes_complex_stubs.h
++++ b/src/ctypes/ctypes_complex_stubs.h
 @@ -8,19 +8,18 @@
- #ifndef COMPLEX_STUBS_H
- #define COMPLEX_STUBS_H
+ #ifndef CTYPES_COMPLEX_STUBS_H
+ #define CTYPES_COMPLEX_STUBS_H
  
 -#include <complex.h>
  #include <caml/mlvalues.h>
@@ -107,20 +95,20 @@ index 4ef0dfb..4e53499 100644
 -double complex ctypes_double_complex_val(value);
 +double _Complex ctypes_double_complex_val(value);
  
- #endif /* COMPLEX_STUBS_H */
+ #endif /* CTYPES_COMPLEX_STUBS_H */
 diff --git a/src/ctypes/type_info_stubs.c b/src/ctypes/type_info_stubs.c
-index 602c425..43ea9ca 100644
+index 188ada4..1b8271f 100644
 --- a/src/ctypes/type_info_stubs.c
 +++ b/src/ctypes/type_info_stubs.c
-@@ -8,7 +8,6 @@
+@@ -12,7 +12,6 @@
  #include <inttypes.h>
  #include <stdio.h>
  #include <assert.h>
 -#include <complex.h>
  #include <string.h>
+ #include <stdbool.h>
  
- #include <caml/memory.h>
-@@ -53,8 +52,8 @@ value ctypes_read(value prim_, value buffer_)
+@@ -65,8 +64,8 @@ value ctypes_read(value prim_, value buffer_)
     case Nativeint: b = caml_copy_nativeint(*(intnat *)buf); break;
     case Float: b = caml_copy_double(*(float *)buf); break;
     case Double: b = caml_copy_double(*(double *)buf); break;
@@ -131,7 +119,7 @@ index 602c425..43ea9ca 100644
     default:
      assert(0);
    }
-@@ -93,8 +92,8 @@ value ctypes_write(value prim_, value v, value buffer_)
+@@ -106,8 +105,8 @@ value ctypes_write(value prim_, value v, value buffer_)
     case Nativeint: *(intnat *)buf = Nativeint_val(v); break;
     case Float: *(float *)buf = Double_val(v); break;
     case Double: *(double *)buf = Double_val(v); break;
@@ -142,7 +130,7 @@ index 602c425..43ea9ca 100644
     default:
      assert(0);
    }
-@@ -138,13 +137,13 @@ value ctypes_string_of_prim(value prim_, value v)
+@@ -152,13 +151,13 @@ value ctypes_string_of_prim(value prim_, value v)
    case Float: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
    case Double: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
    case Complex32: {
@@ -160,6 +148,3 @@ index 602c425..43ea9ca 100644
      break;
    }
    default:
--- 
-2.1.1
-

@@ -1,8 +1,9 @@
-open Primitives
+open Ctypes_primitive_types
 let sizeof : type a. a prim -> int = function
  | Char -> 1
  | Schar -> 1
  | Uchar -> 1
+ | Bool -> 1
  | Short -> 2
  | Int -> 4
  | Long -> 4
@@ -30,6 +31,7 @@ let alignment : type a. a prim -> int = function
  | Char -> 1
  | Schar -> 1
  | Uchar -> 1
+ | Bool -> 1
  | Short -> 2
  | Int -> 4
  | Long -> 4
@@ -57,6 +59,7 @@ let name : type a. a prim -> string = function
  | Char -> "char"
  | Schar -> "signed char"
  | Uchar -> "unsigned char"
+ | Bool -> "_Bool"
  | Short -> "short"
  | Int -> "int"
  | Long -> "long"
@@ -80,5 +83,33 @@ let name : type a. a prim -> string = function
  | Double -> "double"
  | Complex32 -> "float _Complex"
  | Complex64 -> "double _Complex"
+let format_string : type a. a prim -> string option = function
+ | Char -> Some "%d"
+ | Schar -> Some "%d"
+ | Uchar -> Some "%d"
+ | Bool -> Some "%d"
+ | Short -> Some "%hd"
+ | Int -> Some "%d"
+ | Long -> Some "%ld"
+ | Llong -> Some "%lld"
+ | Ushort -> Some "%hu"
+ | Uint -> Some "%u"
+ | Ulong -> Some "%lu"
+ | Ullong -> Some "%llu"
+ | Size_t -> Some "%zu"
+ | Int8_t -> Some "%d"
+ | Int16_t -> Some "%d"
+ | Int32_t -> Some "%d"
+ | Int64_t -> Some "%lld"
+ | Uint8_t -> Some "%u"
+ | Uint16_t -> Some "%u"
+ | Uint32_t -> Some "%u"
+ | Uint64_t -> Some "%llu"
+ | Camlint -> Some "%ld"
+ | Nativeint -> Some "%ld"
+ | Float -> Some "%.12g"
+ | Double -> Some "%.12g"
+ | Complex32 -> None
+ | Complex64 -> None
 let pointer_size = 4
 let pointer_alignment = 4

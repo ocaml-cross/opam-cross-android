@@ -3,12 +3,13 @@ maintainer: "whitequark@whitequark.org"
 homepage: "https://github.com/ocamllabs/ocaml-ctypes"
 license: "MIT"
 patches: [
-  "patches/0001-Invoke-ocamldep-and-ocamlmklib-through-ocamlfind.patch"
-  "patches/0002-Get-rid-of-dependency-on-complex.h.patch"
+  "patches/complex.patch"
 ]
 build: [
-  ["env" "OCAMLFIND_TOOLCHAIN=android" make "src/ctypes/ctypes_primitives.ml" "ctypes" "cstubs"]
-  ["env" "OCAMLFIND_TOOLCHAIN=android" make "META-install" "install-ctypes" "install-cstubs"]
+  [make "libffi-abigen" "configure"]
+  ["cp" "src/ctypes/ctypes_primitives.ml.template" "src/ctypes/ctypes_primitives.ml"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "ctypes-stubs"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]
 ]
 remove: [
   ["ocamlfind" "-toolchain" "android" "remove" "ctypes"]
