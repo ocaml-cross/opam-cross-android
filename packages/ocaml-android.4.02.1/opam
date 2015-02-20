@@ -3,6 +3,9 @@ maintainer: "whitequark@whitequark.org"
 build: [
   ["ln" "-sf" "arm-linux-androideabi" "%{prefix}%/linux-androideabi"]
 ]
+remove: [
+  ["rm" "-f" "arm-linux-androideabi"]
+]
 depends: [
   "ocaml-android32"
 ]
