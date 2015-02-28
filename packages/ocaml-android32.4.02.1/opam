@@ -6,6 +6,7 @@ patches: [
   "patches/0002-Add-crude-cross-compiling-support.patch"
   "patches/0003-Since-r10c-Android-NDK-includes-sys-ucontext.h.patch"
   "patches/0004-Allow-Android-builds-with-systhreads-support.patch"
+  "patches/obj-runtime.patch"
 ]
 build: [
   # Can't use make substitutions in #ml in Makefile.config
