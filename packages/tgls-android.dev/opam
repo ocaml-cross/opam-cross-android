@@ -1,0 +1,29 @@
+opam-version: "1.2"
+maintainer: "Daniel Bünzli <daniel.buenzl i@erratique.ch>"
+homepage: "http://erratique.ch/software/tgls"
+authors: ["Daniel Bünzli <daniel.buenzl i@erratique.ch>"]
+doc: "http://erratique.ch/software/tgls/doc/"
+dev-repo: "http://erratique.ch/repos/tgls.git"
+bug-reports: "https://github.com/dbuenzli/tsdl/issues"
+tags: [ "bindings" "opengl" "opengl-es" "graphics" "org:erratique" ]
+license: "BSD3"
+ocaml-version: [>= "4.00.1"]
+depends: [
+  "ocamlfind"
+  "ocaml-android"
+  "ctypes-android" {>= "0.3"}
+  "xmlm" # dev
+]
+build:
+[
+  [ "ocaml" "pkg/git.ml" ]
+  [ "ocamlbuild" "-use-ocamlfind" "support/bindgen.byte" ]
+  [ "env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "pkg/build.ml"
+        "native=true" "native-dynlink=true"
+        "tgl3=false" "tgl4=false" "tgles2=true" "tgles3=false" ]
+]
+install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "tgls.install"]]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "tgls"]]
+messages: [
+  "tgls-android only includes support for GLES2"
+]
