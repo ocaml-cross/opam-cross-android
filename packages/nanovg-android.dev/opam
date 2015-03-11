@@ -1,0 +1,15 @@
+opam-version: "1.1"
+maintainer: "whitequark@whitequark.org"
+authors: ["Paolo Donadeo <p.donadeo@4sigma.it>"]
+dev-repo: "git@github.com:caseybasichis/nanoVG.git"
+bug-reports: "https://github.com/caseybasichis/nanoVG/issues"
+tags: [ "bindings" "nanovg" "graphics" ]
+license: "BSD3"
+substs: [ "pkg/META" ]
+depends: [ "ocaml-android" "ctypes-android" {>= "0.3"} "tgls-android" ]
+build: [
+  [ "ocamlbuild" "-use-ocamlfind" "src_gen/nanovg_bindgen.byte" ]
+  [ "env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "pkg/build.ml" "native=%{ocaml-native}%" "native-dynlink=%{ocaml-native}%" ]
+]
+install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "nanovg.install"]]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "nanovg"]]
