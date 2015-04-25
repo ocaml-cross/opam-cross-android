@@ -38,6 +38,8 @@ The options have the following meaning:
 
 Note that you will need to specify `ANDROID_LEVEL` and `ANDROID_ARCH` again if you have to upgrade the compiler via `opam upgrade`; it is a good idea to add it to your environment.
 
+**If you want to change `ANDROID_LEVEL` or `ANDROID_SUBARCH`, you need to reinstall the package ocaml-android32, *not* ocaml-android**.
+
 Build some code:
 
     echo 'let () = print_endline "Hello, world!"' >helloworld.ml
