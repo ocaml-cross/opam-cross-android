@@ -7,5 +7,5 @@ remove: [
   ["rm" "-f" "arm-linux-androideabi"]
 ]
 depends: [
-  "ocaml-android32" {= "4.02.1"}
+  "ocaml-android32" {= "4.02.2"}
 ]
