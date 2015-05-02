@@ -79,6 +79,7 @@ MKEXEDEBUGFLAG=-g
 MKDLL=$(BYTECC) -shared
 MKMAINDLL=$(BYTECC) -shared
 RUNTIMED=runtimed
+SHARED=shared
 ASM_CFI_SUPPORTED=false
 WITH_FRAME_POINTERS=false
 TARGET=arm-linux-androideabi
