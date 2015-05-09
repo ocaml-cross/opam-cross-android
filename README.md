@@ -29,7 +29,7 @@ Otherwise, use a regular compiler; its version must match the version of the cro
 
 Install the compiler:
 
-    ANDROID_LEVEL=21 ANDROID_ABI=linux_eabi ANDROID_ARCH=armv7 opam install ocaml-android
+    ANDROID_LEVEL=21 ANDROID_ARCH=armv7 opam install ocaml-android
 
 The options have the following meaning:
 
