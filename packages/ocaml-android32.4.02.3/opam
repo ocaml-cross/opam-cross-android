@@ -14,4 +14,4 @@ depends: [
   ("android-ndk-linux" {>= "10c"} | "android-ndk-darwin" {>= "10c"})
   "ocamlfind" {>= "1.5.4"}
 ]
-available: [ (ocaml-version = "4.02.2" & arch = "x86") | compiler = "4.02.2+32bit" ]
+available: [ (ocaml-version = "4.02.3" & arch = "x86") | compiler = "4.02.3+32bit" ]
