@@ -1,0 +1,50 @@
+From 6fc1cd05cd9a65cad879061c4d5fca683388edb2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20B=C3=BCnzli?= <daniel.buenzli@erratique.ch>
+Date: Mon, 28 Sep 2015 16:16:13 +0100
+Subject: [PATCH] Build system: fix a few hardcoded ar commands.
+
+---
+ asmrun/Makefile       | 2 +-
+ byterun/Makefile      | 2 +-
+ config/Makefile-templ | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/asmrun/Makefile b/asmrun/Makefile
+index 64a1331..5df3164 100644
+--- a/asmrun/Makefile
++++ b/asmrun/Makefile
+@@ -70,7 +70,7 @@ all-shared: libasmrun_pic.a libasmrun_shared.so
+ 
+ libasmrun_pic.a: $(PICOBJS)
+ 	rm -f libasmrun_pic.a
+-	ar rc libasmrun_pic.a $(PICOBJS)
++	$(ARCMD) rc libasmrun_pic.a $(PICOBJS)
+ 	$(RANLIB) libasmrun_pic.a
+ 
+ libasmrun_shared.so: $(PICOBJS)
+diff --git a/byterun/Makefile b/byterun/Makefile
+index ae57e2a..d24902b 100644
+--- a/byterun/Makefile
++++ b/byterun/Makefile
+@@ -45,7 +45,7 @@ all-shared: libcamlrun_pic.a libcamlrun_shared.so
+ .PHONY: all-shared
+ 
+ libcamlrun_pic.a: $(PICOBJS)
+-	ar rc libcamlrun_pic.a $(PICOBJS)
++	$(ARCMD) rc libcamlrun_pic.a $(PICOBJS)
+ 	$(RANLIB) libcamlrun_pic.a
+ 
+ libcamlrun_shared.so: $(PICOBJS)
+diff --git a/config/Makefile-templ b/config/Makefile-templ
+index b9142c6..12b4373 100644
+--- a/config/Makefile-templ
++++ b/config/Makefile-templ
+@@ -74,7 +74,7 @@ SHARPBANGSCRIPTS=true
+ 
+ ### Magic declarations for ocamlbuild -- leave unchanged
+ #ml let syslib x = "-l"^x;;
+-#ml let mklib out files opts = Printf.sprintf "ar rc %s %s %s; ranlib %s" out opts files out;;
++#ml let mklib out files opts = Printf.sprintf "%sar rc %s %s %s; %sranlib %s" toolpref out opts files toolpref out;;
+ 
+ ### How to invoke ranlib
+ RANLIB=ranlib
