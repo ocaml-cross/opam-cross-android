@@ -1,0 +1,46 @@
+diff --git a/ocamldoc/Makefile b/ocamldoc/Makefile
+index 7c6d988..ce41e1f 100644
+--- a/ocamldoc/Makefile
++++ b/ocamldoc/Makefile
+@@ -31,7 +31,11 @@ OCAMLPP=-pp './remove_DEBUG'
+ MKDIR=mkdir -p
+ CP=cp -f
+ OCAMLDOC=ocamldoc
+-OCAMLDOC_RUN=sh ./runocamldoc $(SUPPORTS_SHARED_LIBRARIES)
++ifeq ($(TARGET) & $(SUPPORTS_SHARED_LIBRARIES),$(HOST) & true)
++OCAMLDOC_RUN=$(CAMLRUN) -I ../otherlibs/unix -I ../otherlibs/str $(OCAMLDOC)
++else
++OCAMLDOC_RUN=$(CAMLRUN) $(OCAMLDOC)
++endif
+ OCAMLDOC_OPT=$(OCAMLDOC).opt
+ OCAMLDOC_LIBCMA=odoc_info.cma
+ OCAMLDOC_LIBCMI=odoc_info.cmi
+diff --git a/ocamldoc/runocamldoc b/ocamldoc/runocamldoc
+deleted file mode 100644
+index d2112e9..0000000
+--- a/ocamldoc/runocamldoc
++++ /dev/null
+@@ -1,23 +0,0 @@
+-#!/bin/sh
+-
+-#######################################################################
+-#                                                                     #
+-#                                OCaml                                #
+-#                                                                     #
+-#            Xavier Leroy, projet Cristal, INRIA Rocquencourt         #
+-#                                                                     #
+-#  Copyright 2002 Institut National de Recherche en Informatique et   #
+-#  en Automatique.  All rights reserved.  This file is distributed    #
+-#  under the terms of the Q Public License version 1.0.               #
+-#                                                                     #
+-#######################################################################
+-
+-case "$1" in
+-  true) shift
+-        exec ../boot/ocamlrun  -I ../otherlibs/unix -I ../otherlibs/str \
+-             ./ocamldoc "$@"
+-        ;;
+-     *) shift
+-        exec ./ocamldoc "$@"
+-        ;;
+-esac

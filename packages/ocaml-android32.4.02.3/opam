@@ -2,6 +2,7 @@ opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 patches: [ "ar-fix.patch" ]
 substs: ["android.conf" "config/Makefile"]
+patches: ["patches/ocamldoc.patch"]
 build: [
   # Can't use make substitutions in #ml in Makefile.config
   ["sed" "-i" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "config/Makefile"]
