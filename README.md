@@ -116,3 +116,8 @@ Acknowledgements
 ----------------
 
 Some of the tricks in this repository were inspired by Jerome Vouillon's [opam-android-repository](https://github.com/vouillon/opam-android-repository). However, no code was reused.
+
+References
+----------
+
+See also [opam-cross-windows](https://github.com/whitequark/opam-cross-windows).
