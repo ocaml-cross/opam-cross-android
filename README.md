@@ -1,12 +1,16 @@
 opam-cross-android
 ==================
 
-This repository contains an up-to-date Android toolchain featuring OCaml 4.02.3, as well as some commonly used packages. Currently only x86_32/x86_64 Linux build systems and 32-bit targets are supported. If you need support for other build/target combinations, please [open an issue](https://github.com/whitequark/opam-android/issues).
+This repository contains an up-to-date Android toolchain featuring OCaml 4.02.3, as well as some commonly used packages.
+
+The supported build systems are 32-bit and 64-bit x86 Linux. The supported target systems are 32-bit x86 and ARM Android.
+
+If you need support for other platforms or versions, please [open an issue](https://github.com/whitequark/opam-cross-android/issues).
 
 Prerequisites
 -------------
 
-On 64-bit Linux build systems, install `gcc-multilib` (on Debian derivatives) or equivalent. Android SDK or NDK are not required.
+On 64-bit Linux build systems, 32-bit libraries must be installed. On Debian derivatives they are provided in the `gcc-multilib` package.
 
 The compiled toolchain requires about 5G of disk space.
 
@@ -27,18 +31,31 @@ Otherwise, use a regular compiler; its version must match the version of the cro
     opam switch 4.02.3
     eval `opam config env`
 
+Configure the compiler for ARM:
+
+    ARCH=arm SUBARCH=armv7 SYSTEM=linux_eabi \
+      TOOLCHAIN=arm-linux-androideabi-4.9 TRIPLE=arm-linux-androideabi \
+      CCARCH=arm LEVEL=24 \
+      opam install conf-android
+
+Alternatively, configure the compiler for x86:
+
+    ARCH=i386 SUBARCH=default SYSTEM=linux_elf \
+      TOOLCHAIN=x86-4.9 TRIPLE=i686-linux-android \
+      CCARCH=x86 LEVEL=24 \
+      opam install conf-android
+
+Some options can be tweaked:
+
+  * `SUBARCH` (on ARM) specifies the ARM architecture version, e.g. `armv5te` or `armv7`;
+  * `SYSTEM` (on ARM) specifies the ABI: `linux_eabi` for soft-float and `linux_eabihf` for hard-float;
+  * `LEVEL` specifies the Android API level and defaults to latest available API.
+
+The options above (`ARCH`, `SUBARCH`, `SYSTEM`, `LEVEL`, `TOOLCHAIN` and `TRIPLE`) are recorded inside the `conf-android` package, so make sure to reinstall that package if you wish to switch to a different toolchain. Otherwise, it is not necessary to supply them while upgrading the `ocaml-android*` packages.
+
 Install the compiler:
 
-    ANDROID_LEVEL=21 ANDROID_ARCH=armv7 opam install ocaml-android
-
-The options have the following meaning:
-
-  * `ANDROID_LEVEL` specifies the API level and defaults to latest available API;
-  * `ANDROID_SUBARCH` specifies the ARM architecture version, e.g. `armv5te` or `armv7`, and defaults to `armv7`.
-
-Note that you will need to specify `ANDROID_LEVEL` and `ANDROID_ARCH` again if you have to upgrade the compiler via `opam upgrade`; it is a good idea to add it to your environment.
-
-**If you want to change `ANDROID_LEVEL` or `ANDROID_SUBARCH`, you need to reinstall the package ocaml-android32, *not* ocaml-android**.
+    opam install ocaml-android
 
 Build some code:
 

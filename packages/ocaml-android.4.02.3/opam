@@ -1,11 +1,3 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
-build: [
-  ["ln" "-sf" "arm-linux-androideabi" "%{prefix}%/linux-androideabi"]
-]
-remove: [
-  ["rm" "-f" "arm-linux-androideabi"]
-]
-depends: [
-  "ocaml-android32" {= "4.02.3"}
-]
+depends: [ "ocaml-android32" {= "4.02.3"} ]

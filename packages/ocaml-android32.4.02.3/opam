@@ -3,8 +3,6 @@ maintainer: "whitequark@whitequark.org"
 patches: ["ar-fix.patch" "patches/ocamldoc.patch"]
 substs: ["android.conf" "config/Makefile"]
 build: [
-  # Can't use make substitutions in #ml in Makefile.config
-  ["sed" "-i" "-e" "s/ANDROID_TOOLCHAIN/arm-linux-androideabi-4.8/g" "config/Makefile"]
   [make "world" "opt" "install"]
   ["./install.sh" "%{prefix}%"]
 ]
@@ -12,7 +10,7 @@ remove: [
   ["./remove.sh" "%{prefix}%"]
 ]
 depends: [
-  ("android-ndk-linux" {>= "10c"} | "android-ndk-darwin" {>= "10c"})
+  "conf-android"
   "ocamlfind" {>= "1.5.4"}
 ]
 available: [ (ocaml-version = "4.02.3" & arch = "x86") | compiler = "4.02.3+32bit" ]
