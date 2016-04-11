@@ -1,0 +1,22 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+substs: ["proj4-sys-android.config"]
+build: [
+  ["./configure" "--host=%{conf-android:triple}%"
+                 "--prefix=%{prefix}%/android-deps/proj4"
+                 "--disable-shared"
+                 "--with-pic"
+                 "--without-jni"
+                 "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"
+                 "CFLAGS=%{conf-android:cflags}%"
+                 "LDFLAGS=%{conf-android:ldflags}%"]
+  ["make" "-j" jobs "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+]
+install: [
+  ["make" "-C" "src" "install"
+          "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+  ["make" "install-pkgconfigDATA"
+          "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+]
+remove:  [["rm" "-rf" "%{prefix}%/android-deps/proj4"]]
+depends: ["conf-android"]

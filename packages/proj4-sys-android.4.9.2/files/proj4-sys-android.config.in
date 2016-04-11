@@ -1,0 +1,3 @@
+pkgconfig: "%{prefix}%/android-deps/proj4/lib/pkgconfig"
+cflags:    "-I%{prefix}%/android-deps/proj4/include"
+ldflags:   "-L%{prefix}%/android-deps/proj4/lib"
