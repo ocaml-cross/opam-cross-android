@@ -1,0 +1,26 @@
+diff --git a/tools/Makefile.shared b/tools/Makefile.shared
+index 0b90cd3..08f379e 100644
+--- a/tools/Makefile.shared
++++ b/tools/Makefile.shared
+@@ -98,8 +98,8 @@ clean::
+ 
+ # To help building mixed-mode libraries (OCaml + C)
+ 
+ ocamlmklib: ocamlmklibconfig.cmo ocamlmklib.cmo
+-	$(CAMLC) $(LINKFLAGS) -o ocamlmklib ocamlmklibconfig.cmo ocamlmklib.cmo
++	$(CAMLC) $(LINKFLAGS) -o ocamlmklib ocamlmklibconfig.cmo misc.cmo ocamlmklib.cmo
+ 
+ install::
+ 	cp ocamlmklib $(INSTALL_BINDIR)/ocamlmklib$(EXE)
+diff --git a/tools/ocamlmklib.ml b/tools/ocamlmklib.ml
+index 23a273e..f3fc0fd 100644
+--- a/tools/ocamlmklib.ml
++++ b/tools/ocamlmklib.ml
+@@ -293,6 +293,6 @@ let build_libs () =
+ let _ =
+   try
+-    parse_arguments Sys.argv;
++    parse_arguments (Array.append Sys.argv (Array.of_list (try Misc.split (Sys.getenv "OCAMLMKLIBPARAM" ) ',' with Not_found -> [])));
+     build_libs()
+   with
+   | Bad_argument "" ->

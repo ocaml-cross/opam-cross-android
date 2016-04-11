@@ -1,6 +1,6 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
-patches: ["ar-fix.patch" "patches/ocamldoc.patch"]
+patches: ["ar-fix.patch" "patches/ocamldoc.patch" "patches/ocamlmklib.patch"]
 substs: ["android.conf" "config/Makefile"]
 build: [
   [make "world" "opt" "install"]
