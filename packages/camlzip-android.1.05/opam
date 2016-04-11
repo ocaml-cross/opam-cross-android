@@ -1,0 +1,23 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+patches: [
+  "patches/build-with-trunk.patch"
+  "patches/fix-install.patch"
+  "patches/cross-compilation.patch"
+]
+build: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   make "ZLIB_INCLUDE=" "ZLIB_LIBDIR="
+        "all" "allopt"]
+]
+install: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "install-findlib"]
+]
+remove: [
+  ["ocamlfind" "-toolchain" "android" "remove" "camlzip"]
+  ["ocamlfind" "-toolchain" "android" "remove" "zip"]
+]
+depends: [
+  "ocaml-android"
+  "ocamlfind" {build}
+]
