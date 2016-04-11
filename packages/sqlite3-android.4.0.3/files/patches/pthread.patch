@@ -1,0 +1,26 @@
+--- a/setup.ml	Mon Apr 11 10:53:12 2016
++++ b/setup.ml	Mon Apr 11 10:53:16 2016
+@@ -7148,7 +7148,7 @@
+                              ])
+                         ];
+                       bs_cclib =
+-                        [(OASISExpr.EBool true, ["-lsqlite3"; "-lpthread"])];
++                        [(OASISExpr.EBool true, ["-lsqlite3"])];
+                       bs_dlllib = [(OASISExpr.EBool true, [])];
+                       bs_dllpath = [(OASISExpr.EBool true, [])];
+                       bs_byteopt = [(OASISExpr.EBool true, [])];
+--- a/myocamlbuild.ml	Mon Apr 11 11:07:30 2016
++++ b/myocamlbuild.ml	Mon Apr 11 11:07:32 2016
+@@ -699,10 +699,10 @@
+           (["oasis_library_sqlite3_cclib"; "link"],
+             [
+                (OASISExpr.EBool true,
+-                 S [A "-cclib"; A "-lsqlite3"; A "-cclib"; A "-lpthread"])
++                 S [A "-cclib"; A "-lsqlite3"])
+             ]);
+           (["oasis_library_sqlite3_cclib"; "ocamlmklib"; "c"],
+-            [(OASISExpr.EBool true, S [A "-lsqlite3"; A "-lpthread"])])
++            [(OASISExpr.EBool true, S [A "-lsqlite3"])])
+        ];
+      includes = [("test", ["lib"])]
+   }

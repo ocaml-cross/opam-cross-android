@@ -1,0 +1,21 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+authors: [ "Markus Mottl <markus.mottl@gmail.com>"
+           "Christian Szegedy <csdontspam@metamatix.com>" ]
+license: "LGPL-2.1+ with OCaml linking exception"
+homepage: "http://mmottl.github.io/sqlite3-ocaml"
+tags: [ "clib:sqlite3"  ]
+patches: ["patches/pthread.patch"]
+build: [
+  ["ocaml" "setup.ml" "-configure"
+           "--prefix" "%{prefix}%/android-sysroot"
+           "--override" "ocamlbuildflags" "-cflag -ccopt -cflag '%{sqlite3-sys-android:cflags}%' -lflag -cclib -lflag '%{sqlite3-sys-android:ldflags}%'"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+         "OCAMLMKLIBPARAM=%{sqlite3-sys-android:ldflags}%"
+   "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   "ocaml" "setup.ml" "-install"]
+]
+build-doc: [ "ocaml" "setup.ml" "-doc" ]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "sqlite3"]]
+depends: ["sqlite3-sys-android" "ocaml-android" "ocamlfind"]
