@@ -34,15 +34,15 @@ Otherwise, use a regular compiler; its version must match the version of the cro
 Configure the compiler for ARM:
 
     ARCH=arm SUBARCH=armv7 SYSTEM=linux_eabi \
-      TOOLCHAIN=arm-linux-androideabi-4.9 TRIPLE=arm-linux-androideabi \
-      CCARCH=arm LEVEL=24 \
+      CCARCH=arm TOOLCHAIN=arm-linux-androideabi-4.9 \
+      TRIPLE=arm-linux-androideabi LEVEL=24 \
       opam install conf-android
 
 Alternatively, configure the compiler for x86:
 
     ARCH=i386 SUBARCH=default SYSTEM=linux_elf \
-      TOOLCHAIN=x86-4.9 TRIPLE=i686-linux-android \
-      CCARCH=x86 LEVEL=24 \
+      CCARCH=x86 TOOLCHAIN=x86-4.9 \
+      TRIPLE=i686-linux-android LEVEL=24 \
       opam install conf-android
 
 Some options can be tweaked:

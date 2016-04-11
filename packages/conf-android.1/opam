@@ -1,13 +1,15 @@
 opam-version: "1.2"
 maintainer: "whitequark@whitequark.org"
 build: [
-  ["sh" "-c" "echo \"ccarch: \\\"${CCARCH}\\\"\" >conf-android.config"]
   ["sh" "-c" "echo \"arch: \\\"${ARCH}\\\"\" >>conf-android.config"]
   ["sh" "-c" "echo \"subarch: \\\"${SUBARCH}\\\"\" >>conf-android.config"]
   ["sh" "-c" "echo \"system: \\\"${SYSTEM}\\\"\" >>conf-android.config"]
   ["sh" "-c" "echo \"level: \\\"${LEVEL-24}\\\"\" >>conf-android.config"]
-  ["sh" "-c" "echo \"toolchain: \\\"${TOOLCHAIN}\\\"\" >>conf-android.config"]
   ["sh" "-c" "echo \"triple: \\\"${TRIPLE}\\\"\" >>conf-android.config"]
+  ["sh" "-c" "echo \"toolchain: \\\"%{prefix}%/android-ndk/toolchains/${TOOLCHAIN}/prebuilt/%{os}%-%{arch}%/bin/\\\"\" >>conf-android.config"]
+  ["sh" "-c" "echo \"toolpref: \\\"%{prefix}%/android-ndk/toolchains/${TOOLCHAIN}/prebuilt/%{os}%-%{arch}%/bin/${TRIPLE}-\\\"\" >>conf-android.config"]
+  ["sh" "-c" "echo \"cflags: \\\"--sysroot %{prefix}%/android-ndk/platforms/android-${LEVEL}/arch-${CCARCH} -I%{prefix}%/android-ndk/include -L%{prefix}%/android-ndk/lib -I%{prefix}%/android-sysroot/include -L%{prefix}%/android-sysroot/lib\\\"\" >>conf-android.config"]
+  ["sh" "-c" "echo \"ldflags: \\\"--sysroot %{prefix}%/android-ndk/platforms/android-${LEVEL}/arch-${CCARCH} -L%{prefix}%/android-ndk/lib -L%{prefix}%/android-sysroot/lib\\\"\" >>conf-android.config"]
 ]
 depends: [
   ("android-ndk-linux" {>= "11c"} | "android-ndk-darwin" {>= "11c"})
