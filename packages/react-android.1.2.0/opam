@@ -12,5 +12,5 @@ build: [
   ["ocaml" "pkg/git.ml"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "pkg/build.ml" "native=%{ocaml-native}%" "native-dynlink=%{ocaml-native-dynlink}%"]
 ]
-install: [["opam-installer" "--prefix=%{prefix}%/linux-androideabi" "react.install"]]
+install: [["opam-installer" "--prefix=%{prefix}%/android-sysroot" "react.install"]]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "react"]]

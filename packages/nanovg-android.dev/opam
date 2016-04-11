@@ -11,5 +11,5 @@ build: [
   [ "ocamlbuild" "-use-ocamlfind" "src_gen/nanovg_bindgen.byte" ]
   [ "env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "pkg/build.ml" "native=%{ocaml-native}%" "native-dynlink=%{ocaml-native}%" ]
 ]
-install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "nanovg.install"]]
+install: [["opam" "installer" "--prefix=%{prefix}%/android-sysroot" "nanovg.install"]]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "nanovg"]]

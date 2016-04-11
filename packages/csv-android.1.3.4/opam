@@ -8,7 +8,7 @@ homepage: "https://github.com/Chris00/ocaml-csv"
 dev-repo: "https://github.com/Chris00/ocaml-csv.git"
 tags: [ "database" "science"  ]
 build: [
-  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
 ]

@@ -22,7 +22,7 @@ build:
         "native=true" "native-dynlink=true"
         "tgl3=false" "tgl4=false" "tgles2=true" "tgles3=false" ]
 ]
-install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "tgls.install"]]
+install: [["opam" "installer" "--prefix=%{prefix}%/android-sysroot" "tgls.install"]]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "tgls"]]
 messages: [
   "tgls-android only includes support for GLES2"

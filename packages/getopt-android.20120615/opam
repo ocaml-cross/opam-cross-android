@@ -4,7 +4,7 @@ authors: ["Alain Frish"]
 license: "MIT"
 patches: ["patches/remove-samples.patch"]
 build: [
-  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
 ]

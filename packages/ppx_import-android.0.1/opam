@@ -1,7 +1,7 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 build: ["ocaml" "pkg/build.ml" "native=%{ocaml-native-dynlink}%" "native-dynlink=%{ocaml-native-dynlink}%"]
-install: [["opam" "installer" "--prefix=%{prefix}%/linux-androideabi" "ppx_import.install"]]
+install: [["opam" "installer" "--prefix=%{prefix}%/android-sysroot" "ppx_import.install"]]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "ppx_import"]]
 depends: ["ppx_tools-android" {>= "0.99.1"}]
 ocaml-version: [>= "4.02.0"]
