@@ -1,0 +1,2 @@
+cflags:    "-I%{prefix}%/android-deps/bzip2/include"
+ldflags:   "-L%{prefix}%/android-deps/bzip2/lib"

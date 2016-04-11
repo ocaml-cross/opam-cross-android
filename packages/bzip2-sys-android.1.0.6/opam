@@ -1,0 +1,18 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+substs: ["bzip2-sys-android.config"]
+build: [
+  ["make" "CC=%{conf-android:toolpref}%gcc"
+          "CFLAGS=%{conf-android:cflags}% -fPIC"
+          "LD=%{conf-android:toolpref}%ld"
+          "LDFLAGS=%{conf-android:ldflags}%"
+          "AR=%{conf-android:toolpref}%ar"
+          "RANLIB=%{conf-android:toolpref}%ranlib"
+          "libbz2.a" "bzip2" "bzip2recover"]
+]
+install: [
+  ["make" "PREFIX=%{prefix}%/android-deps/bzip2"
+          "install"]
+]
+remove:  [["rm" "-rf" "%{prefix}%/android-deps/bzip2"]]
+depends: ["conf-android"]
