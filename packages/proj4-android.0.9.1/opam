@@ -1,0 +1,19 @@
+opam-version: "1.2"
+maintainer: "whitequark@whitequark.org"
+build: [
+  ["ocaml" "setup.ml" "-configure"
+           "--prefix" "%{prefix}%/android-sysroot"
+           "--override" "ocamlbuildflags" "-cflag -ccopt -cflag '%{proj4-sys-android:cflags}%' -lflag -cclib -lflag '%{proj4-sys-android:ldflags}%'"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+         "OCAMLMKLIBPARAM=%{proj4-sys-android:ldflags}%"
+   "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   "ocaml" "setup.ml" "-install"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "proj4"]]
+depends: [
+  "proj4-sys-android"
+  "ocaml-android"
+  "ocamlfind" {build}
+  "ocamlbuild" {build}
+]
