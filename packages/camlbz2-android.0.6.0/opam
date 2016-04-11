@@ -1,0 +1,26 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+build: [
+  ["ocamlfind" "-toolchain" "android" "ocamlc"
+               "-ccopt" bzip2-sys-android:cflags
+               "-ccopt" "-DBZ_PREFIX" "c_bz.c"]
+  ["ocamlfind" "-toolchain" "android" "ocamlmklib"
+               bzip2-sys-android:ldflags
+               "-ocamlcflags" "-bin-annot"
+               "-oc" "camlbz2" "-o" "bz2" "-lbz2"
+               "bz2.mli" "bz2.ml" "c_bz.o"]
+]
+install: [
+  ["ocamlfind" "-toolchain" "android" "install"
+               "bz2" "-patch-version" version "META"
+               "bz2.mli" "bz2.cmi" "bz2.cmti"
+               "bz2.cmt" "bz2.cmx"
+               "bz2.cma" "bz2.cmxa" "bz2.a"
+               "dllcamlbz2.so" "libcamlbz2.a"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "bz2"]]
+depends: [
+  "bzip2-sys-android"
+  "ocaml-android"
+  "ocamlfind" {build}
+]
