@@ -1,0 +1,103 @@
+name = "CamlImages"
+version = "%{version}%"
+description = "Objective Caml image processing library"
+
+requires = "camlimages.core"
+
+package "core" (
+  archive(byte) = "camlimages_core.cma"
+  archive(native) = "camlimages_core.cmxa"
+  version = "%{version}%"
+)
+
+package "gif" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_gif.cma"
+  archive(byte) = "camlimages_gif.cma"
+  archive(native) = "camlimages_gif.cmxa"
+  version = "%{version}%"
+)
+
+package "jpeg" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_jpeg.cma"
+  archive(byte) = "camlimages_jpeg.cma"
+  archive(native) = "camlimages_jpeg.cmxa"
+  version = "%{version}%"
+)
+
+package "exif" (
+  requires = "camlimages.core, unix"
+  exists_if = "camlimages_exif.cma"
+  archive(byte) = "camlimages_exif.cma"
+  archive(native) = "camlimages_exif.cmxa"
+  version = "%{version}%"
+)
+
+package "png" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_png.cma"
+  archive(byte) = "camlimages_png.cma"
+  archive(native) = "camlimages_png.cmxa"
+  version = "%{version}%"
+)
+
+package "tiff" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_tiff.cma"
+  archive(byte) = "camlimages_tiff.cma"
+  archive(native) = "camlimages_tiff.cmxa"
+  version = "%{version}%"
+)
+
+package "freetype" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_freetype.cma"
+  archive(byte) = "camlimages_freetype.cma"
+  archive(native) = "camlimages_freetype.cmxa"
+  version = "%{version}%"
+)
+
+package "xpm" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_xpm.cma"
+  archive(byte) = "camlimages_xpm.cma"
+  archive(native) = "camlimages_xpm.cmxa"
+  version = "%{version}%"
+)
+
+package "ps" (
+  requires = "camlimages.core"
+  exists_if = "camlimages_ps.cma"
+  archive(byte) = "camlimages_ps.cma"
+  archive(native) = "camlimages_ps.cmxa"
+  version = "%{version}%"
+)
+
+package "graphics" (
+  requires = "camlimages.core, graphics"
+  exists_if = "camlimages_graphics.cma"
+  archive(byte) = "camlimages_graphics.cma"
+  archive(native) = "camlimages_graphics.cmxa"
+  version = "%{version}%"
+)
+
+package "lablgtk2" (
+  requires = "camlimages.core, lablgtk2"
+  exists_if = "camlimages_lablgtk2.cma"
+  archive(byte) = "camlimages_lablgtk2.cma"
+  archive(native) = "camlimages_lablgtk2.cmxa"
+  version = "%{version}%"
+)
+
+package "all_formats" (
+  requires = "camlimages.core, unix"
+  archive(byte) = "camlimages_all_formats.cma"
+  archive(native) = "camlimages_all_formats.cmxa"
+  version = "%{version}%"
+)
+
+package "all" (
+  requires = "camlimages.core, camlimages.all_formats, camlimages.freetype, camlimages.graphics, camlimages.lablgtk2"
+  version = "%{version}%"
+)
