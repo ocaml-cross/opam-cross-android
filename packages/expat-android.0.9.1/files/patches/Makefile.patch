@@ -1,0 +1,30 @@
+--- a/Makefile    2016-03-19 01:02:23.503723300 +0000
++++ b/Makefile    2016-03-19 01:03:41.039799774 +0000
+@@ -19,12 +19,13 @@
+ # Flags for the C compiler.
+ CFLAGS=-DFULL_UNROLL -O2 -I$(EXPAT_INCDIR)
+ 
+-OCAMLC=ocamlc
+-OCAMLOPT=ocamlopt
+-OCAMLDEP=ocamldep
+-OCAMLMKLIB=ocamlmklib 
+-OCAMLDOC=ocamldoc
+ OCAMLFIND=ocamlfind
++OCAMLC=$(OCAMLFIND) ocamlc
++OCAMLOPT=$(OCAMLFIND) ocamlopt
++OCAMLDEP=$(OCAMLFIND) ocamldep
++OCAMLMKLIB=$(OCAMLFIND) ocamlmklib
++OCAMLDOC=$(OCAMLFIND) ocamldoc
++OCAMLDIR=$(shell ocamlfind query stdlib)
+ 
+ .PHONY: all
+ all: $(ARCHIVE)
+@@ -32,7 +33,7 @@
+ allopt:  $(XARCHIVE)
+ 
+ depend: *.c *.ml *.mli
+-	gcc -MM *.c > depend	
++	gcc -I $(OCAMLDIR) -MM *.c > depend
+ 	$(OCAMLDEP) *.mli *.ml >> depend
+ 
+ ## Library creation
