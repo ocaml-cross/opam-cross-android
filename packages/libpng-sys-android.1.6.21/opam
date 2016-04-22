@@ -14,6 +14,5 @@ build: [
 install: [
   ["make" "install" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
 ]
-install: [["make" "install"]]
 remove:  [["rm" "-rf" "%{prefix}%/android-deps/libpng"]]
 depends: ["conf-android"]
