@@ -7,12 +7,13 @@ build: [
                  "--disable-shared"
                  "--with-pic"
                  "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"
-                 "CFLAGS=%{conf-android:cflags}%"
-                 "LDFLAGS=%{conf-android:ldflags}%"]
-  ["make" "-j" jobs "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+                 "CPPFLAGS=%{conf-android:cflags}%"
+                 "LDFLAGS=%{conf-android:ldflags}%"
+                 "CC=" "CXX="]
+  ["env" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin" "make" "-j" jobs]
 ]
 install: [
-  ["make" "install" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+  ["env" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin" "make" "install"]
 ]
 remove:  [["rm" "-rf" "%{prefix}%/android-deps/expat"]]
 depends: ["conf-android"]

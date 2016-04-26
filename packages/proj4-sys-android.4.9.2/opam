@@ -8,8 +8,9 @@ build: [
                  "--with-pic"
                  "--without-jni"
                  "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"
-                 "CFLAGS=%{conf-android:cflags}%"
-                 "LDFLAGS=%{conf-android:ldflags}%"]
+                 "CPPFLAGS=%{conf-android:cflags}%"
+                 "LDFLAGS=%{conf-android:ldflags}%"
+                 "CC=" "CXX="]
   ["make" "-j" jobs "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
 ]
 install: [

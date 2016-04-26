@@ -8,13 +8,14 @@ build: [
                  "--with-pic"
                  "--with-harfbuzz=no"
                  "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"
-                 "CFLAGS=%{conf-android:cflags}%"
+                 "CPPFLAGS=%{conf-android:cflags}%"
                  "LDFLAGS=%{conf-android:ldflags}%"
                  "PKG_CONFIG_LIBDIR=%{libpng-sys-android:pkgconfig}%"
                  "ZLIB_CFLAGS="
                  "ZLIB_LIBS=-lz"
                  "BZIP2_CFLAGS=%{bzip2-sys-android:cflags}%"
-                 "BZIP2_LIBS=%{bzip2-sys-android:ldflags}%"]
+                 "BZIP2_LIBS=%{bzip2-sys-android:ldflags}%"
+                 "CC=" "CXX="]
   ["make" "-j" jobs "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
 ]
 install: [
