@@ -3,9 +3,9 @@ maintainer: "whitequark@whitequark.org"
 homepage: "http://mjambon.com/biniou.html"
 license: "BSD-3-Clause"
 build: [
-  # https://github.com/mjambon/biniou/issues/14
-  ["env" "OCAMLFIND_TOOLCHAIN=android" make "BEST=.native"]
-  ["env" "OCAMLFIND_TOOLCHAIN=android" make "BEST=.native" "BINDIR=%{bin}%" "install"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make]
+  # https://github.com/mjambon/biniou/issues/15
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "BINDIR=%{bin}%" "install"]
 ]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "biniou"]]
 depends: [
