@@ -1,5 +1,6 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
+patches: ["patches/natdynlink-false.patch"]
 build: [
   ["env" "OCAMLFIND_TOOLCHAIN=android" make]
   ["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]
