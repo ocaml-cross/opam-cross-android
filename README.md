@@ -80,7 +80,7 @@ Build it:
 
 Make an object file out of it and link it with your Android project (you'll need to call `caml_startup(argv)` to run OCaml code; see [this article](http://www.mega-nerd.com/erikd/Blog/CodeHacking/Ocaml/calling_ocaml.html)):
 
-    ocamlfind -toolchain android ocamlopt -package re.pcre -linkpkg -output-obj test_pcre.ml -o test_pcre.o
+    ocamlfind -toolchain android ocamlopt -package re.pcre -linkpkg -output-complete-obj test_pcre.ml -o test_pcre.o
 
 Make a shared object out of it:
 
@@ -137,4 +137,4 @@ Some of the tricks in this repository were inspired by Jerome Vouillon's [opam-a
 References
 ----------
 
-See also [opam-cross-windows](https://github.com/whitequark/opam-cross-windows).
+See also [opam-cross-windows](https://github.com/whitequark/opam-cross-windows) and [opam-cross-ios](https://github.com/whitequark/opam-cross-ios).
