@@ -5,7 +5,7 @@ license: "BSD-3-Clause"
 build: [
   ["env" "OCAMLFIND_TOOLCHAIN=android" make]
   # https://github.com/mjambon/biniou/issues/15
-  ["env" "OCAMLFIND_TOOLCHAIN=android" make "BINDIR=%{bin}%" "install"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "BINDIR=%{prefix}%/android-sysroot/bin" "install"]
 ]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "biniou"]]
 depends: [
