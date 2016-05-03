@@ -1,0 +1,3 @@
+libffi_available=true
+libffi_opt=%{libffi-sys-android:cflags}%
+libffi_lib=%{libffi-sys-android:ldflags}% -lffi
