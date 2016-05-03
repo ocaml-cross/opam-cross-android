@@ -1,0 +1,13 @@
+--- Makefile.old        2016-05-03 22:53:48.000000000 +0400
++++ Makefile    2016-05-03 22:53:59.000000000 +0400
+@@ -5,8 +5,8 @@
+ RESULT = camlgpc
+ 
+ LIBINSTALL_FILES = camlgpc.a camlgpc.cma camlgpc.cmxa libcamlgpc_stubs.a \
+-dllcamlgpc_stubs.* \
+-$(foreach x,$(MODS),$x.mli) $(foreach x,$(MODS),$x.cmi)
++$(foreach x,$(MODS),$x.mli) $(foreach x,$(MODS),$x.cmi) \
++-optional dllcamlgpc_stubs.*
+ 
+ OCAMLNCFLAGS = -g
+ OCAMLBCFLAGS = -g
