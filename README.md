@@ -100,7 +100,7 @@ Findlib 1.5.4 adds a feature that makes porting packages much simpler; namely, a
 For projects using OASIS, the following steps will work:
 
     build: [
-      ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/linux-androideabi"]
+      ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
       ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
       ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
     ]
@@ -109,7 +109,7 @@ For projects using OASIS, the following steps will work:
 
 For projects installing the files via OPAM's `.install` files (e.g. [topkg](https://github.com/dbuenzli/topkg)), the following steps will work:
 
-    install: [["opam-installer" "--prefix=%{prefix}%/linux-androideabi" "pkg.install"]]
+    install: [["opam-installer" "--prefix=%{prefix}%/android-sysroot" "pkg.install"]]
     remove: [["ocamlfind" "-toolchain" "android" "remove" "pkg"]]
     depends: ["ocaml-android" ...]
 
