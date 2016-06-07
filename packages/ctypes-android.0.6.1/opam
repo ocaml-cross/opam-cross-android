@@ -1,6 +1,5 @@
 opam-version: "1.2"
 maintainer: "whitequark@whitequark.org"
-patches: ["patches/cross-compilation.patch"]
 substs: ["libffi.config"]
 build: [
   [make "OCAMLFIND=ocamlfind -toolchain android" "HOSTOCAMLFIND=ocamlfind"]
