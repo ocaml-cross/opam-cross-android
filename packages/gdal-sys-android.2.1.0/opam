@@ -1,0 +1,20 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+substs: ["gdal-sys-android.config"]
+patches: ["patches/fucking-autoconf.diff"]
+build: [
+  ["./configure" "--host=%{conf-android:triple}%"
+                 "--prefix=%{prefix}%/android-deps/gdal"
+                 "--disable-shared"
+                 "--with-pic"
+                 "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"
+                 "CPPFLAGS=%{conf-android:cflags}%"
+                 "LDFLAGS=%{conf-android:ldflags}% -lgnustl_shared"
+                 "CC=" "CXX="]
+  ["env" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin" "make" "-j" jobs]
+]
+install: [
+  ["env" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin" "make" "install"]
+]
+remove:  [["rm" "-rf" "%{prefix}%/android-deps/gdal"]]
+depends: ["conf-android"]

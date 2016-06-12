@@ -1,0 +1,12 @@
+--- configure  Mon Apr 25 17:35:51 2016
++++ configure  Sun Jun 12 05:05:49 2016
+@@ -17622,7 +17622,7 @@
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for 64bit integer type" >&5
+ $as_echo_n "checking for 64bit integer type... " >&6; }
+ 
+-  echo 'int main() { long long off=0; }' >> conftest.c
+-  if test -z "`${CC} -o conftest conftest.c 2>&1`" ; then
++  echo 'int main() { long long off=0; }' > conftest.c
++  if true ; then
+ 
+ $as_echo "#define HAVE_LONG_LONG 1" >>confdefs.h
