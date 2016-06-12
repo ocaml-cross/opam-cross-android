@@ -1,0 +1,27 @@
+opam-version: "1.2"
+maintainer: "Daniel Bünzli <daniel.buenzl i@erratique.ch>"
+homepage: "http://erratique.ch/software/tgls"
+authors: ["Daniel Bünzli <daniel.buenzl i@erratique.ch>"]
+doc: "http://erratique.ch/software/tgls/doc/"
+dev-repo: "http://erratique.ch/repos/tgls.git"
+bug-reports: "https://github.com/dbuenzli/tsdl/issues"
+tags: [ "bindings" "opengl" "opengl-es" "graphics" "org:erratique" ]
+license: "BSD3"
+patches: ["patches/cross-compiling.patch"]
+build: [
+  [ "env" "TGLS_UNAME_S=Linux"
+    "ocaml" "pkg/git.ml" ]
+  [ "env" "TGLS_UNAME_S=Linux"
+    "ocamlbuild" "-just-plugin" ]
+  [ "env" "TGLS_UNAME_S=Linux" "OCAMLFIND_TOOLCHAIN=android"
+    "ocaml" "pkg/build.ml" "native=true" "native-dynlink=true" ]
+]
+install: [["opam-installer" "--prefix=%{prefix}%/android-sysroot" "tgls.install"]]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "tgls"]]
+depends: [
+  "ocaml-android"
+  "ctypes-android" {>= "0.4.0"}
+  "ocamlfind"
+  "ocamlbuild" {build}
+  "xmlm"
+]
