@@ -8,8 +8,8 @@ build: [
   ["sh" "-c" "echo \"triple: \\\"${TRIPLE}\\\"\" >>conf-android.config"]
   ["sh" "-c" "echo \"toolchain: \\\"%{prefix}%/android-ndk/toolchains/${TOOLCHAIN}/prebuilt/%{os}%-%{arch}%/bin/\\\"\" >>conf-android.config"]
   ["sh" "-c" "echo \"toolpref: \\\"%{prefix}%/android-ndk/toolchains/${TOOLCHAIN}/prebuilt/%{os}%-%{arch}%/bin/${TRIPLE}-\\\"\" >>conf-android.config"]
-  ["sh" "-c" "echo \"cflags: \\\"--sysroot %{prefix}%/android-ndk/platforms/android-${LEVEL}/arch-${CCARCH} -I%{prefix}%/android-ndk/include -L%{prefix}%/android-ndk/lib -I%{prefix}%/android-sysroot/include -L%{prefix}%/android-sysroot/lib\\\"\" >>conf-android.config"]
-  ["sh" "-c" "echo \"ldflags: \\\"--sysroot %{prefix}%/android-ndk/platforms/android-${LEVEL}/arch-${CCARCH} -L%{prefix}%/android-ndk/lib -L%{prefix}%/android-sysroot/lib\\\"\" >>conf-android.config"]
+  ["sh" "-c" "echo \"cflags: \\\"--sysroot %{prefix}%/android-ndk/platforms/android-${LEVEL}/arch-${CCARCH} -I%{prefix}%/android-ndk/include -L%{prefix}%/android-ndk/lib -I%{prefix}%/android-ndk/sources/cxx-stl/gnu-libstdc++/${STLVER}/include -I%{prefix}%/android-ndk/sources/cxx-stl/gnu-libstdc++/${STLVER}/libs/${STLARCH}/include -L%{prefix}%/android-ndk/sources/cxx-stl/gnu-libstdc++/${STLVER}/libs/${STLARCH} -I%{prefix}%/android-sysroot/include -L%{prefix}%/android-sysroot/lib\\\"\" >>conf-android.config"]
+  ["sh" "-c" "echo \"ldflags: \\\"--sysroot %{prefix}%/android-ndk/platforms/android-${LEVEL}/arch-${CCARCH} -L%{prefix}%/android-ndk/lib -L%{prefix}%/android-ndk/sources/cxx-stl/gnu-libstdc++/${STLVER}/libs/${STLARCH} -L%{prefix}%/android-sysroot/lib\\\"\" >>conf-android.config"]
 ]
 depends: [
   ("android-ndk-linux" {>= "11c"} | "android-ndk-darwin" {>= "11c"})

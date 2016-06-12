@@ -36,6 +36,7 @@ Configure the compiler for ARM:
     ARCH=arm SUBARCH=armv7 SYSTEM=linux_eabi \
       CCARCH=arm TOOLCHAIN=arm-linux-androideabi-4.9 \
       TRIPLE=arm-linux-androideabi LEVEL=24 \
+      STLVER=4.9 STLARCH=armeabi \
       opam install conf-android
 
 Alternatively, configure the compiler for x86:
@@ -43,6 +44,7 @@ Alternatively, configure the compiler for x86:
     ARCH=i386 SUBARCH=default SYSTEM=linux_elf \
       CCARCH=x86 TOOLCHAIN=x86-4.9 \
       TRIPLE=i686-linux-android LEVEL=24 \
+      STLVER=4.9 STLARCH=x86 \
       opam install conf-android
 
 Some options can be tweaked:
