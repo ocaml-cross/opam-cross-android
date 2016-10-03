@@ -3,7 +3,13 @@ maintainer: "whitequark@whitequark.org"
 patches: ["ar-fix.patch" "patches/ocamldoc.patch" "patches/ocamlmklib.patch"]
 substs: ["android.conf" "config/Makefile"]
 build: [
-  [make "world" "opt" "install"]
+  [./configure]
+  [make "world"]
+  [make "bootstrap"]
+  [make "opt"]
+  [make "opt.opt"]
+  [sudo umask 022]
+  [sudo make "install"]
   ["./install.sh" "%{prefix}%"]
 ]
 remove: [
