@@ -40,7 +40,7 @@ MKLIB=%{conf-android:toolpref}%ar rc $(1) $(2); %{conf-android:toolpref}%ranlib 
 ARCH=%{conf-android:arch}%
 MODEL=%{conf-android:subarch}%
 SYSTEM=%{conf-android:system}%
-TOOLCHAIN=cc
+TOOLCHAIN=%{conf-android:toolchain}%
 NATIVECC=$(BYTECC)
 NATIVECCCOMPOPTS=-Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
 NATIVECCPROFOPTS=-Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
