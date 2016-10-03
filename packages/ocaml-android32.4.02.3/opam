@@ -8,7 +8,7 @@ build: [
   [make "bootstrap"]
   [make "opt"] 
   [make "opt.opt"]
-  [sudo umask "022"]
+  [sudo umask 022]
   [sudo make "install"]
   [make "clean"]
   ["./install.sh" "%{prefix}%"]
