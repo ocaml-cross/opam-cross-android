@@ -68,6 +68,12 @@ Some options can be tweaked:
 
 The options above (`ARCH`, `SUBARCH`, `SYSTEM`, `LEVEL`, `TOOLCHAIN` and `TRIPLE`) are recorded inside the `conf-android` package, so make sure to reinstall that package if you wish to switch to a different toolchain. Otherwise, it is not necessary to supply them while upgrading the `ocaml-android*` packages.
 
+If desired, request the compiler to be built with [flambda][] optimizers:
+
+    opam install conf-flambda-android
+
+[flambda]: https://caml.inria.fr/pub/docs/manual-ocaml/flambda.html
+
 Install the compiler:
 
     opam install ocaml-android

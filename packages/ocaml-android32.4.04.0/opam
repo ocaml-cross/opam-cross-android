@@ -13,4 +13,7 @@ depends: [
   "conf-android"
   "ocamlfind" {>= "1.5.4"}
 ]
+depopts: [
+  "conf-flambda-android"
+]
 available: [ (ocaml-version = "4.04.0" & arch = "x86") | compiler = "4.04.0+32bit" ]
