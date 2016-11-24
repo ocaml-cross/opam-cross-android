@@ -19,6 +19,7 @@ remove: [
 ]
 depends: [
   "ocaml-android"
+  "result-android"
 ]
 depopts: [
   "react-android"
