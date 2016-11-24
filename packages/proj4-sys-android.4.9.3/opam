@@ -2,6 +2,7 @@ opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 substs: ["proj4-sys-android.config"]
 build: [
+  ["./autogen.sh"]
   ["./configure" "--host=%{conf-android:triple}%"
                  "--prefix=%{prefix}%/android-deps/proj4"
                  "--disable-shared"
