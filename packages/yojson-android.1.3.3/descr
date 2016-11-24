@@ -1,4 +1,4 @@
-Yojson is an optimized parsing and printing library for the JSON format 
+Yojson is an optimized parsing and printing library for the JSON format
 It addresses a few shortcomings of json-wheel including 2x speedup,
 polymorphic variants and optional syntax for tuples and variants.
 
