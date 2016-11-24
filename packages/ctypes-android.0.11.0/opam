@@ -1,8 +1,10 @@
 opam-version: "1.2"
 maintainer: "whitequark@whitequark.org"
+patches: ["patches/ldouble-stubs.patch"]
 substs: ["libffi.config"]
 build: [
-  [make "OCAMLFIND=ocamlfind -toolchain android" "HOSTOCAMLFIND=ocamlfind"]
+  [make "OCAMLFIND=ocamlfind -toolchain android" "HOSTOCAMLFIND=ocamlfind"
+        "ctypes-base" "ctypes-stubs" "ctypes-foreign"]
 ]
 install: [
   [make "OCAMLFIND=ocamlfind -toolchain android" "HOSTOCAMLFIND=ocamlfind"

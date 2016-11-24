@@ -1,0 +1,34 @@
+--- a/src/ctypes/ldouble_stubs.c  Thu Nov 24 18:02:43 2016
++++ b/src/ctypes/ldouble_stubs.c  Thu Nov 24 18:02:46 2016
+@@ -528,11 +528,31 @@
+       OP (ldouble_complex_custom_val(a), ldouble_complex_custom_val(b)))); \
+   }
+
++#define FN1FAIL(OP)                                                        \
++  CAMLprim value ctypes_ldouble_complex_ ## OP (value a) {                 \
++    CAMLparam1(a);                                                         \
++    caml_failwith("ctypes: " #OP " is not implemented on this platform");  \
++  }
++
++#define FN2FAIL(OP)                                                        \
++  CAMLprim value ctypes_ldouble_complex_ ## OP (value a, value b) {        \
++    CAMLparam2(a, b);                                                      \
++    caml_failwith("ctypes: " #OP " is not implemented on this platform");  \
++  }
++
+ FN1(conjl)
+ FN1(csqrtl)
++
++// As of API level 24, these functions do not exist
++#ifdef __ANDROID_API__
++FN1FAIL(cexpl)
++FN1FAIL(clogl)
++FN2FAIL(cpowl)
++#else
+ FN1(cexpl)
+ FN1(clogl)
+ FN2(cpowl)
++#endif
+
+ CAMLprim value ctypes_ldouble_complex_cargl(value a) {
+   CAMLparam1(a);
