@@ -1,10 +1,13 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 build: [
-  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   "ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
   ["ocamlbuild" "-use-ocamlfind" "-just-plugin"]
-  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
-  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   "ocaml" "setup.ml" "-build"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   "ocaml" "setup.ml" "-install"]
 ]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "gdal"]]
 depends: [
