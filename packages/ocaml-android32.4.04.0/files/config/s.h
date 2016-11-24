@@ -8,6 +8,7 @@
 #define HAS_SOCKLEN_T
 #define HAS_INET_ATON
 #define HAS_IPV6
+#define HAS_STDINT_H
 #define HAS_UNISTD
 #define HAS_OFF_T
 #define HAS_DIRENT

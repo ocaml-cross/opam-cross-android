@@ -1,6 +1,6 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
-patches: ["ar-fix.patch" "patches/ocamldoc.patch" "patches/ocamlmklib.patch"]
+patches: ["patches/ocamlmklib.patch"]
 substs: ["android.conf" "config/Makefile"]
 build: [
   [make "world" "opt" "install"]
@@ -13,4 +13,4 @@ depends: [
   "conf-android"
   "ocamlfind" {>= "1.5.4"}
 ]
-available: [ (ocaml-version = "4.02.3" & arch = "x86") | compiler = "4.02.3+32bit" ]
+available: [ (ocaml-version = "4.04.0" & arch = "x86") | compiler = "4.04.0+32bit" ]

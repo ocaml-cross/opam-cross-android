@@ -1,0 +1,12 @@
+diff --git a/tools/ocamlmklib.ml b/tools/ocamlmklib.ml
+index 23a273e..f3fc0fd 100644
+--- a/tools/ocamlmklib.ml
++++ b/tools/ocamlmklib.ml
+@@ -293,6 +293,6 @@ let build_libs () =
+ let _ =
+   try
+-    parse_arguments Sys.argv;
++    parse_arguments (Array.append Sys.argv (Array.of_list (try String.split_on_char ',' (Sys.getenv "OCAMLMKLIBPARAM" ) with Not_found -> [])));
+     build_libs()
+   with
+   | Bad_argument "" ->
