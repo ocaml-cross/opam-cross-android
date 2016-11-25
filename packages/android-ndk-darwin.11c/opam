@@ -3,7 +3,7 @@ maintainer: "whitequark@whitequark.org"
 install: [
   ["mkdir" "-p" "%{prefix}%/android-ndk"]
   ["sh" "-c" "mv * %{prefix}%/android-ndk/"]
-  ["sh" "-c" "cd %{prefix}%/android-ndk/ && rm android-ndk-*.env android-ndk-*.info android-ndk-*.err android-ndk-*.out"]
+  ["sh" "-c" "cd %{prefix}%/android-ndk/ && rm -f android-ndk-*.env android-ndk-*.info android-ndk-*.err android-ndk-*.out"]
 ]
 remove: [
   ["rm" "-rf" "%{prefix}%/android-ndk"]
