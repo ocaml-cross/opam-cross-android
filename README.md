@@ -33,8 +33,8 @@ Otherwise, use a regular compiler; its version must match the version of the cro
 
 Pin some prerequisite packages that don't yet have fixes merged upstream:
 
-    opam pin add ocamlbuild https://github.com/whitequark/ocamlbuild
-    opam pin add topkg https://github.com/whitequark/topkg
+    opam pin add ocamlbuild https://github.com/whitequark/ocamlbuild.git
+    opam pin add topkg https://github.com/whitequark/topkg.git
 
 Configure the compiler for ARM:
 
