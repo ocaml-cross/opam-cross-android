@@ -1,9 +1,12 @@
 opam-version: "1.2"
 maintainer: "whitequark@whitequark.org"
-patches: ["patches/no-shlib.patch" "patches/cross-compilation.patch"]
+patches: [
+  "patches/cross-compilation.patch"
+  "patches/install-cmx.patch"
+]
 build-env: [OCAMLFIND_TOOLCHAIN="android"]
-build: [["env" "OCAMLFIND_TOOLCHAIN=windows" make]]
-install: [["env" "OCAMLFIND_TOOLCHAIN=windows" make "install"]]
+build: [["env" "OCAMLFIND_TOOLCHAIN=android" make]]
+install: [["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "camlgpc"]]
 depends: [
   "ocaml-android"

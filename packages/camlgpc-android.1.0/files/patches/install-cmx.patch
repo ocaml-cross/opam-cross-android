@@ -1,0 +1,12 @@
+--- Makefile	Sun Dec 18 18:05:17 2016
++++ Makefile	Sun Dec 18 18:05:21 2016
+@@ -6,7 +6,8 @@
+ 
+ LIBINSTALL_FILES = camlgpc.a camlgpc.cma camlgpc.cmxa libcamlgpc_stubs.a \
+ dllcamlgpc_stubs.* \
+-$(foreach x,$(MODS),$x.mli) $(foreach x,$(MODS),$x.cmi)
++$(foreach x,$(MODS),$x.mli) $(foreach x,$(MODS),$x.cmi) \
++$(foreach x,$(MODS),$x.cmx)
+ 
+ OCAMLNCFLAGS = -g
+ OCAMLBCFLAGS = -g
