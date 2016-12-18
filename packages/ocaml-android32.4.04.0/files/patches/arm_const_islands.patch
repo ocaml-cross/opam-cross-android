@@ -1,0 +1,13 @@
+diff --git a/asmcomp/arm/emit.mlp b/asmcomp/arm/emit.mlp
+index de61da5..285ba71 100644
+--- a/asmcomp/arm/emit.mlp
++++ b/asmcomp/arm/emit.mlp
+@@ -809,7 +809,7 @@ let rec emit_all ninstr i =
+     (* fldd can address up to +/-1KB, ldr can address up to +/-4KB *)
+     let limit = (if !fpu >= VFPv2 && !float_literals <> []
+                  then 127
+-                 else 511) in
++                 else 510) in
+     let limit = limit - !num_literals in
+     if ninstr' >= limit - 64 && not(has_fallthrough i.desc) then begin
+       emit_literals();

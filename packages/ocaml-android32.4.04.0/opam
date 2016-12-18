@@ -1,6 +1,9 @@
 opam-version: "1"
 maintainer: "whitequark@whitequark.org"
-patches: ["patches/ocamlmklib.patch"]
+patches: [
+  "patches/ocamlmklib.patch"
+  "patches/arm_const_islands.patch"
+]
 substs: ["android.conf" "config/Makefile"]
 build: [
   [make "world" "opt" "install"]
