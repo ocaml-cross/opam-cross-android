@@ -1,0 +1,17 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+build: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android"
+   make "EXPAT_INCDIR=%{prefix}%/android-deps/expat/include"
+        "EXPAT_LIBDIR=%{prefix}%/android-deps/expat/lib"
+        "all" "allopt"]
+]
+install: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]
+]
+remove: [["ocamlfind" "-toolchain" "android" "remove" "expat"]]
+depends: [
+  "expat-sys-android"
+  "ocaml-android"
+  "ocamlfind" {build}
+]
