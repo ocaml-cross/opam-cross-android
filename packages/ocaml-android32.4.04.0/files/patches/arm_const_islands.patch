@@ -1,4 +1,4 @@
-From 11d6c1d80b5cee903e5919ec8a67279fba608b52 Mon Sep 17 00:00:00 2001
+From 937d7a6a7e37dc101aee3a7ca32c69550967ae3b Mon Sep 17 00:00:00 2001
 From: whitequark <whitequark@whitequark.org>
 Date: Fri, 30 Dec 2016 13:24:37 +0000
 Subject: [PATCH] ARM: fix excessive immediate values for pc-relative ldr.
@@ -38,19 +38,20 @@ has quite a bit of logic, which can affect the size of
 the instruction, and so I have opted against duplicating that logic,
 on the grounds that this will make maintenance much trickier.
 ---
- asmcomp/arm/emit.mlp | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ asmcomp/arm/emit.mlp             | 28 +++++++++++++++++++++++++---
+ testsuite/tests/asmcomp/Makefile |  2 +-
+ 2 files changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/asmcomp/arm/emit.mlp b/asmcomp/arm/emit.mlp
-index de61da57d..0f4d19e83 100644
+index de61da57d..579c68c06 100644
 --- a/asmcomp/arm/emit.mlp
 +++ b/asmcomp/arm/emit.mlp
-@@ -802,9 +802,22 @@ let emit_instr i =
+@@ -802,26 +802,48 @@ let emit_instr i =
  
  (* Emission of an instruction sequence *)
  
 +(* consider the degenerate case where a single literal is followed by
-+   a jump table longer than 4KB; we have to emit the constant island
++   a jump table longer than 4KB; we have to emit the constant pool
 +   before the jump table or it will be too late *)
 +let emit_instr_before_pool i =
 +  match i.desc with
@@ -69,9 +70,16 @@ index de61da57d..0f4d19e83 100644
      let ninstr' = ninstr + n in
      (* fldd can address up to +/-1KB, ldr can address up to +/-4KB *)
      let limit = (if !fpu >= VFPv2 && !float_literals <> []
-@@ -813,15 +826,19 @@ let rec emit_all ninstr i =
+                  then 127
+                  else 511) in
      let limit = limit - !num_literals in
-     if ninstr' >= limit - 64 && not(has_fallthrough i.desc) then begin
+-    if ninstr' >= limit - 64 && not(has_fallthrough i.desc) then begin
++    let fallthrough =
++      match i.desc with
++      | Lswitch _ -> true (* not emitted yet *)
++      | desc -> has_fallthrough desc
++    in
++    if ninstr' >= limit - 64 && not(fallthrough) then begin
        emit_literals();
 +      emit_instr_after_pool i;
        emit_all 0 i.next
@@ -90,6 +98,19 @@ index de61da57d..0f4d19e83 100644
    end
  
  (* Emission of the profiling prelude *)
+diff --git a/testsuite/tests/asmcomp/Makefile b/testsuite/tests/asmcomp/Makefile
+index abcb87296..7b714c897 100644
+--- a/testsuite/tests/asmcomp/Makefile
++++ b/testsuite/tests/asmcomp/Makefile
+@@ -49,7 +49,7 @@ lexcmm.ml: lexcmm.mll
+ 	@$(OCAMLLEX) -q lexcmm.mll
+ 
+ MLCASES=optargs staticalloc bind_tuples is_static register_typing \
+-  register_typing_switch
++  register_typing_switch large_switch
+ ARGS_is_static=-I $(OTOPDIR)/byterun is_in_static_data.c
+ MLCASES_FLAMBDA=is_static_flambda unrolling_flambda unrolling_flambda2 \
+   static_float_array_flambda static_float_array_flambda_opaque
 -- 
 2.11.0
 
