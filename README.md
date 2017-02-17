@@ -112,11 +112,11 @@ With opam-android, cross-compilation is easy!
 Porting packages
 ----------------
 
-OCaml packages often have components that execute at compile-time (camlp4 or ppx syntax extensions, cstubs, OASIS, ...). Thus, it is not possible to just blanketly cross-compile every package in the OPAM repository; sometimes you would even need a cross-compiled and a non-cross-compiled package at once. The package definitions also often need package-specific modification in order to work.
+OCaml components execute at compile-time (camlp4 or ppx syntax extensions, cstubs, OASIS, ...). You cannot blanketly cross-compile every package in the OPAM repository, in case you need a cross-compiled and a non-cross-compiled package at the same time. The package definitions also need modification specific to the package.
 
-As a result, if you want a package to be cross-compiled, you have to copy the definition from [opam-repository](https://github.com/ocaml/opam-repository), rename the package to add `-android` suffix while updating any dependencies it could have, and update the build script. Don't forget to add `ocaml-android` as a dependency!
+For a package to be cross-compiled, you need to do the following: copy the definition from [opam-repository](https://github.com/ocaml/opam-repository) , rename the package to add `-android` suffix while updating necessary dependencies, update the build script and add `ocaml-android` as a dependency!
 
-Findlib 1.5.4 adds a feature that makes porting packages much simpler; namely, an `OCAMLFIND_TOOLCHAIN` environment variable that is equivalent to the `-toolchain` command-line flag. Now it is not necessary to patch the build systems of the packages to select the Android toolchain; it is often enough to add `["env" "OCAMLFIND_TOOLCHAIN=android" make ...]` to the build command in the `opam` file.
+Findlib 1.5.4 adds a feature that makes porting packages much simpler, namely, an `OCAMLFIND_TOOLCHAIN` environment variable equivalent to the `-toolchain` command-line flag. It is not necessary to patch the build systems of the packages to select the Android toolchain. It is enough to add `["env" "OCAMLFIND_TOOLCHAIN=android" make ...]` to the build command in the `opam` file.
 
 For projects using OASIS, the following steps will work:
 
@@ -142,7 +142,7 @@ For projects installing the files via OPAM's `.install` files (e.g. [topkg](http
 Internals
 ---------
 
-The aim of this repository is to build a cross-compiler while altering the original codebase in the minimal possible way. (Indeed, only about 50 lines are changed.) There are no attempts to alter the `configure` script; rather, the configuration is provided directly. The resulting cross-compiler has several interesting properties:
+The aim of this repository is to build a cross-compiler while altering the original codebase in the minimal possible way. (Indeed, only about 50 lines are changed.) You do not need to alter the `configure` script; rather, the configuration is provided directly. The resulting cross-compiler has several interesting properties:
 
   * All paths to the Android toolchain are embedded inside `ocamlc` and `ocamlopt`; thus, no knowledge of the Android toolchain is required even for packages that have components in C, provided they use the OCaml driver to compile the C code. (This is usually the case.)
   * The build system makes several assumptions that are not strictly valid while cross-compiling, mainly the fact that the bytecode the cross-compiler has just built can be ran by the `ocamlrun` on the build system. Thus, the requirement for a 32-bit build compiler for 32-bit targets, as well as for the matching versions.
