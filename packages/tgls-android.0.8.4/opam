@@ -9,11 +9,11 @@ tags: [ "bindings" "opengl" "opengl-es" "graphics" "org:erratique" ]
 license: "BSD3"
 patches: ["patches/cond-gl.patch"]
 build: [
-  "env" "TOPKG_CONF_TOOLCHAIN=android"
-        "TGLS_HOST_OS=Linux"
+  "env" "TGLS_HOST_OS=Linux"
   "ocaml" "pkg/pkg.ml" "build"
           "--pinned" "%{pinned}%"
-          "--with-gl" "false"]
+          "--with-gl" "false"
+          "--toolchain" "android"]
 install: [["opam-installer" "--prefix=%{prefix}%/android-sysroot" "tgls.install"]]
 remove: [["ocamlfind" "-toolchain" "android" "remove" "tgls"]]
 depends: [
