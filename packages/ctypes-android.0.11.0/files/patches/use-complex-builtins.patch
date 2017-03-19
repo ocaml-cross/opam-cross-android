@@ -1,0 +1,72 @@
+--- src/ctypes/ctypes_ldouble_stubs.h.old	2017-03-19 10:42:10.203588249 +0000
++++ src/ctypes/ctypes_ldouble_stubs.h	2017-03-19 10:42:12.123588287 +0000
+@@ -8,7 +8,7 @@
+ #ifndef CTYPES_LDOUBLE_STUBS_H
+ #define CTYPES_LDOUBLE_STUBS_H
+ 
+-#include <complex.h>
++#include "ctypes_complex_stubs.h"
+ #include <caml/mlvalues.h>
+ 
+ extern value ctypes_copy_ldouble(long double u);
+--- src/ctypes/complex_stubs.c.old	2017-03-19 10:35:00.871579912 +0000
++++ src/ctypes/complex_stubs.c	2017-03-19 10:35:43.919580748 +0000
+@@ -5,8 +5,6 @@
+  * See the file LICENSE for details.
+  */
+ 
+-#include <complex.h>
+-
+ #include <caml/memory.h>
+ #include <caml/alloc.h>
+ 
+--- src/ctypes/ctypes_complex_stubs.h.old	2017-03-19 10:35:32.067580517 +0000
++++ src/ctypes/ctypes_complex_stubs.h	2017-03-19 10:40:48.487586662 +0000
+@@ -8,7 +8,12 @@
+ #ifndef CTYPES_COMPLEX_STUBS_H
+ #define CTYPES_COMPLEX_STUBS_H
+ 
+-#include <complex.h>
++#define complex _Complex
++#define cimag __imag__
++#define creal __real__
++#define cimagf(x) ((float)cimag(x))
++#define crealf(x) ((float)creal(x))
++#define I (__extension__ 1.0iF)
+ #include <caml/mlvalues.h>
+ 
+ /* ctypes_copy_float_complex : float complex -> Complex.t */
+--- src/ctypes/type_info_stubs.c.old	2017-03-19 10:42:37.039588770 +0000
++++ src/ctypes/type_info_stubs.c	2017-03-19 10:42:41.067588849 +0000
+@@ -12,7 +12,6 @@
+ #include <inttypes.h>
+ #include <stdio.h>
+ #include <assert.h>
+-#include <complex.h>
+ #include <string.h>
+ #include <stdbool.h>
+ 
+--- src/ctypes/ldouble_stubs.c.old	2017-03-19 10:41:05.487586992 +0000
++++ src/ctypes/ldouble_stubs.c	2017-03-19 10:41:31.291587494 +0000
+@@ -21,9 +21,9 @@
+ #include <stdint.h>
+ #include <float.h>
+ #include <math.h>
+-#include <complex.h>
+ 
+ #include "ctypes_ldouble_stubs.h"
++#include "ctypes_complex_stubs.h"
+ 
+ /*********************** long double *************************/
+ 
+--- src/configure/extract_from_c.ml.old	2017-03-19 10:34:26.463579243 +0000
++++ src/configure/extract_from_c.ml	2017-03-19 10:34:34.391579397 +0000
+@@ -54,7 +54,7 @@
+ let headers = "\
+ #include <stdint.h>
+ #include <stdbool.h>
+-#include <complex.h>
++#define complex _Complex
+ #include <inttypes.h>
+ #include <caml/mlvalues.h>
+ "

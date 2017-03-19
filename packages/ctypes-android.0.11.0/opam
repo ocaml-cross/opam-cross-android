@@ -1,6 +1,6 @@
 opam-version: "1.2"
 maintainer: "whitequark@whitequark.org"
-patches: ["patches/ldouble-stubs.patch"]
+patches: ["patches/ldouble-stubs.patch" "patches/use-complex-builtins.patch"]
 substs: ["libffi.config"]
 build: [
   [make "OCAMLFIND=ocamlfind -toolchain android" "HOSTOCAMLFIND=ocamlfind"
