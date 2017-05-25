@@ -6,7 +6,7 @@ license: "MIT"
 dev-repo: "https://github.com/issuu/ocaml-zmq.git"
 bug-reports: "https://github.com/issuu/ocaml-zmq/issues"
 build: [
-  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
 ]
 install: [
