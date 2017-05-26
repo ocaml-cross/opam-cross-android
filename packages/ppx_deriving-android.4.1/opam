@@ -16,5 +16,6 @@ remove: [["ocamlfind" "-toolchain" "android" "remove" "ppx_deriving"]]
 depends: [
   "ocaml-android"
   "ppx_tools" {>= "0.99.2"}
+  "cppo" {build}
 ]
 available: [ocaml-version >= "4.02.1"]
