@@ -22,7 +22,5 @@ remove: [["ocamlfind" "-toolchain" "android" "remove" "pkg"]]
 build-doc: [ "ocaml" "setup.ml" "-doc" ]
 depends: [
   "ocaml-android"
-  "base-bytes"
-  "ocamlfind" {>= "1.5"}
   "ocamlbuild" {build}
 ]

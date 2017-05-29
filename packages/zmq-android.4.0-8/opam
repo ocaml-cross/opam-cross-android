@@ -18,8 +18,6 @@ remove: [
 depends: [
   "ocaml-android"
   "conf-zmq-android"
-  "ocamlfind"
-  "base-unix"
   "stdint-android"
   "ocamlbuild" {build}
 ]
