@@ -9,7 +9,7 @@ license: "LGPL-2.1+ with OCaml linking exception"
 doc: "http://ocaml-batteries-team.github.io/batteries-included/hdoc2/"
 
 build: [
-  ["ocaml" "setup.ml" "-configure" "%{prefix}%/android-sysroot"]
+  ["ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
   ["env" "OCAMLFIND_TOOLCHAIN=android" make "all"]
 ]
 install: [
