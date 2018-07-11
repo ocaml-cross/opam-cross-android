@@ -1,0 +1,26 @@
+opam-version: "1.2"
+maintainer: "anders@fugmann.net"
+homepage: "https://github.com/issuu/ocaml-zmq"
+authors: [ "Anders Fugman" "Pedro Borges" "Peter Zotov" ]
+license: "MIT"
+dev-repo: "https://github.com/issuu/ocaml-zmq.git"
+bug-reports: "https://github.com/issuu/ocaml-zmq/issues"
+build: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-configure" "--prefix" "%{prefix}%/android-sysroot"]
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-build"]
+]
+install: [
+  ["env" "OCAMLFIND_TOOLCHAIN=android" "ocaml" "setup.ml" "-install"]
+]
+remove: [
+  ["ocamlfind" "-toolchain" "android" "remove" "ZMQ"]
+]
+depends: [
+  "ocaml-android"
+  "conf-zmq-android"
+  "stdint-android"
+  "ocamlbuild" {build}
+]
+conflicts: [
+  "ocaml-zmq"
+]
