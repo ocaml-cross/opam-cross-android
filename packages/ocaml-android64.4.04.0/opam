@@ -1,0 +1,25 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+patches: [
+  "patches/ocamlmklib.patch"
+  "patches/pic.patch"
+]
+substs: ["android.conf" "config/Makefile"]
+build: [
+  [make "world" "opt" "install"]
+  ["./install.sh" "%{prefix}%"]
+]
+remove: [
+  ["./remove.sh" "%{prefix}%"]
+]
+depends: [
+  "conf-android"
+  "ocamlfind" {>= "1.5.4"}
+]
+depopts: [
+  "conf-flambda-android"
+]
+conflicts: [
+  "ocaml-android32"
+]
+available: [ (ocaml-version = "4.04.0" & arch = "amd64") | compiler = "4.04.0" ]
