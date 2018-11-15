@@ -3,6 +3,8 @@ maintainer: "whitequark@whitequark.org"
 patches: [
   "patches/ocamlmklib.patch"
   "patches/arm_const_islands.patch"
+  "patches/pic.patch"
+  "patches/arm_s.patch"
 ]
 substs: ["android.conf" "config/Makefile"]
 build: [
