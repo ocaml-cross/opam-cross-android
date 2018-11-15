@@ -1,0 +1,19 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+substs: ["libpng-sys-android.config"]
+build: [
+  ["./configure" "--host=%{conf-android:triple}%"
+                 "--prefix=%{prefix}%/android-deps/libpng"
+                 "--disable-shared"
+                 "--with-pic"
+                 "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"
+                 "CPPFLAGS=%{conf-android:cflags}%"
+                 "LDFLAGS=%{conf-android:ldflags}%"
+                 "CC=" "CXX="]
+  ["make" "-j" jobs "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+]
+install: [
+  ["make" "install" "PATH=%{conf-android:toolchain}%:/usr/bin:/bin"]
+]
+remove:  [["rm" "-rf" "%{prefix}%/android-deps/libpng"]]
+depends: ["conf-android"]
