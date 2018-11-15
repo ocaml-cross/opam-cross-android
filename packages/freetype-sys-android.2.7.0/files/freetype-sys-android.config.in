@@ -1,3 +1,0 @@
-pkgconfig: "%{prefix}%/android-deps/freetype/lib/pkgconfig"
-cflags:    "-I%{prefix}%/android-deps/freetype/include/freetype2"
-ldflags:   "-L%{prefix}%/android-deps/freetype/lib"

@@ -1,3 +1,0 @@
-pkgconfig: "%{prefix}%/android-deps/libpng/lib/pkgconfig"
-cflags:    "-I%{prefix}%/android-deps/libpng/include"
-ldflags:   "-L%{prefix}%/android-deps/libpng/lib"
