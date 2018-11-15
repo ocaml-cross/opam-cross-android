@@ -2,9 +2,7 @@ opam-version: "1"
 maintainer: "whitequark@whitequark.org"
 patches: [
   "patches/ocamlmklib.patch"
-  "patches/arm_const_islands.patch"
   "patches/pic.patch"
-  "patches/arm_s.patch"
 ]
 substs: ["android.conf" "config/Makefile"]
 build: [
@@ -21,4 +19,7 @@ depends: [
 depopts: [
   "conf-flambda-android"
 ]
-available: [ (ocaml-version = "4.04.0" & arch = "x86") | compiler = "4.04.0+32bit" ]
+conflicts: [
+  "ocaml-android32"
+]
+available: [ (ocaml-version = "4.04.0" & arch = "amd64") | compiler = "4.04.0" ]
