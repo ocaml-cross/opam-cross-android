@@ -5,7 +5,7 @@ This repository contains an up-to-date Android toolchain featuring OCaml 4.04.0,
 
 The supported build systems are 32-bit and 64-bit x86 Linux. The supported target systems are 32-bit x86 and ARM Android.
 
-If you need support for other platforms or versions, please [open an issue](https://github.com/whitequark/opam-cross-android/issues).
+If you need support for other platforms or versions, please [open an issue](https://github.com/ocaml-cross/opam-cross-android/issues).
 
 Prerequisites
 -------------
@@ -19,7 +19,7 @@ Installation
 
 Add this repository to OPAM:
 
-    opam repository add android git://github.com/whitequark/opam-cross-android
+    opam repository add android https://github.com/ocaml-cross/opam-cross-android.git
 
 On 64-bit build systems, switch to 32-bit compiler when compiling for 32-bit targets:
 
@@ -30,11 +30,6 @@ Otherwise, use a regular compiler; its version must match the version of the cro
 
     opam switch 4.04.0
     eval `opam config env`
-
-Pin some prerequisite packages that don't yet have fixes merged upstream:
-
-    opam pin add ocamlbuild https://github.com/ocaml/ocamlbuild.git
-    opam pin add topkg https://github.com/whitequark/topkg.git
 
 Configure the compiler for ARM:
 
@@ -72,7 +67,7 @@ If desired, request the compiler to be built with [flambda][] optimizers:
 
     opam install conf-flambda-android
 
-[flambda]: https://caml.inria.fr/pub/docs/manual-ocaml/flambda.html
+[flambda]: https://ocaml.org/manual/flambda.html
 
 Install the compiler:
 
@@ -161,4 +156,4 @@ Some of the tricks in this repository were inspired by Jerome Vouillon's [opam-a
 References
 ----------
 
-See also [opam-cross-windows](https://github.com/whitequark/opam-cross-windows) and [opam-cross-ios](https://github.com/whitequark/opam-cross-ios).
+See also [opam-cross-windows](https://github.com/ocaml-cross/opam-cross-windows) and [opam-cross-ios](https://github.com/ocaml-cross/opam-cross-ios).
