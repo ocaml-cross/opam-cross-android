@@ -1,0 +1,5 @@
+prefix: "%{prefix}%/android-sysroot"
+libdir: "%{prefix}%/android-sysroot/lib"
+includedir: "%{prefix}%/android-sysroot/include"
+pkg_config_libdir: "%{prefix}%/android-sysroot/lib/pkgconfig"
+bindir: "%{prefix}%/android-sysroot/bin"

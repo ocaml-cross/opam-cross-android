@@ -1,0 +1,52 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "MIT"
+synopsis: "Location of the Android cross sysroot"
+description: """
+Where cross-compiled C libraries live, declared once.
+
+Some OCaml packages bind a C library that has to exist for the target before
+they will build. Every build-<lib> installs into this prefix and every conf-<lib>
+looks in it, so the layout is stated here rather than restated in each package.
+
+The location is fixed. `dune install -x android` writes to
+`$(opam var prefix)/android-sysroot` by its own convention, ignoring findlib's
+destdir, so that is where the sysroot has to be for the OCaml packages and the C
+libraries to end up in the same tree."""
+depends: ["conf-ndk-android"]
+setenv: [
+  # Every cross build needs library discovery confined to the sysroot, declared
+  # once here rather than repeated in each package that depends on it.
+  #
+  # PKG_CONFIG_LIBDIR replaces pkg-config's search path where PKG_CONFIG_PATH
+  # would only prepend to it. LIBRARY_PATH and C_INCLUDE_PATH are not
+  # pkg-config's business at all and matter just as much: lwt's libev probe
+  # reads LIBRARY_PATH, takes its parent and tests for include/ev.h, so a host
+  # libev is found with no .pc file involved anywhere.
+  #
+  # opam exports this through `opam env`, so a project built against this
+  # toolchain is covered too — and so is everything else in the switch, which is
+  # what makes it a cross switch. See the README.
+  [PKG_CONFIG_LIBDIR = "%{prefix}%/android-sysroot/lib/pkgconfig"]
+  [PKG_CONFIG_PATH = ""]
+  [LIBRARY_PATH = "%{prefix}%/android-sysroot/lib"]
+  [C_INCLUDE_PATH = "%{prefix}%/android-sysroot/include"]
+  [CPATH = ""]
+]
+substs: ["build-android-sysroot.config"]
+install: [
+  # Creating these in build: would be denied — opam sandboxes the build phase
+  # away from anything outside the build directory.
+  ["sh" "-exc" "mkdir -p %{prefix}%/android-sysroot/lib/pkgconfig %{prefix}%/android-sysroot/include"]
+  # Shared by the conf-<lib> packages, so each is a test.c and one command.
+  ["install" "-m" "0755" "android-cross-detect" "%{bin}%/android-cross-detect"]
+]
+remove: [["rm" "-f" "%{bin}%/android-cross-detect"]]
+extra-files: [
+  ["android-cross-detect" "sha256=d4d7f42fa592014fb2702788ed6163aa912bd67962e865f9f1809a2bbf695bbe"]
+  ["build-android-sysroot.config.in" "sha256=1014a62498ea6a4dc592cb7df9bb61b40a6f7fa42d4066da52d79e0599aa0767"]
+]

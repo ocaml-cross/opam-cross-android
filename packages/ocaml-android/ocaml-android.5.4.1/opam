@@ -1,0 +1,90 @@
+opam-version: "2.0"
+license: "LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception"
+synopsis: "OCaml 5.4.1 cross-compiler for Android"
+maintainer: [
+  "Romain Beauxis <toots@rastageeks.org>"
+]
+authors: [
+  "Xavier Leroy"
+  "Damien Doligez"
+  "Alain Frisch"
+  "Jacques Garrigue"
+  "Didier Rémy"
+  "KC Sivaramakrishnan"
+  "Jérôme Vouillon"
+]
+homepage: "https://ocaml.org"
+bug-reports: "https://github.com/ocaml/ocaml/issues"
+dev-repo: "git+https://github.com/ocaml/ocaml.git#5.4"
+depends: [
+  "ocaml" {= version}
+  "build-android-sysroot"
+  "conf-ndk-android"
+  "ocamlfind"
+]
+substs: [
+  "android.conf"
+]
+# Android is ELF/Linux, so none of the Windows cross-compilation apparatus
+# applies: no flexdll, no PE. This is upstream's own cross support.
+#
+# The NDK gives clang a triple-and-API prefix but leaves the binutils
+# unprefixed, hence the two different sources for CC and AR/RANLIB.
+#
+# --disable-function-sections: configure enables it for an ELF target, but a
+# macOS host builds its own tools with the target's OPTCOMPFLAGS, and a macOS
+# ocamlopt has no such support ("OCaml has been configured without support for
+# -function-sections"). Costs only --gc-sections dead-code trimming.
+patches: ["no-pthread-cancel.patch"]
+build: [
+  [ "./configure"
+    "--target=%{conf-ndk-android:host}%"
+    "--prefix=%{prefix}%/android-sysroot"
+    "--without-zstd"
+    "--enable-systhreads"
+    "--disable-function-sections"
+    "CC=%{conf-ndk-android:prefix}%clang"
+    "AR=%{conf-ndk-android:bindir}%/llvm-ar"
+    "RANLIB=%{conf-ndk-android:bindir}%/llvm-ranlib"
+    # The host strip has no aarch64 support on some distributions, and the
+    # stdlib build strips an executable it has just cross-compiled.
+    "STRIP=%{conf-ndk-android:bindir}%/llvm-strip"
+    "-C"
+    "--with-afl" {ocaml-option-afl:installed}
+    "--disable-flat-float-array" {ocaml-option-no-flat-float-array:installed}
+    "--enable-flambda" {ocaml-option-flambda:installed}
+    "--enable-frame-pointers" {ocaml-option-fp:installed}
+    "--enable-tsan" {ocaml-option-tsan:installed}
+    "--disable-warn-error"
+  ]
+  [make "-j%{jobs}%" "crossopt"]
+  # Copied rather than printf'd: the content passes through opam's string
+  # parser and then the shell's, and the quoting does not survive both.
+  # opam treats a files/<pkg>.install as the manifest itself and refuses it as
+  # an extra-file, hence the rename here.
+  ["cp" "install-manifest" "ocaml-android.install"]
+]
+install: [
+  [make "installcross"]
+  # <host>-ocamlc and friends, for tools that look for a triple-prefixed compiler
+  ["sh" "./install.sh" "%{prefix}%" "%{conf-ndk-android:host}%"]
+]
+remove: [["sh" "./remove.sh" "%{prefix}%" "%{conf-ndk-android:host}%"]]
+url {
+  src: "https://github.com/ocaml/ocaml/releases/download/5.4.1/ocaml-5.4.1.tar.gz"
+  checksum: "sha256=d4528517aaa1a44b8e2b1bc109a1ed0a5e0014f3ddc4feb8906b11a7e063e89a"
+}
+depopts: [
+  "ocaml-option-afl"
+  "ocaml-option-no-flat-float-array"
+  "ocaml-option-flambda"
+  "ocaml-option-fp"
+  "ocaml-option-tsan"
+]
+extra-files: [
+  ["android.conf.in" "sha256=963fc806024d8627c674152916dd56f8a709532773e4720b39bc430377afc135"]
+  ["install-manifest" "sha256=af6269aaa0105cca45c00d3572dc7acc43f328ffe8f3b88e8a1d481482f0a6d3"]
+  ["install.sh" "sha256=aaa9a49005eb13cdfbe41b79746deaae324fbc4d7ef7dacf71a60f25be91539b"]
+  ["no-pthread-cancel.patch" "sha256=a1f83eba36d089df8cb564a9feb2c65b356b286a0b5452140b3f5102203413d8"]
+  ["remove.sh" "sha256=c6cf16a6df373bbd3b2b53ab7256ddf6135c5639bc76669687d31dff7cb5cb30"]
+]

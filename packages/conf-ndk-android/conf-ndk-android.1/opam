@@ -1,0 +1,29 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+license: "MIT"
+build: [
+  ["sh" "-exc" "${TOOLPREF64-aarch64-linux-android26-}clang --version"]
+  ["sh" "-c" "echo \"prefix: \\\"${TOOLPREF64-aarch64-linux-android26-}\\\"\" >conf-ndk-android.config"]
+  ["sh" "-c" "echo \"host: \\\"`${TOOLPREF64-aarch64-linux-android26-}clang -dumpmachine`\\\"\" >>conf-ndk-android.config"]
+  # The NDK prefixes clang with the target triple and API level but leaves the
+  # binutils unprefixed (llvm-ar, llvm-ranlib, ...), so a single prefix cannot
+  # name both. Publish the directory holding them, derived from the compiler.
+  ["sh" "-c" "echo \"bindir: \\\"`dirname \\`command -v ${TOOLPREF64-aarch64-linux-android26-}clang\\``\\\"\" >>conf-ndk-android.config"]
+]
+synopsis:
+  "Virtual package specifying the location of the Android NDK toolchain for 64-bit ARM"
+description: """
+Locates the NDK's LLVM toolchain targeting aarch64-linux-android.
+
+Set TOOLPREF64 to the compiler path prefix; the tools named ${TOOLPREF64}clang
+must be possible to locate via PATH. For a standard NDK installation:
+
+    TOOLPREF64=$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android26- \\
+      opam install ocaml-android
+
+The API level embedded in the prefix is the minimum Android version the
+resulting binaries will run on."""
+depends: ["ocaml"]

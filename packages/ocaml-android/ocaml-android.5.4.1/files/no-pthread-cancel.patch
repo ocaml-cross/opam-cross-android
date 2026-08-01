@@ -1,0 +1,18 @@
+--- a/runtime/domain.c
++++ b/runtime/domain.c
+@@ -2225,7 +2225,15 @@
+       /* If this STW request is handled by the backup thread, the
+          domain thread is currently running C code. */
+       domain_self->domain_canceled = true;
++#ifdef __ANDROID__
++      /* Bionic has no pthread_cancel. The straggler is left running; the
++         process is terminating, so the OS reaps it momentarily. Keeping
++         domain_canceled set is what matters — it stops the teardown loop from
++         freeing a lock the thread may still hold, which is more necessary here
++         than when the cancel does go through. */
++#else
+       (void)pthread_cancel(domain_self->tid);
++#endif
+       /* We are intentionally not waiting for the thread to terminate here,
+          and not decrementing the number of running domains either, since
+          we don't know the state of the various locks and condition

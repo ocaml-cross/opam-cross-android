@@ -1,0 +1,68 @@
+#!/bin/sh
+# Report whether a C library is usable for the target, and how.
+#
+#   android-cross-detect <sysroot> <cc> <pkg-config-name> <fallback-libs> <out>
+#
+# Shared by the conf-<lib> packages so each is a test.c and one command.
+#
+# pkg-config is confined to the sysroot: PKG_CONFIG_LIBDIR replaces the search
+# path where PKG_CONFIG_PATH would only prepend to it, leaving host .pc files
+# reachable. Not every library ships one — libev does not — hence the fallback.
+#
+# The test is compiled *and linked*. A header alone proves nothing: the build
+# machine has headers for libraries the target does not have, and only the link
+# catches an archive that cannot satisfy the symbols.
+set -e
+
+SYSROOT="$1"; CC="$2"; PC_NAME="$3"; FALLBACK_LIBS="$4"; OUT="$5"
+
+PKG_CONFIG_LIBDIR="$SYSROOT/lib/pkgconfig"
+export PKG_CONFIG_LIBDIR
+unset PKG_CONFIG_PATH
+
+# --static, because everything in the sysroot is a static archive: it is the
+# only form that reports Requires.private and Libs.private, and without those a
+# library with transitive dependencies under-links. libssl needs libcrypto this
+# way; a library with none, like gmp, reports the same either way.
+CFLAGS=$(pkg-config --cflags "$PC_NAME" 2>/dev/null) || CFLAGS=""
+LIBS=$(pkg-config --libs --static "$PC_NAME" 2>/dev/null) || LIBS=""
+
+# An answer is only usable if it names the sysroot. A build machine that has
+# the library itself can have pkg-config answer from the host .pc, and because
+# its includedir and libdir are system directories, pkg-config drops the -I and
+# -L it considers redundant -- leaving a bare -lfoo that silently means the
+# host copy. Confining the search path is meant to prevent that and does not
+# always suffice, so the answer is checked rather than trusted.
+case " $LIBS " in
+    *" -L$SYSROOT/"*) ;;
+    *) CFLAGS=""; LIBS="" ;;
+esac
+
+if [ -z "$LIBS" ]; then
+    CFLAGS="-I$SYSROOT/include"
+    LIBS="-L$SYSROOT/lib $FALLBACK_LIBS"
+fi
+
+if ! err=$($CC $CFLAGS test.c $LIBS -o test.out 2>&1); then
+    cat >&2 <<MSG
+No $PC_NAME for the target in $SYSROOT.
+
+$CC $CFLAGS test.c $LIBS -o test.out
+$err
+
+Either have this repository build it:
+
+    opam install build-$PC_NAME-android
+
+or put your own cross-built copy there. ANDROID_SYSROOT selects the location;
+build-android-sysroot records it, so reinstall that package after changing it.
+MSG
+    exit 1
+fi
+
+{
+    echo "includedir: \"$(printf '%s' "$CFLAGS" | sed -n 's/.*-I\([^ ]*\).*/\1/p')\""
+    echo "libdir: \"$(printf '%s' "$LIBS" | sed -n 's/.*-L\([^ ]*\).*/\1/p')\""
+    echo "cflags: \"$CFLAGS\""
+    echo "libs: \"$LIBS\""
+} > "$OUT"
