@@ -1,0 +1,21 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "MIT"
+synopsis:
+  "Compatibility package for OCaml's mutable strings starting from 4.02"
+description: """
+Bytes lives in the stdlib, so this installs nothing but a findlib META — the
+same shape as seq-android, and needed for the same reason: packages that still
+name (libraries bytes) cannot otherwise resolve it under the cross toolchain."""
+install: ["ocamlfind" "-toolchain" "android" "install" "bytes" "META"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "bytes"]
+depends: [
+  "ocaml"
+  "ocaml-android" {>= "4.02.0"}
+]
+flags: light-uninstall
+extra-files: ["META" "sha256=03ea3dc4e4fe2e3f6d2da258a0d567948d166e341938451dccabbf2f7011743b"]
