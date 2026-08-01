@@ -1,0 +1,36 @@
+opam-version: "2.0"
+synopsis: "Utilities for working with Jane Street AST constructs"
+description: "Part of the Jane Street's PPX rewriters collection."
+maintainer: "Jane Street developers"
+authors: "Jane Street Group, LLC"
+license: "MIT"
+homepage: "https://github.com/janestreet/ppxlib_jane"
+doc:
+  "https://ocaml.janestreet.com/ocaml-core/latest/doc/ppxlib_jane/index.html"
+bug-reports: "https://github.com/janestreet/ppxlib_jane/issues"
+depends: [
+  # Built in the native context as well: dune runs the ppx here.
+  "ppxlib"
+  "ocaml-android"
+  "dune" {>= "3.11.0"}
+  "ppxlib-android" {>= "0.36.0"}
+]
+
+dev-repo: "git+https://github.com/janestreet/ppxlib_jane.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-p" "ppxlib_jane" "-j" jobs "-x" "android" "@install"]
+  ["rm" "%{name}%.install"]
+]
+install: ["dune" "install" "-x" "android" "-p" "ppxlib_jane"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "ppxlib_jane"]
+
+url {
+  src:
+    "https://github.com/janestreet/ppxlib_jane/archive/refs/tags/v0.17.4.tar.gz"
+  checksum: [
+    "md5=d572c6d6c3b4da9e480c65ba85d3c50a"
+    "sha512=e2931de633d9dcce2ca121e1cf117e159af4ccc52a7e420c328021da0145b6b90194e4545f97afe9cd032c04c6bc2563faa2d852ad45b041b014c688153799d6"
+  ]
+}
+x-maintenance-intent: ["(latest)"]
