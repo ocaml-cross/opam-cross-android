@@ -1,0 +1,49 @@
+opam-version: "2.0"
+synopsis: "A network connection establishment library for Lwt_unix"
+maintainer: "anil@recoil.org"
+authors: [
+  "Anil Madhavapeddy" "Thomas Leonard" "Thomas Gazagnaire" "Rudi Grinberg"
+]
+license: "ISC"
+tags: "org:mirage"
+homepage: "https://github.com/mirage/ocaml-conduit"
+bug-reports: "https://github.com/mirage/ocaml-conduit/issues"
+depends: [
+  # Built in the native context as well: dune runs the ppx here.
+  "ppx_sexp_conv"
+  "ocaml-android"
+  "dune" {>= "2.0"}
+  "logs-android"
+  "ppx_sexp_conv-android" {>= "v0.13.0"}
+  "conduit-lwt-android" {= version}
+  "lwt-android" {>= "5.7.0"}
+  "uri-android" {>= "1.9.4"}
+  "ipaddr-android" {>= "4.0.0"}
+  "ipaddr-sexp-android"
+  "ca-certs-android"
+]
+depopts: ["tls-lwt-android" "lwt_ssl" "launchd"]
+conflicts: [
+  "tls-lwt-android" {< "1.0.0"}
+  "ssl" {< "0.5.12"}
+]
+
+dev-repo: "git+https://github.com/mirage/ocaml-conduit.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-p" "conduit-lwt-unix" "-j" jobs "-x" "android" "@install"]
+  ["rm" "%{name}%.install"]
+]
+install: ["dune" "install" "-x" "android" "-p" "conduit-lwt-unix"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "conduit-lwt-unix"]
+
+url {
+  src:
+    "https://github.com/mirage/ocaml-conduit/releases/download/v8.0.0/conduit-8.0.0.tbz"
+  checksum: [
+    "sha256=0a63d910865b5473893a170cda51f61388f488ecf4c4b2ed7fe9ec4e2cf66f61"
+    "sha512=63c73616c5a4a6436aa9a1c8d2771d70e15789c639aaec6b9a95622aee0b364f18278e88ed769fbae84fefb817bef1c9c81fe41e969f03db99612295a159b536"
+  ]
+}
+x-commit-hash: "cb1e6cfed4a24bf3fa49627424fb9d43bdc20d0f"
+x-maintenance-intent: ["(latest)"]
