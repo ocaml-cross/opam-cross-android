@@ -1,0 +1,36 @@
+opam-version: "2.0"
+synopsis: "Intrinsics"
+description: """\
+Provides functions to invoke amd64 instructions (such as cmov, min/maxsd, popcnt)
+     when available, or compatible software implementation on other targets.
+     See also ocaml_intrinsics library."""
+maintainer: "Jane Street developers"
+authors: "Jane Street Group, LLC"
+license: "MIT"
+homepage: "https://github.com/janestreet/ocaml_intrinsics_kernel"
+doc:
+  "https://ocaml.janestreet.com/ocaml-core/latest/doc/ocaml_intrinsics_kernel/index.html"
+bug-reports: "https://github.com/janestreet/ocaml_intrinsics_kernel/issues"
+depends: [
+  "ocaml-android"
+  "dune" {>= "3.11.0"}
+]
+
+dev-repo: "git+https://github.com/janestreet/ocaml_intrinsics_kernel.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-p" "ocaml_intrinsics_kernel" "-j" jobs "-x" "android" "@install"]
+  ["rm" "%{name}%.install"]
+]
+install: ["dune" "install" "-x" "android" "-p" "ocaml_intrinsics_kernel"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "ocaml_intrinsics_kernel"]
+
+url {
+  src:
+    "https://github.com/janestreet/ocaml_intrinsics_kernel/archive/refs/tags/v0.17.1.tar.gz"
+  checksum: [
+    "md5=56ed7d0b0331e5bcfa4e016515c0267d"
+    "sha512=21e596d6407a620866cee7cab47ef1a9446d6a733b4994e809ea5566d5fa956682a5c6a6190ffb0ed48458abd658301944ed10c4389d91ecb8df677a5f87f2ab"
+  ]
+}
+x-maintenance-intent: ["(latest)"]
