@@ -1,0 +1,30 @@
+opam-version: "2.0"
+synopsis: "Cross-platform stats about memory usage"
+maintainer: "The Savonet Team <savonet-users@lists.sourceforge.net>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+license: "MIT"
+homepage: "https://github.com/savonet/ocaml-mem_usage"
+bug-reports: "https://github.com/savonet/ocaml-mem_usage/issues"
+depends: [
+  "conf-sysinfo" {os = "freebsd"}
+  "ocaml-android"
+  "dune" {>= "2.8"}
+]
+
+dev-repo: "git+https://github.com/savonet/ocaml-mem_usage.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-p" "mem_usage" "-j" jobs "-x" "android" "@install"]
+  ["rm" "%{name}%.install"]
+]
+install: ["dune" "install" "-x" "android" "-p" "mem_usage"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "mem_usage"]
+
+url {
+  src:
+    "https://github.com/savonet/ocaml-mem_usage/archive/refs/tags/v0.1.3.tar.gz"
+  checksum: [
+    "md5=1a3be7ee11ef8be572bc636909363dc4"
+    "sha512=c871f9e039f38866ca4ce910c668936cd3e04f4ee0eb7ea80f2eec57e6a37c5210e57054aad55ac1889cbae7f69521b3d038e31a36a3908ab9f89a6eeaab6e71"
+  ]
+}
