@@ -1,0 +1,51 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "MIT"
+synopsis: "Build GMP for Android targets into the cross sysroot"
+description: """
+zarith binds GMP, which therefore has to exist for the target. `build-<lib>`
+does the building; `conf-<lib>` only detects, and depends on this optionally —
+so an externally cross-built GMP works just as well, provided pkg-config can
+see it.
+
+Static but position-independent: Android binaries are all PIE, and zarith links
+its stubs into a .cmxs, which will not link against a non-PIC archive.
+
+make install leaves opam without a manifest, so removal is spelled out rather
+than left to strand the sysroot."""
+depends: ["conf-ndk-android" "build-android-sysroot"]
+build: [
+  [ "./configure"
+    "--host=aarch64-linux-android"
+    "--prefix=%{build-android-sysroot:prefix}%"
+    "--disable-shared"
+    "--enable-static"
+    "--with-pic"
+    "CC=%{conf-ndk-android:prefix}%clang"
+    "AR=%{conf-ndk-android:bindir}%/llvm-ar"
+    "RANLIB=%{conf-ndk-android:bindir}%/llvm-ranlib"
+    "STRIP=%{conf-ndk-android:bindir}%/llvm-strip"
+  ]
+  [make "-j%{jobs}%"]
+]
+install: [[make "install"]]
+remove: [
+  ["rm" "-f"
+   "%{build-android-sysroot:prefix}%/include/gmp.h"
+   "%{build-android-sysroot:prefix}%/lib/libgmp.a"
+   "%{build-android-sysroot:prefix}%/lib/libgmp.la"
+   "%{build-android-sysroot:prefix}%/lib/pkgconfig/gmp.pc"
+   "%{build-android-sysroot:prefix}%/share/info/gmp.info"
+   "%{build-android-sysroot:prefix}%/share/info/gmp.info-1"
+   "%{build-android-sysroot:prefix}%/share/info/gmp.info-2"]
+]
+url {
+  src: "https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+  # gmplib.org times out from some hosts.
+  mirrors: ["https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz"]
+  checksum: "sha256=a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898"
+}
