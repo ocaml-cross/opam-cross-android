@@ -1,0 +1,39 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "The cmdliner programmers"
+homepage: "https://erratique.ch/software/cmdliner"
+doc: "https://erratique.ch/software/cmdliner/doc"
+dev-repo: "git+https://erratique.ch/repos/cmdliner.git"
+bug-reports: "https://github.com/dbuenzli/cmdliner/issues"
+license: "ISC"
+synopsis: "Declarative definition of command line interfaces for OCaml"
+description: """
+cmdliner 2.x builds through its own Makefile, and OCAMLC_WHERE comes from
+`ocamlc -where` on PATH, which is what selects the cross toolchain.
+
+Only the library targets are built. `make all` also runs build-completions and
+build-man, which execute the cmdliner binary that was just compiled — an
+aarch64 executable that cannot run on the build machine. Nothing downstream
+needs the tool, its shell completions or its man pages."""
+depends: [
+  "ocaml-android"
+  "ocamlfind"
+]
+build: [
+  ["env"
+   "PATH=%{prefix}%/android-sysroot/bin:%{prefix}%/bin:/usr/bin:/bin"
+   make "build-byte" "build-native" "build-native-dynlink"]
+]
+install: [
+  ["env"
+   "PATH=%{prefix}%/android-sysroot/bin:%{prefix}%/bin:/usr/bin:/bin"
+   make "install-common" "install-srcs" "install-byte" "install-native"
+   "install-native-dynlink"
+   "LIBDIR=%{prefix}%/android-sysroot/lib/cmdliner"]
+]
+remove: [["rm" "-rf" "%{prefix}%/android-sysroot/lib/cmdliner"]]
+url {
+  src: "https://erratique.ch/software/cmdliner/releases/cmdliner-2.1.1.tbz"
+  checksum:
+    "sha512=cdc338ae2e56a72b7c75dae9564c57cca4e1fbfac454aabbf8303fcb612346284aede5984dfde7e8a7a496cc870bbd57ddf28cab3a38667279b31657f85c15dd"
+}
