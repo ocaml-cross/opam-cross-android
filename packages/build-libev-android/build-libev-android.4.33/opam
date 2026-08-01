@@ -1,0 +1,44 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "http://software.schmorp.de/pkg/libev.html"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "BSD-2-Clause OR GPL-2.0-or-later"
+synopsis: "Build libev for Android targets into the cross sysroot"
+description: """
+lwt can use libev as its event loop, and needs it built for the target to do so.
+Install this to have it built into the sysroot, or put your own there; either
+way conf-libev-android is what reports it.
+
+Static but position-independent, as everything in the sysroot must be: Android
+binaries are all PIE, and a non-PIC archive will not link into the shared stubs
+OCaml packages produce."""
+depends: ["conf-ndk-android" "build-android-sysroot"]
+build: [
+  [ "./configure"
+    "--host=aarch64-linux-android"
+    "--prefix=%{build-android-sysroot:prefix}%"
+    "--disable-shared"
+    "--enable-static"
+    "--with-pic"
+    "CC=%{conf-ndk-android:prefix}%clang"
+    "AR=%{conf-ndk-android:bindir}%/llvm-ar"
+    "RANLIB=%{conf-ndk-android:bindir}%/llvm-ranlib"
+  ]
+  [make "-j%{jobs}%"]
+]
+install: [[make "install"]]
+remove: [
+  ["rm" "-f"
+   "%{build-android-sysroot:prefix}%/include/ev.h"
+   "%{build-android-sysroot:prefix}%/include/ev++.h"
+   "%{build-android-sysroot:prefix}%/include/event.h"
+   "%{build-android-sysroot:prefix}%/lib/libev.a"
+   "%{build-android-sysroot:prefix}%/lib/libev.la"
+   "%{build-android-sysroot:prefix}%/share/man/man3/ev.3"]
+]
+url {
+  src: "http://dist.schmorp.de/libev/libev-4.33.tar.gz"
+  checksum: "sha256=507eb7b8d1015fbec5b935f34ebed15bf346bed04a11ab82b8eee848c4205aea"
+}
