@@ -1,0 +1,36 @@
+opam-version: "2.0"
+synopsis: "Include a file as a string at compile time"
+description:
+  "ppx_blob allows you to include a binary blob from a file as a string. Writing `[%blob \"filename\"]` will replace the string with the contents of the file at compile time. This allows the inclusion of arbitary, possibly compressed, data, without the need to respect OCaml's lexical conventions."
+maintainer: "contact@coherentgraphics.co.uk"
+authors: "John Whitington"
+license: "Unlicense"
+homepage: "https://github.com/johnwhitington/ppx_blob"
+doc: "https://johnwhitington.github.io/ppx_blob/"
+bug-reports: "https://github.com/johnwhitington/ppx_blob/issues/"
+depends: [
+  # Built in the native context as well: dune runs the ppx here.
+  "ppxlib"
+  "ocaml-android"
+  "dune" {>= "1.11"}
+  "ppxlib-android" {>= "0.9.0"}
+]
+
+dev-repo: "git+https://github.com/johnwhitington/ppx_blob.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-p" "ppx_blob" "-j" jobs "-x" "android" "@install"]
+  ["rm" "%{name}%.install"]
+]
+install: ["dune" "install" "-x" "android" "-p" "ppx_blob"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "ppx_blob"]
+
+url {
+  src:
+    "https://github.com/johnwhitington/ppx_blob/releases/download/0.9.0/ppx_blob-0.9.0.tbz"
+  checksum: [
+    "sha256=f115e90a5f1075cedc9d930ab91271f8670ece4dee10dc1147ab39b8afb570e4"
+    "sha512=bad11f8ffbec82a04bb5f90e7548a7ad9ac4bf7e9b733815f6c956d7e0002fb258c52783ded847ab09fe3cd60e5eac2901fccaefd4fd4f885f20942d0ef66fea"
+  ]
+}
+x-commit-hash: "38c7693141bd629b70cd8a17306f5ce359ea9c59"
