@@ -1,0 +1,186 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+# A push that supersedes a running build makes that build irrelevant.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OCAML_VERSION: "5.4.1"
+  ANDROID_API: "26"
+
+jobs:
+  compiler:
+    name: cross compiler
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.key.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache key
+        id: key
+        # Slow to build and rarely changing: rekey only when the compiler or the
+        # toolchain packages do, not when a library package changes.
+        run: |
+          echo "value=opam-${{ runner.os }}-ocaml${{ env.OCAML_VERSION }}-$(
+            git ls-files -s packages/ocaml-android packages/conf-ndk-android \
+                           packages/build-android-sysroot \
+              | sha256sum | cut -c1-16
+          )" >> "$GITHUB_OUTPUT"
+
+      - uses: ./.github/actions/setup-cross
+        id: setup
+        with:
+          ocaml-version: ${{ env.OCAML_VERSION }}
+          android-api: ${{ env.ANDROID_API }}
+          cache-key: ${{ steps.key.outputs.value }}
+          cache-read-only: "false"
+
+      - name: Build the cross compiler
+        if: steps.setup.outputs.cache-hit != 'true'
+        env:
+          TOOLPREF64: ${{ steps.setup.outputs.toolpref }}
+        run: opam install -y ocaml-android
+
+  affected:
+    name: what to build
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.list.outputs.packages }}
+      any: ${{ steps.list.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Needed to diff against the merge base rather than a shallow tip.
+          fetch-depth: 0
+
+      # opam admin and opam lint work on a repository directory and need no
+      # switch, so the binary alone is enough — a full setup-ocaml here would
+      # build a switch this job never uses.
+      - name: Install opam
+        run: |
+          curl -fsSL -o /usr/local/bin/opam \
+            https://github.com/ocaml/opam/releases/download/2.5.1/opam-2.5.1-x86_64-linux
+          chmod +x /usr/local/bin/opam
+          opam --version
+
+      - name: Lint every package
+        run: opam lint packages/*/*/opam
+
+      - name: Changed packages, and what depends on them
+        id: list
+        run: |
+          set -eu
+          base="${{ github.event.pull_request.base.sha || github.event.before }}"
+          # A first push to a branch, or a force push, leaves no usable base.
+          if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base="$(git rev-list --max-parents=0 HEAD | tail -1)"
+          fi
+
+          if [ "$base" = "$(git rev-parse HEAD)" ]; then
+            # Nothing to diff against: the whole tree is new, so all of it is
+            # affected. Diffing HEAD against itself would report no work and
+            # silently pass a repository nothing has ever built.
+            changed=$(ls packages)
+          else
+            changed=$(git diff --name-only "$base"...HEAD -- packages/ \
+                      | cut -d/ -f2 | sort -u)
+          fi
+          if [ -z "$changed" ]; then
+            echo "any=false" >> "$GITHUB_OUTPUT"
+            echo "packages=[]" >> "$GITHUB_OUTPUT"
+            echo "Nothing under packages/ changed."
+            exit 0
+          fi
+          echo "Changed:"; printf '  %s\n' $changed
+
+          opam repository add android . --set-default >/dev/null 2>&1 || true
+
+          # A package is only proven by what builds against it, so take the
+          # reverse dependency closure rather than the changed packages alone.
+          #
+          # --depopts is not optional here: a conf-<lib> is an *optional*
+          # dependency of its consumer, so without it a change to
+          # conf-libev-android would rebuild nothing at all, when what it has to
+          # prove is that lwt still picks the library up.
+          affected=$(for p in $changed; do
+                       echo "$p"
+                       opam admin list --depends-on "$p" --recursive --depopts --short 2>/dev/null || true
+                     done | sort -u)
+
+          echo "Affected:"; printf '  %s\n' $affected
+          echo "any=true" >> "$GITHUB_OUTPUT"
+          echo "packages=$(printf '%s\n' $affected | jq -R . | jq -sc .)" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: ${{ matrix.package }}
+    needs: [compiler, affected]
+    if: needs.affected.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      # One broken package should not hide the state of the others.
+      fail-fast: false
+      # Each job resolves its own dependency chain, so the pool is bounded to
+      # keep a wide change from monopolising the runners.
+      max-parallel: 8
+      matrix:
+        package: ${{ fromJson(needs.affected.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-cross
+        id: setup
+        with:
+          ocaml-version: ${{ env.OCAML_VERSION }}
+          android-api: ${{ env.ANDROID_API }}
+          cache-key: ${{ needs.compiler.outputs.cache-key }}
+
+      - name: Install ${{ matrix.package }}
+        env:
+          TOOLPREF64: ${{ steps.setup.outputs.toolpref }}
+        # No --with-test: these packages cross-compile, so their suites would
+        # have to run on a device.
+        run: |
+          set -eu
+          pkg=${{ matrix.package }}
+
+          # An optional dependency this repository provides is often the thing
+          # under test: lwt-android only proves it picks libev up when
+          # conf-libev-android is installed. Leaving it out tests the degraded
+          # path and calls it a pass.
+          extra=$(opam show --color=never --field depopts: "$pkg" \
+                    | tr -d '"|&' | tr ' ' '\n' \
+                    | while read -r d; do
+                        if [ -n "$d" ] && [ -d "packages/$d" ]; then echo "$d"; fi
+                      done)
+
+          # Each conf-<lib>-android this install will pull in, mapped to the
+          # build-<lib>-android that puts the library in the sysroot. Taken from
+          # the install plan rather than `opam list --required-by`, which
+          # resolves against the *installed* universe and so reports nothing in
+          # a fresh switch. A plan line is "<bullet> <name> <version> ...",
+          # hence the version field: it keeps prose from matching.
+          sysroot=$(opam install --dry-run --color=never $extra "$pkg" 2>/dev/null \
+                    | awk 'NF>=3 && $2 ~ /^conf-[a-z0-9._+-]+-android$/ && $3 ~ /^[0-9]/ { print $2 }' \
+                    | sed 's/^conf-/build-/' | sort -u \
+                    | while read -r b; do
+                        if [ -d "packages/$b" ]; then echo "$b"; fi
+                      done)
+
+          # A separate invocation: conf-<lib> only reports what is already in
+          # the sysroot, and one solver run is free to run the detection while
+          # the library is still compiling.
+
+          if [ -n "$sysroot" ]; then
+            echo "Sysroot libraries:" $sysroot
+            opam install -y $sysroot
+          fi
+
+          echo "Installing:" $extra "$pkg"
+          opam install -y $extra "$pkg"
