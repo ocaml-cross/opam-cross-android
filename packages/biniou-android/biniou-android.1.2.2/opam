@@ -1,0 +1,49 @@
+opam-version: "2.0"
+synopsis:
+  "Binary data format designed for speed, safety, ease of use and backward compatibility as protocols evolve"
+description: """\
+Biniou (pronounced "be new") is a binary data format designed for speed, safety,
+ease of use and backward compatibility as protocols evolve. Biniou is vastly
+equivalent to JSON in terms of functionality but allows implementations several
+times faster (4 times faster than yojson), with 25-35% space savings.
+
+Biniou data can be decoded into human-readable form without knowledge of type
+definitions except for field and variant names which are represented by 31-bit
+hashes. A program named bdump is provided for routine visualization of biniou
+data files.
+
+The program atdgen is used to derive OCaml-Biniou serializers and deserializers
+from type definitions.
+
+Biniou format specification: mjambon.github.io/atdgen-doc/biniou-format.txt"""
+maintainer: "martin@mjambon.com"
+authors: "Martin Jambon"
+license: "BSD-3-Clause"
+homepage: "https://github.com/mjambon/biniou"
+doc: "https://mjambon.github.io/biniou/"
+bug-reports: "https://github.com/mjambon/biniou/issues"
+depends: [
+  "easy-format-android"
+  "camlp-streams-android"
+  "dune" {>= "1.10"}
+  "ocaml-android"
+]
+
+dev-repo: "git+https://github.com/mjambon/biniou.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-p" "biniou" "-j" jobs "-x" "android" "@install"]
+  ["rm" "%{name}%.install"]
+]
+install: ["dune" "install" "-x" "android" "-p" "biniou"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "biniou"]
+
+url {
+  src:
+    "https://github.com/mjambon/biniou/releases/download/1.2.2/biniou-1.2.2.tbz"
+  checksum: [
+    "sha256=8bf3ff17cd0ecb2d6b6d1d94cb08ef089d44caef96e9bae6be6839d428fa318f"
+    "sha512=7d03b3759a3a2e1c77713aa1b8375a1f1917f49d14fe5e3cb01d5e53a12e6385b7a3b0f4827f3be71182c31c416d780e1f9ef011dc205cb8f9b0ab2d8fc23cfd"
+  ]
+}
+x-commit-hash: "b434dd9ad488e042cf71554af7296b7bd98c9a6a"
