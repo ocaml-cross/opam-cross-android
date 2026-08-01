@@ -1,0 +1,25 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "MIT"
+synopsis: "Virtual package relying on a libev built for Android targets"
+description: """
+Detection only. libev ships no pkg-config file, so this falls back to the
+sysroot's own layout.
+
+build-libev-android is an optional dependency: install it to have this
+repository build libev into the sysroot, or put your own there and leave it
+out."""
+flags: conf
+depends: ["conf-ndk-android" "build-android-sysroot"]
+depopts: ["build-libev-android"]
+build: [
+  ["%{bin}%/android-cross-detect"
+   "%{build-android-sysroot:prefix}%"
+   "%{conf-ndk-android:prefix}%clang"
+   "libev" "-lev" "conf-libev-android.config"]
+]
+extra-files: [["test.c" "sha256=611c27b9bfa8fbd80d4f0711cb388a72d3b8c92a53e66eb472b551f88625ddfc"]]
