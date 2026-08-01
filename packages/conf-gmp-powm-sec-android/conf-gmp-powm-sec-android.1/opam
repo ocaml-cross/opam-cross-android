@@ -1,0 +1,20 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "MIT"
+synopsis:
+  "Virtual package relying on an Android GMP with constant-time modular exponentiation"
+description: """
+The counterpart of the native conf-gmp-powm-sec, which mirage-crypto-pk
+requires. Like the native one this is a compile-only check, so it cross-compiles
+without needing to run anything on a device."""
+flags: conf
+depends: ["conf-ndk-android" "conf-gmp-android"]
+build: [
+  ["sh" "-exc"
+   "%{conf-ndk-android:prefix}%clang %{conf-gmp-android:cflags}% test.c %{conf-gmp-android:libs}% -o test.out"]
+]
+extra-files: [["test.c" "sha256=21417a6c0f4cdbba840f88867d9ebf1f3f9841555feb8606a5bd8017b569cc93"]]
