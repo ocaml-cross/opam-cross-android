@@ -1,0 +1,21 @@
+opam-version: "2.0"
+maintainer: "Romain Beauxis <toots@rastageeks.org>"
+authors: "Romain Beauxis <toots@rastageeks.org>"
+homepage: "https://github.com/ocaml-cross/opam-cross-android"
+bug-reports: "https://github.com/ocaml-cross/opam-cross-android/issues"
+dev-repo: "git+https://github.com/ocaml-cross/opam-cross-android.git"
+license: "MIT"
+synopsis:
+  "Compatibility package for OCaml's standard iterator type starting from 4.07"
+description: """
+Seq lives in the stdlib, so this installs nothing but a findlib META — without
+it the cross toolchain cannot resolve (libraries seq), which several packages
+still name explicitly."""
+install: ["ocamlfind" "-toolchain" "android" "install" "seq" "META"]
+remove: ["ocamlfind" "-toolchain" "android" "remove" "seq"]
+depends: [
+  "ocaml"
+  "ocaml-android" {>= "4.07.0"}
+]
+flags: light-uninstall
+extra-files: ["META" "sha256=e95062b4d0519ef8335c02f7d0f1952d11b814c7ab7e6d566a206116162fa2be"]
