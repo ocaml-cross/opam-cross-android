@@ -132,9 +132,10 @@ against it, and the C libraries they bind. `conf-<lib>` packages look there and
 `build-<lib>` packages install there.
 
 The location is `$(opam var prefix)/android-sysroot` and is not configurable.
-`dune install -x android` writes there by its own convention, ignoring findlib's
-destdir, so that is where the sysroot has to be for OCaml packages and C
-libraries to land in the same tree.
+dune picks it for anything cross-installed, and it will not be talked out of it,
+so the rest of the repository is aligned to dune's choice rather than the other
+way around: the findlib toolchain points there, and packages that do not build
+with dune are told to install there.
 
   * **`build-<lib>`** — builds one library into the sysroot. Optional: install
     it to have this repository build that library, or put your own cross-built

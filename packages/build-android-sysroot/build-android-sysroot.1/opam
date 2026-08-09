@@ -13,10 +13,9 @@ Some OCaml packages bind a C library that has to exist for the target before
 they will build. Every build-<lib> installs into this prefix and every conf-<lib>
 looks in it, so the layout is stated here rather than restated in each package.
 
-The location is fixed. `dune install -x android` writes to
-`$(opam var prefix)/android-sysroot` by its own convention, ignoring findlib's
-destdir, so that is where the sysroot has to be for the OCaml packages and the C
-libraries to end up in the same tree."""
+The location is fixed at `$(opam var prefix)/android-sysroot`: that is where dune
+puts anything cross-installed, and everything else is aligned to it so the OCaml
+packages and the C libraries end up in the same tree."""
 depends: ["conf-ndk-android"]
 substs: ["build-android-sysroot.config"]
 install: [
