@@ -131,11 +131,9 @@ lives under it: the cross compiler's own installation, the OCaml libraries built
 against it, and the C libraries they bind. `conf-<lib>` packages look there and
 `build-<lib>` packages install there.
 
-The location is `$(opam var prefix)/android-sysroot` and is not configurable.
-dune picks it for anything cross-installed, and it will not be talked out of it,
-so the rest of the repository is aligned to dune's choice rather than the other
-way around: the findlib toolchain points there, and packages that do not build
-with dune are told to install there.
+The location is `$(opam var prefix)/android-sysroot`. dune installs cross-built
+artifacts there. The findlib toolchain points there, and packages that do not
+build with dune are told to install there.
 
   * **`build-<lib>`** — builds one library into the sysroot. Optional: install
     it to have this repository build that library, or put your own cross-built
