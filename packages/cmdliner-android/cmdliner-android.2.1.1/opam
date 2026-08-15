@@ -29,7 +29,8 @@ install: [
    "PATH=%{prefix}%/android-sysroot/bin:%{prefix}%/bin:/usr/bin:/bin"
    make "install-common" "install-srcs" "install-byte" "install-native"
    "install-native-dynlink"
-   "LIBDIR=%{prefix}%/android-sysroot/lib/cmdliner"]
+   "LIBDIR=%{prefix}%/android-sysroot/lib/cmdliner"
+   "BINDIR=%{prefix}%/android-sysroot/bin"]
 ]
 remove: [["rm" "-rf" "%{prefix}%/android-sysroot/lib/cmdliner"]]
 url {
