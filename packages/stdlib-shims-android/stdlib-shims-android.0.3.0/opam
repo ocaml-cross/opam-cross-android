@@ -25,7 +25,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "stdlib-shims"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "stdlib-shims"]
 
 url {
   src:

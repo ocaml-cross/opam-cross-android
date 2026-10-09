@@ -12,7 +12,6 @@ Seq lives in the stdlib, so this installs nothing but a findlib META — without
 it the cross toolchain cannot resolve (libraries seq), which several packages
 still name explicitly."""
 install: ["ocamlfind" "-toolchain" "android" "install" "seq" "META"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "seq"]
 depends: [
   "ocaml"
   "ocaml-android" {>= "4.07.0"}

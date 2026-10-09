@@ -39,7 +39,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "fmt.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "fmt"]]
 
 url {
   src: "https://erratique.ch/software/fmt/releases/fmt-0.11.0.tbz"

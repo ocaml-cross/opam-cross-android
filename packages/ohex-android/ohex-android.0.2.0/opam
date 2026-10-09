@@ -19,7 +19,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ohex"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ohex"]
 
 url {
   src:

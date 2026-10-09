@@ -40,7 +40,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "camlp-streams"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "camlp-streams"]
 
 url {
   src: "https://github.com/ocaml/camlp-streams/archive/v5.0.1.tar.gz"

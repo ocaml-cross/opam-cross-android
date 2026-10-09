@@ -47,7 +47,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "digestif"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "digestif"]
 
 url {
   src:

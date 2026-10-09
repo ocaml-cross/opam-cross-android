@@ -39,7 +39,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ipaddr"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ipaddr"]
 
 url {
   src:

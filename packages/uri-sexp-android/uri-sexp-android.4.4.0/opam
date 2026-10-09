@@ -24,7 +24,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "uri-sexp"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "uri-sexp"]
 
 url {
   src:

@@ -25,7 +25,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "gmap"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "gmap"]
 
 url {
   src:

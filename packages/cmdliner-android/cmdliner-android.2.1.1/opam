@@ -32,7 +32,6 @@ install: [
    "LIBDIR=%{prefix}%/android-sysroot/lib/cmdliner"
    "BINDIR=%{prefix}%/android-sysroot/bin"]
 ]
-remove: [["rm" "-rf" "%{prefix}%/android-sysroot/lib/cmdliner"]]
 url {
   src: "https://erratique.ch/software/cmdliner/releases/cmdliner-2.1.1.tbz"
   checksum:

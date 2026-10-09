@@ -27,7 +27,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "angstrom"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "angstrom"]
 
 url {
   src: "https://github.com/inhabitedtype/angstrom/archive/0.16.1.tar.gz"

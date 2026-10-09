@@ -18,7 +18,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "mem_usage"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "mem_usage"]
 
 url {
   src:

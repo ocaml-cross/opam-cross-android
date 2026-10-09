@@ -33,7 +33,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "rresult.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "rresult"]]
 
 url {
   src: "https://erratique.ch/software/rresult/releases/rresult-0.7.0.tbz"

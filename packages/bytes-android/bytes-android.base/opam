@@ -12,7 +12,6 @@ Bytes lives in the stdlib, so this installs nothing but a findlib META — the
 same shape as seq-android, and needed for the same reason: packages that still
 name (libraries bytes) cannot otherwise resolve it under the cross toolchain."""
 install: ["ocamlfind" "-toolchain" "android" "install" "bytes" "META"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "bytes"]
 depends: [
   "ocaml"
   "ocaml-android" {>= "4.02.0"}

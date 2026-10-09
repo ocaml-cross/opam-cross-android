@@ -22,7 +22,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ppx_deriving_yojson"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ppx_deriving_yojson"]
 url {
   src:
     "https://github.com/ocaml-ppx/ppx_deriving_yojson/releases/download/v3.10.0/ppx_deriving_yojson-3.10.0.tbz"

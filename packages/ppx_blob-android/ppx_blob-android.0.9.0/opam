@@ -23,7 +23,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ppx_blob"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ppx_blob"]
 
 url {
   src:

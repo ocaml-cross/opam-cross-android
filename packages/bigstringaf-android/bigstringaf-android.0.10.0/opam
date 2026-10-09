@@ -33,7 +33,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "bigstringaf"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "bigstringaf"]
 
 url {
   src: "https://github.com/inhabitedtype/bigstringaf/archive/0.10.0.tar.gz"

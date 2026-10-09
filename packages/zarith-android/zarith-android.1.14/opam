@@ -50,7 +50,6 @@ build: [
   ["env" "PATH=%{prefix}%/android-sysroot/bin:%{prefix}%/bin:/usr/bin:/bin" make]
 ]
 install: [["env" "OCAMLFIND_TOOLCHAIN=android" make "install"]]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "zarith"]]
 url {
   src: "https://github.com/ocaml/Zarith/archive/release-1.14.tar.gz"
   checksum: [

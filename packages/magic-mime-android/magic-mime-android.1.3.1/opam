@@ -32,7 +32,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "magic-mime"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "magic-mime"]
 
 url {
   src:

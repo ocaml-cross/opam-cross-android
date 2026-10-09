@@ -30,7 +30,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "fpath.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "fpath"]]
 
 url {
   src: "https://erratique.ch/software/fpath/releases/fpath-0.7.3.tbz"

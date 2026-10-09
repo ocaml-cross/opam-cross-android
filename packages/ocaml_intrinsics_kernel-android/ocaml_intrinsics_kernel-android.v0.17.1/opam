@@ -23,7 +23,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ocaml_intrinsics_kernel"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ocaml_intrinsics_kernel"]
 
 url {
   src:

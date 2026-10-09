@@ -32,7 +32,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "uutf.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "uutf"]]
 
 url {
   src: "https://erratique.ch/software/uutf/releases/uutf-1.0.4.tbz"

@@ -47,7 +47,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "topkg.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "topkg"]]
 
 url {
   src: "https://erratique.ch/software/topkg/releases/topkg-1.1.1.tbz"
