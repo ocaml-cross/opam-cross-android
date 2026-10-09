@@ -26,7 +26,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "yojson"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "yojson"]
 
 url {
   src:

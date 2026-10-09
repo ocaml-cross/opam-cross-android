@@ -24,7 +24,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ppx_deriving"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ppx_deriving"]
 url {
   src:
     "https://github.com/ocaml-ppx/ppx_deriving/releases/download/6.1.3/ppx_deriving-6.1.3.tbz"

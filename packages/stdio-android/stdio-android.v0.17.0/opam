@@ -24,7 +24,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "stdio"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "stdio"]
 
 url {
   src: "https://github.com/janestreet/stdio/archive/refs/tags/v0.17.0.tar.gz"

@@ -20,7 +20,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "eqaf"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "eqaf"]
 
 url {
   src: "https://github.com/mirage/eqaf/releases/download/v0.10/eqaf-0.10.tbz"

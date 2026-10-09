@@ -31,7 +31,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "hex"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "hex"]
 
 url {
   src:

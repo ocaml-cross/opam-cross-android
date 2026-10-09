@@ -31,7 +31,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "re"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "re"]
 
 url {
   src: "https://github.com/ocaml/ocaml-re/archive/refs/tags/1.13.2.tar.gz"

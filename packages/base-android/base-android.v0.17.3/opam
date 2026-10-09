@@ -34,7 +34,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "base"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "base"]
 
 url {
   src: "https://github.com/janestreet/base/archive/refs/tags/v0.17.3.tar.gz"

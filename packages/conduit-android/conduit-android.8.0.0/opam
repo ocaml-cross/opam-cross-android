@@ -50,7 +50,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "conduit"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "conduit"]
 
 url {
   src:

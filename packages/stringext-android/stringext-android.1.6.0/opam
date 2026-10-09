@@ -20,7 +20,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "stringext"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "stringext"]
 
 url {
   src:

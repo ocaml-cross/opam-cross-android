@@ -34,7 +34,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "astring.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "astring"]]
 
 url {
   src: "https://erratique.ch/software/astring/releases/astring-0.8.5.tbz"

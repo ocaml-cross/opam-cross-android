@@ -23,7 +23,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ppxlib_jane"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ppxlib_jane"]
 
 url {
   src:

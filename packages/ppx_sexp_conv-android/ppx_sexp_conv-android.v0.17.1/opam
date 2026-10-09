@@ -29,7 +29,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ppx_sexp_conv"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ppx_sexp_conv"]
 
 url {
   src:

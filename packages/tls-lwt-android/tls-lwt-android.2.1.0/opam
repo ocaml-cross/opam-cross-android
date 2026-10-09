@@ -33,7 +33,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "tls-lwt"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "tls-lwt"]
 
 url {
   src:

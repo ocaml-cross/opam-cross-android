@@ -42,7 +42,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "ptime.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "ptime"]]
 
 url {
   src: "https://erratique.ch/software/ptime/releases/ptime-1.2.0.tbz"

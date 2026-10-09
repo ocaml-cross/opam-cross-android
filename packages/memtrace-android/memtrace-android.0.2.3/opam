@@ -21,7 +21,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "memtrace"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "memtrace"]
 
 url {
   src: "https://github.com/janestreet/memtrace/archive/refs/tags/v0.2.3.tar.gz"

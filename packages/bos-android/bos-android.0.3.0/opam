@@ -47,7 +47,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "bos.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "bos"]]
 
 url {
   src: "https://erratique.ch/software/bos/releases/bos-0.3.0.tbz"

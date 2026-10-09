@@ -35,7 +35,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "conduit-lwt-unix"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "conduit-lwt-unix"]
 
 url {
   src:

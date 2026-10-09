@@ -20,7 +20,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ocaml-compiler-libs"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ocaml-compiler-libs"]
 
 url {
   src:

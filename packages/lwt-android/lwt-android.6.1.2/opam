@@ -51,7 +51,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "lwt"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "lwt"]
 
 url {
   src: "https://github.com/ocsigen/lwt/archive/refs/tags/6.1.2.tar.gz"

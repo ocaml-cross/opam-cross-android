@@ -36,7 +36,6 @@ build: [["ocaml" "pkg/pkg.ml" "build" "--toolchain" "android"]]
 install: [
   ["opam-installer" "--prefix=%{prefix}%/android-sysroot" "jsonm.install"]
 ]
-remove: [["ocamlfind" "-toolchain" "android" "remove" "jsonm"]]
 
 url {
   src: "https://erratique.ch/software/jsonm/releases/jsonm-1.0.2.tbz"

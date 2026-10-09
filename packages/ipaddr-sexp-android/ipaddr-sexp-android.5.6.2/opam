@@ -26,7 +26,6 @@ build: [
   ["rm" "%{name}%.install"]
 ]
 install: ["dune" "install" "-x" "android" "-p" "ipaddr-sexp"]
-remove: ["ocamlfind" "-toolchain" "android" "remove" "ipaddr-sexp"]
 
 url {
   src:
