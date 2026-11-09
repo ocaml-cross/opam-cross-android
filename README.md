@@ -1,7 +1,7 @@
 opam-cross-android
 ==================
 
-This repository contains an Android toolchain featuring OCaml `5.4.1`, along
+This repository contains an Android toolchain featuring OCaml `5.5.2`, along
 with cross-compiled opam packages to build against it.
 
 The target is 64-bit ARM Android (`aarch64-linux-android`).
@@ -62,7 +62,7 @@ Add this repository to opam:
 The version of the regular compiler installed in your current opam switch must
 match the version of the cross-compiler:
 
-    opam switch 5.4.1
+    opam switch 5.5.2
     eval $(opam env)
 
 Install the compiler:

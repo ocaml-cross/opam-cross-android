@@ -1,0 +1,3 @@
+lib_root: [
+  "android.conf" {"findlib.conf.d/android.conf"}
+]
